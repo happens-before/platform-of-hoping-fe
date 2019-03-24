@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="js/jquery-2.1.0.js"></script>
+    <link rel="stylesheet" href="css/reset.css" type="text/css">
+    <link rel="stylesheet" href="css/login.css" type="text/css">
+    <title>用户登录</title>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="main">
+        <div id="logo"><img src="img/logo.png" alt="userLogin"></div>
+
+        <div id="info">
+            <div>
+
+                <input id="school" type="text" placeholder="请输入学校名称" style="outline: none;" onblur="sch()" name="school"
+                       required autofocus/>
+                <span id="school_img"></span>
+                <p id="school_tip"></p>
+
+                <input id="userSno" type="text" placeholder="请输入学号信息" style="outline: none;" onblur="sno()"
+                       name="userSno" required autofocus/>
+                <span id="userSno_img"></span>
+                <p id="userSno_tip"></p>
+
+                <input id="password" type="password" placeholder="请输入密码" style="outline: none;" onblur="pwd()"
+                       name="password">
+                <span id="pwd_img"></span>
+                <p id="pwd_tip"></p>
+                <div>
+                    <button id="submit" onclick="userLogin()">登录</button>
+                    <a href="organizerLogin.html" class="btn btn-primary btn-lg active" role="button">组织登陆</a>
+                    <a href="register.html" class="btn btn-default btn-lg active" role="button">注册信息</a>
+                </div>
+
+            </div>
+            <div class="g-ft1 pt20">
+				<span class="footerinfo" style="color: gray; padding-left: 0; text-align: center;">
+					尊敬的用户，您好，信息平台使用了新的登录入口，如果您在登录过程中出现任何问题，敬请联系010-83520910 转
+					8868 &nbsp;&nbsp;&nbsp;&nbsp;
+				</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="js/userLogin.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+html{
+    height: 100%;
+    width:100%;
+}
+body{
+    height:100%;
+    width:100%;
+}
+.container{
+
+    width:100%;
+    height:100%;
+    background-image: url("../img/2.jpeg");
+    background-size: 100% 100%;
+}
+#main{
+    border-radius: 15px;
+    position: absolute;
+    top:25%;
+    left:40%;
+    height:400px;
+    width:400px;
+    /*background: rgba(0,0,0,0.1);*/
+    background:-webkit-gradient(linear, 0 0, 0 bottom, from(#c5e3ee), to(rgba(115, 115, 115, 0.1)));
+}
+#logo{
+    width:100%;
+    height: 90px;
+    /*background: #1b6d85;*/
+}
+#logo img{
+    /*background-color: #2b542c;*/
+    margin-top: 35px;
+    margin-left: 45px;
+}
+#info{
+    padding-top: 30px;
+    width: 100%;
+    height: 410px;
+    /*background-color: #5bc0de;*/
+}
+#info #username,#info #password,#info #type,button{
+    padding-left: 10px;
+    width:300px;
+    height:40px;
+    margin-left: 40px;
+    margin-top:10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+#info #type{
+    height:48px;
+    width:315px;
+}
+button{
+    width:310px;
+    background-color: hotpink;
+    border-radius: 5px;
+    border:0px;
+    margin-top: 20px;
+}
+a{
+    width:310px;
+    background-color: hotpink;
+    border-radius: 5px;
+    border:0px;
+    margin-top: 20px;
+}
+p{
+    margin-left:40px;
+    color: #F30043;
+}

@@ -71,14 +71,18 @@ function organizerRegister() {
         success: function (data) {
             console.log(data.message)
             if (data.message.toString() == "操作成功" && data.returnCodes.toString() == "OK") {
+                alert(e.message)
                 window.location.href = "organizerLogin.html"
             } else if (data.message.toString() == "服务器很忙") {
+                alert(e.message)
                 window.location.href = "error.html"
             }
         },
         error: function (e) {
             console.log(e);
             console.log("失败");
+            alert(e.message)
+
         },
     });
 }

@@ -83,6 +83,7 @@ function userRegister() {
             // } else if(msg.message="服务器很忙"){
             //     window.location.href="error.html"
             // }
+            alert(e.message)
             window.location.href = "userLogin.html"
         },
         error: function (e) {

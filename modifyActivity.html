@@ -69,20 +69,11 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default" onclick="modifyActivity()">修改活动</button>
-                <!--<a href="userActivity.html" onclick="modifyActivity()"><button class="btn btn-primary">修改活动</button> </a>-->
-
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default" onclick="publishActivity()">发布活动</button>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <a href="activityInfo.html?activityId={{e.data.activityId}}">
-                    <button class="btn btn-primary">预览活动</button>
-                </a>
             </div>
         </div>
     </div>
@@ -160,17 +151,47 @@
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
             dataType: "json",
-            success: function (msg) {
-                console.log(msg)
-                $("#activityId").val(msg.data.activityId);
-                console.log(msg.data.activityId)
-                window.location.href = "modifyActivity.html?activityId={{msg.data.activityId}}"
-                // window.location.href="userActivity.html"
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.onload;
             },
             error: function (e) {
                 console.log(e);
                 console.log("失败");
-                window.location.href = "userActivity.html"
+                alert(e.message)
+
+            },
+        });
+    }
+    function publishActivity() {
+        var sendData = {
+            "activityId": $("#activityId").val(),
+            "promoter": $("#promoter").val(),
+            "organizer": $("#organizer").val(),
+            "activityTopic": $("#activityTopic").val(),
+            "activityContent": $("#activityContent").val(),
+            "startTime": $("#startTime").val(),
+            "endTime": $("#endTime").val()
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/activity/publish", //访问路径
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.href="userActivity.html";
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+                alert(e.message)
 
             },
         });

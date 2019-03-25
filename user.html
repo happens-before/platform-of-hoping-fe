@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理用户页</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script type="text/javascript" src="js/template.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div id="page1" class="layui-header"></div>
+    <!--&lt;!&ndash;左侧导航&ndash;&gt;-->
+    <!--<div id="page2" class="layui-side layui-bg-black"></div>-->
+    <table class="table table-hover" id="tab">
+        <tbody id="tbody">
+        <tr class="success">
+            <td hidden="" id="userId"></td>
+            <td> 姓名</td>
+            <td> 学号</td>
+            <td> 学校名称</td>
+            <td> 所在学院</td>
+            <td> 所在社团</td>
+            <td>是否社团部长</td>
+            <td>电子邮箱</td>
+            <td>联系方式</td>
+            <td>修改</td>
+            <td>删除</td>
+        </tr>
+        </tbody>
+
+        <tbody id="user">
+        </tbody>
+    </table>
+
+    <!--分页-->
+    <div id="realData"></div>
+
+</div>
+<script type="text/html" id="userInfo">
+    {{each result as value}}
+    <tr class="success">
+        <td hidden="">{{value.userId}}</td>
+        <td><a href="userInfo.html?userId={{value.userId}}" ><button class="btn btn-primary">{{value.userName}}</button> </a></td>
+        <td> {{value.userSno}}</td>
+        <td> {{value.school}}</td>
+        <td> {{value.college}}</td>
+        <td> {{value.community}}</td>
+        <td id="minister"> {{value.minister}}</td>
+        <td> {{value.email}}</td>
+        <td> {{value.phone}}</td>
+        <td>
+            <a href="modifyUser.html?userId={{value.userId}}">
+                <button class="btn btn-primary">修改</button>
+            </a>
+        </td>
+        <td>
+            <button class="btn btn-danger" onclick="deleteUser({{value.userId}})">删除</button>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<script>
+    window.onload = function () {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/user/list", //访问路径
+            type: "get",
+            data: {
+                // "pageNum": $("realData").curr,
+                "pageNum": 1,
+                "school": $("school").val(),
+                "userSno": $("userSno").val(),
+                "community": $("community").val(),
+                "userName": $("userName").val(),
+                "email": $("email").val(),
+                "phone": $("phone").val()
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                for (var i in e.data.list) {
+                    console.log(e.data.list[i]); // red green blue yellow
+                    if(e.data.list[i].minister=="0")
+                    {
+                        e.data.list[i].minister="否"
+                    }else if(e.data.list[i].minister=="1")
+                    {
+                        e.data.list[i].minister="是"
+                    }
+                }
+                var c = {result: e.data.list}
+                total=e.data.total;
+                console.log(c);
+
+                var html = template('userInfo', c);
+                $("#user").html(html);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+
+        });
+        // 分页
+        layui.use(['laypage', 'layer'], function(){
+            var laypage = layui.laypage
+                ,layer = layui.layer;
+            laypage.render({
+                elem: 'realData'
+                ,count: total //数据总数，从服务端得到
+                ,jump: function(obj, first){
+                    console.log(obj.count)
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+
+                    //首次不执行
+                    if(!first){
+                        //do something
+                    }
+                }
+            });
+        });
+    }
+
+    function deleteUser(userId) {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/user/delete", //访问路径
+            type: "post",
+            data: {
+                "userId": userId
+            },
+            dataType: "json",
+            success: function (msg) {
+                console.log(msg);
+                if (msg.returnCodes == "OK" && msg.message == "操作成功") {
+                    window.location.href = "user.html"
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+        });
+
+    }
+</script>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script>$("#page1").load("navHeader.html");</script>
+<script type="text/javascript">
+    </body>
+
+    </html>

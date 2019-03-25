@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理员信息页</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script type="text/javascript" src="js/template.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/html" id="adminInfo">
+        {{each result as value}}
+        <tr class="success">
+            <td hidden="">{{value.adminId}}</td>
+            <td>{{value.adminName}}</td>
+            <td> {{value.updateTime}}</td>
+            <td>
+                <button class="btn btn-danger" onclick="deleteActivity({{value.adminId}})">删除</button>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div id="page1" class="layui-header"></div>
+    <!--&lt;!&ndash;左侧导航&ndash;&gt;-->
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label for="adminName" class="col-sm-2 control-label">管理员姓名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="adminName" placeholder="请输入管理员姓名">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getList()">搜索</a></button>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover" id="tab">
+        <tbody id="tbody">
+        <tr class="success">
+            <td hidden="" id="adminId"></td>
+            <td> 姓名</td>
+            <td> 更新时间</td>
+            <td>删除</td>
+        </tr>
+        </tbody>
+
+        <tbody id="admin"></tbody>
+    </table>
+
+    <!--分页-->
+    <div id="realData"></div>
+
+</div>
+
+<script>
+    window.onload = function () {
+        var send = {
+            "adminName": $("#adminName").val(),
+            "pageNum": 1
+        }
+        alert(JSON.stringify(send))
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/admin/list", //访问路径
+            type: "get",
+            data: {
+                // "pageNum": $("realData").curr,
+                "pageNum": 1,
+                "adminName": $("#adminName").val()
+                // "phone": $("#phone").val()
+
+                //"adminName": "赵婉悦"
+
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                var c = {result: e.data.list}
+                total = e.data.total;
+                console.log(c);
+
+                var html = template('adminInfo', c);
+                $("#admin").html(html);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+
+        });
+        // 分页
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'realData'
+                , count: total //数据总数，从服务端得到
+                , jump: function (obj, first) {
+                    console.log(obj.count)
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                    }
+                }
+            });
+        });
+    }
+    function getList() {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/admin/list", //访问路径
+            type: "get",
+            data: {
+                // "pageNum": $("realData").curr,
+                "pageNum": 1,
+                "adminName": $("#adminName").val()
+                // "phone": $("#phone").val()
+
+                //"adminName": "赵婉悦"
+
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                var c = {result: e.data.list}
+                total = e.data.total;
+                console.log(c);
+
+                var html = template('adminInfo', c);
+                $("#admin").html(html);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+
+        });
+    }
+
+    function deleteActivity(adminId) {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/admin/delete", //访问路径
+            type: "post",
+            data: {
+                "adminId": adminId
+            },
+            dataType: "json",
+            success: function (msg) {
+                console.log(msg);
+                if (msg.returnCodes == "OK" && msg.message == "操作成功") {
+                    window.location.href = "admin.html"
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+        });
+
+    }
+</script>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script>$("#page1").load("navHeader.html");</script>
+</body>
+
+</html>

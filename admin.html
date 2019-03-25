@@ -14,11 +14,11 @@
     <script type="text/html" id="adminInfo">
         {{each result as value}}
         <tr class="success">
-            <td hidden="">{{value.adminId}}</td>
+            <td hidden="" id="adminId">{{value.adminId}}</td>
             <td>{{value.adminName}}</td>
             <td> {{value.updateTime}}</td>
             <td>
-                <button class="btn btn-danger" onclick="deleteActivity({{value.adminId}})">删除</button>
+                <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteAdmin()">删除</a></button>
             </td>
         </tr>
         {{/each}}
@@ -43,12 +43,25 @@
                 <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getList()">搜索</a></button>
             </div>
         </div>
-    </div>
 
+    </div>
+    <div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="addAdminName" placeholder="请输入管理员姓名">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="addAdmin()">添加管理员</a>
+                </button>
+            </div>
+        </div>
+    </div>
     <table class="table table-hover" id="tab">
         <tbody id="tbody">
         <tr class="success">
-            <td hidden="" id="adminId"></td>
+            <td hidden="" ></td>
             <td> 姓名</td>
             <td> 更新时间</td>
             <td>删除</td>
@@ -65,11 +78,6 @@
 
 <script>
     window.onload = function () {
-        var send = {
-            "adminName": $("#adminName").val(),
-            "pageNum": 1
-        }
-        alert(JSON.stringify(send))
         $.ajax({
             xhrFields: {
                 withCredentials: true
@@ -80,10 +88,6 @@
                 // "pageNum": $("realData").curr,
                 "pageNum": 1,
                 "adminName": $("#adminName").val()
-                // "phone": $("#phone").val()
-
-                //"adminName": "赵婉悦"
-
             },
             dataType: "json",
             success: function (e) {
@@ -122,6 +126,7 @@
             });
         });
     }
+
     function getList() {
         $.ajax({
             xhrFields: {
@@ -133,10 +138,6 @@
                 // "pageNum": $("realData").curr,
                 "pageNum": 1,
                 "adminName": $("#adminName").val()
-                // "phone": $("#phone").val()
-
-                //"adminName": "赵婉悦"
-
             },
             dataType: "json",
             success: function (e) {
@@ -156,22 +157,50 @@
         });
     }
 
-    function deleteActivity(adminId) {
+    function addAdmin() {
+        var sendData = {
+            "adminName": $("#addAdminName").val()
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/admin/add",
+            type: "post",
+            data: JSON.stringify(sendData),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data)
+                alert(data.message)
+                window.location.href = "admin.html"
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+
+    }
+
+    function deleteAdmin() {
+        var adminId = document.getElementById("adminId").innerHTML;
+        var sendData = {
+            "adminId": adminId
+        };
         $.ajax({
             xhrFields: {
                 withCredentials: true
             },
             url: "http://localhost:8080/admin/delete", //访问路径
             type: "post",
-            data: {
-                "adminId": adminId
-            },
+            data: JSON.stringify(sendData),
             dataType: "json",
-            success: function (msg) {
-                console.log(msg);
-                if (msg.returnCodes == "OK" && msg.message == "操作成功") {
-                    window.location.href = "admin.html"
-                }
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                console.log(data)
+                alert(data.message)
+                window.location.href = "admin.html"
             },
             error: function (e) {
                 console.log(e);

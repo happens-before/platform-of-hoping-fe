@@ -130,8 +130,8 @@
             url: "http://localhost:8080/user/list", //访问路径
             type: "get",
             data: {
-                // "pageNum": $("realData").curr,
-                "pageNum": 1,
+                "pageNum": $("#realData").curr,
+                // "pageNum": 1,
                 "school": $("#school").val(),
                 "userSno": $("#userSno").val(),
                 "community": $("#community").val(),

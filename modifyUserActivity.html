@@ -68,7 +68,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" onclick="modifyActivity()">修改活动</button>
+                <button type="submit" class="btn btn-default" onclick="modifyUserActivity()">修改活动</button>
             </div>
         </div>
         <div class="form-group">
@@ -78,7 +78,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-danger" ><a href="activity.html">返回</a></button>
+                <button class="btn btn-danger" ><a href="userActivity.html">返回</a></button>
             </div>
         </div>
     </div>
@@ -137,7 +137,7 @@
     }
 </script>
 <script type="text/javascript">
-    function modifyActivity() {
+    function modifyUserActivity() {
         var sendData = {
             "activityId": $("#activityId").val(),
             "promoter": $("#promoter").val(),
@@ -191,7 +191,7 @@
             success: function (e) {
                 console.log(e)
                 alert(e.message)
-                window.location.href="activity.html";
+                window.location.href="userActivity.html";
             },
             error: function (e) {
                 console.log(e);

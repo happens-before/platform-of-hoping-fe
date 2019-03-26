@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>我的活动页</title>
+    <title>管理活动页</title>
     <script src="js/jquery-3.2.1.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -17,33 +17,68 @@
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <!--&lt;!&ndash;左侧导航&ndash;&gt;-->
-    <!--<div id="page2" class="layui-side layui-bg-black"></div>-->
+    <div>
+        <div class="form-group">
+            <label for="activityTopic" class="col-sm-2 control-label">活动名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="activityTopic" placeholder="请输入活动名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="startTime" class="col-sm-2 control-label">开始时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="startTime" placeholder="请输入开始时间">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="endTime" class="col-sm-2 control-label">结束时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="endTime" placeholder="请输入结束时间">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getUserActivityList()">搜索</a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default"><a href="addUserActivity.html">添加新活动</a>
+                </button>
+            </div>
+        </div>
+    </div>
     <table class="table table-hover" id="tab">
         <tbody id="tbody">
         <tr class="success">
-            <td hidden="" id="activityId"></td>
+            <td hidden="" ></td>
             <td> 活动名称</td>
             <td> 发起人</td>
             <td> 参与的组织</td>
+            <td>开始时间</td>
+            <td>结束时间</td>
             <td>
-                <ul class="nav nav-pills">
-                    <li class="dropdown all-camera-dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            活动状态
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu" id="activityStatus" onclick="">
-                            <li data-filter-camera-type="all" value="00"><a data-toggle="tab" href="#">全部</a></li>
-                            <li data-filter-camera-type="Alpha" value="30"><a data-toggle="tab" href="#">进行中</a></li>
-                            <li data-filter-camera-type="Zed" value="20"><a data-toggle="tab" href="#">未发布</a></li>
-                            <li data-filter-camera-type="Bravo" value="10"><a data-toggle="tab" href="#">已结束</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                <select class="form-control" id="activityStatus" onchange="selectOnchangStatus(this)">
+                    <option value="">全部</option>
+                    <option value="30">进行中</option>
+                    <option value="20">未发布</option>
+                    <option value="10">已结束</option>
+                </select>
             </td>
-            <td>修改</td>
-            <td>删除</td>
+            <td>
+                <select class="form-control" id="activityApproval" onchange="selectOnchangApproval(this)">
+                    <option value="">全部</option>
+                    <option value="30">审核通过</option>
+                    <option value="20">未审核</option>
+                    <option value="10">已拒绝</option>
+                </select>
+            </td>
+            <td>修改活动</td>
+            <td>结束活动</td>
+            <td>删除活动</td>
         </tr>
         </tbody>
 
@@ -52,25 +87,32 @@
     </table>
 
     <!--分页-->
-    <ul id="biuuu_city_list"></ul>
     <div id="realData"></div>
+</div>
 
 </div>
 <script type="text/html" id="myActivity">
     {{each result as value}}
     <tr class="success">
-        <td hidden="">{{value.activityId}}</td>
+        <td hidden="" id="activityId">{{value.activityId}}</td>
         <td><a href="activityInfo.html?activityId={{value.activityId}}" ><button class="btn btn-primary">{{value.activityTopic}}</button> </a></td>
         <td> {{value.promoter}}</td>
         <td> {{value.organizer}}</td>
-        <td id="status"> {{value.activityStatus}}</td>
+        <td> {{value.startTime}}</td>
+        <td> {{value.endTime}}</td>
+        <td> {{value.activityStatus}}</td>
+        <td>{{value.activityApproval}}</td>
         <td>
-            <a href="modifyActivity.html?activityId={{value.activityId}}">
-                <button class="btn btn-primary">修改</button>
+            <a href="modifyUserActivity.html?activityId={{value.activityId}}">
+                <button class="btn btn-primary">修改活动</button>
             </a>
         </td>
         <td>
-            <button class="btn btn-danger" onclick="deleteActivity({{value.activityId}})">删除</button>
+            <button class="btn btn-danger" ><a href="javascript:;" onclick="endActivity()">结束活动</a></button>
+
+        </td>
+        <td>
+            <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteUserActivity()">删除活动</a></button>
         </td>
     </tr>
     {{/each}}
@@ -85,12 +127,14 @@
             type: "get",
             data: {
                 "findAll": 0,
-                "pageNum": $("realData").curr,
-                // "pageNum": 1,
-                "activityTopic": $("activityTopic").val(),
-                "activityStatus": $("activityStatus").val(),
-                "starTime": $("starTime").val(),
-                "endTime": $("endTime").val()
+                "pageNum": $("#realData").curr,
+                "promoter":$("#promoter").val(),
+                "organizer":$("#organizer").val(),
+                "activityTopic": $("#activityTopic").val(),
+                "activityStatus": $("#activityStatus option:selected").val(),
+                "activityApproval": $("#activityApproval option:selected").val(),
+                "startTime": $("#startTime").val(),
+                "endTime": $("#endTime").val()
             },
             dataType: "json",
             success: function (e) {
@@ -106,6 +150,17 @@
                     } else if(e.data.list[i].activityStatus=="10")
                     {
                         e.data.list[i].activityStatus="已结束"
+                    }
+
+                    if(e.data.list[i].activityApproval=="30")
+                    {
+                        e.data.list[i].activityApproval="审核通过"
+                    } else if(e.data.list[i].activityApproval=="20")
+                    {
+                        e.data.list[i].activityApproval="未审核"
+                    } else if(e.data.list[i].activityApproval=="10")
+                    {
+                        e.data.list[i].activityApproval="已拒绝"
                     }
                 }
                 var c = {result: e.data.list}
@@ -143,35 +198,141 @@
         });
     }
 
-    function deleteActivity(activityId) {
+    function selectOnchangStatus(obj){
+        //获取被选中的option标签选项
+        // alert(obj.selectedIndex.valueOf());
+        //获取被选中的option标签的value值
+        var value = obj.options[obj.selectedIndex].value;
+        // alert(value);
+        window.location.href="javascript:;",onclick=getUserActivityList();
+    }
+    function selectOnchangApproval(obj){
+        //获取被选中的option标签选项
+        // alert(obj.selectedIndex.valueOf());
+        //获取被选中的option标签的value值
+        var value = obj.options[obj.selectedIndex].value;
+        // alert(value);
+        window.location.href="javascript:;",onclick=getUserActivityList();
+    }
+    function getUserActivityList() {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/activity/list", //访问路径
+            type: "get",
+            data: {
+                "findAll": 0,
+                // "pageNum": $("#realData").curr,
+                "pageNum": 1,
+                "promoter":$("#promoter").val(),
+                "organizer":$("#organizer").val(),
+                "activityTopic": $("#activityTopic").val(),
+                "activityStatus": $("#activityStatus option:selected").val(),
+                "activityApproval": $("#activityApproval option:selected").val(),
+                "startTime": $("#startTime").val(),
+                "endTime": $("#endTime").val()
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                for (var i in e.data.list) {
+                    console.log(e.data.list[i]); // red green blue yellow
+                    if(e.data.list[i].activityStatus=="30")
+                    {
+                        e.data.list[i].activityStatus="进行中"
+                    } else if(e.data.list[i].activityStatus=="20")
+                    {
+                        e.data.list[i].activityStatus="未发布"
+                    } else if(e.data.list[i].activityStatus=="10")
+                    {
+                        e.data.list[i].activityStatus="已结束"
+                    }
+
+                    if(e.data.list[i].activityApproval=="30")
+                    {
+                        e.data.list[i].activityApproval="审核通过"
+                    } else if(e.data.list[i].activityApproval=="20")
+                    {
+                        e.data.list[i].activityApproval="未审核"
+                    } else if(e.data.list[i].activityApproval=="10")
+                    {
+                        e.data.list[i].activityApproval="已拒绝"
+                    }
+                }
+                var c = {result: e.data.list}
+                total=e.data.total;
+                console.log(c);
+
+                var html = template('myActivity', c);
+                $("#activity").html(html);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+
+        });
+    }
+    function endActivity() {
+        var activityId = document.getElementById("activityId").innerHTML;
+        var sendData = {
+            "findAll":0,
+            "activityId": activityId
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/activity/end", //访问路径
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.href="userActivity.html";
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+                alert(e.message)
+
+            },
+        });
+    }
+    function deleteUserActivity() {
+        var activityId = document.getElementById("activityId").innerHTML;
+        var sendData = {
+            "activityId": activityId
+        };
         $.ajax({
             xhrFields: {
                 withCredentials: true
             },
             url: "http://localhost:8080/activity/delete", //访问路径
             type: "post",
-            data: {
-                "activity": activityId
-            },
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
             dataType: "json",
-            success: function (msg) {
-                console.log(msg);
-                if (msg.returnCodes == "OK" && msg.message == "操作成功") {
-                    window.location.href = "userActivity.html"
-                }
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.href="userActivity.html";
             },
             error: function (e) {
                 console.log(e);
                 console.log("失败");
-            }
-        });
+                alert(e.message)
 
+            },
+        });
     }
 </script>
 <script src="layui/layui.js" charset="utf-8"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script>$("#page1").load("navHeader.html");</script>
-<script type="text/javascript">
 </body>
 
 </html>

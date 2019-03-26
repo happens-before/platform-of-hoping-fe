@@ -130,8 +130,8 @@
             url: "http://localhost:8080/user/list", //访问路径
             type: "get",
             data: {
-                "pageNum": $("#realData").curr,
-                // "pageNum": 1,
+                // "pageNum": $("#realData").curr,
+                "pageNum": 1,
                 "school": $("#school").val(),
                 "userSno": $("#userSno").val(),
                 "community": $("#community").val(),
@@ -164,20 +164,20 @@
 
         });
         // 分页
-        layui.use(['laypage', 'layer'], function () {
+        layui.use(['laypage', 'layer'], function(){
             var laypage = layui.laypage
-                , layer = layui.layer;
+                ,layer = layui.layer;
             laypage.render({
                 elem: 'realData'
-                , count: total //数据总数，从服务端得到
-                , jump: function (obj, first) {
+                ,count: total //数据总数，从服务端得到
+                ,jump: function(obj, first){
                     console.log(obj.count)
                     //obj包含了当前分页的所有参数，比如：
                     console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                     console.log(obj.limit); //得到每页显示的条数
 
                     //首次不执行
-                    if (!first) {
+                    if(!first){
                         //do something
                     }
                 }
@@ -193,7 +193,7 @@
             url: "http://localhost:8080/user/list", //访问路径
             type: "get",
             data: {
-                // "pageNum": $("realData").curr,
+                // "pageNum": $("#realData").curr,
                 "pageNum": 1,
                 "school": $("#school").val(),
                 "userSno": $("#userSno").val(),

@@ -1,10 +1,282 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
 
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理新闻页</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script type="text/javascript" src="js/template.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div id="page1" class="layui-header"></div>
+    <div>
+        <div class="form-group">
+            <label for="newsName" class="col-sm-2 control-label">新闻名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="newsName" placeholder="请输入新闻名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="newsCreator" class="col-sm-2 control-label">新闻创建者</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="newsCreator" placeholder="请输入新闻创建者">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getNewsList()">搜索</a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default"><a href="addNews.html">添加新活动</a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover" id="tab">
+        <tbody id="tbody">
+        <tr class="success">
+            <td hidden="" ></td>
+            <td> 新闻名称</td>
+            <td> 新闻创建者</td>
+            <td> 新闻访问量</td>
+            <td>
+                <select class="form-control" id="status" onchange="selectOnchang(this)">
+                    <option value="">全部</option>
+                    <option value="30">已发布</option>
+                    <option value="20">暂停</option>
+                    <option value="10">未发布</option>
+                </select>
+            </td>
+            <td> 更新时间</td>
+            <td> 修改新闻</td>
+            <td> 暂停新闻</td>
+            <td> 删除活动</td>
+        </tr>
+        </tbody>
+
+        <tbody id="newsInfo">
+        </tbody>
+    </table>
+
+    <!--分页-->
+    <div id="realData"></div>
+</div>
+
+</div>
+<script type="text/html" id="news">
+    {{each result as value}}
+    <tr class="success">
+        <td hidden="" id="newsId">{{value.newsId}}</td>
+        <td><a href="newsInfo.html?newsId={{value.newsId}}" ><button class="btn btn-primary">{{value.newsName}}</button> </a></td>
+        <td> {{value.newsCreator}}</td>
+        <td> {{value.newsCount}}</td>
+        <td> {{value.status}}</td>
+        <td> {{value.updateTime}}</td>
+        <td>
+            <a href="modifyNews.html?newsId={{value.newsId}}">
+                <button class="btn btn-primary">修改新闻</button>
+            </a>
+        </td>
+        <td>
+            <button class="btn btn-danger" ><a href="javascript:;" onclick="pauseNews()">暂停新闻</a></button>
+        </td>
+        <td>
+            <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteNews()">删除活动</a></button>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<script>
+    window.onload = function () {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/list", //访问路径
+            type: "get",
+            data: {
+                // "pageNum": $("#realData").curr,
+                "pageNum": 1,
+                "newsName":$("#newsName").val(),
+                "status":$("#status option:selected").val(),
+                "newsCreator": $("#newsCreator").val()
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                for (var i in e.data.list) {
+                    console.log(e.data.list[i]); // red green blue yellow
+                    if(e.data.list[i].status=="30")
+                    {
+                        e.data.list[i].status="已发布"
+                    } else if(e.data.list[i].activityStatus=="20")
+                    {
+                        e.data.list[i].status="暂停"
+                    } else if(e.data.list[i].activityStatus=="10")
+                    {
+                        e.data.list[i].status="未发布"
+                    }
+                }
+                var c = {result: e.data.list}
+                total=e.data.total;
+                console.log(c);
+
+                var html = template('news', c);
+                $("#newsInfo").html(html);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+
+        });
+        // 分页
+        layui.use(['laypage', 'layer'], function(){
+            var laypage = layui.laypage
+                ,layer = layui.layer;
+            laypage.render({
+                elem: 'realData'
+                ,count: total //数据总数，从服务端得到
+                ,jump: function(obj, first){
+                    console.log(obj.count)
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+
+                    //首次不执行
+                    if(!first){
+                        //do something
+                    }
+                }
+            });
+        });
+    }
+
+    function selectOnchang(obj){
+        //获取被选中的option标签选项
+        // alert(obj.selectedIndex.valueOf());
+        //获取被选中的option标签的value值
+        var value = obj.options[obj.selectedIndex].value;
+        // alert(value);
+        window.location.href="javascript:;",onclick=getUserList();
+    }
+
+    function getUserList() {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/list", //访问路径
+            type: "get",
+            data: {
+                // "pageNum": $("#realData").curr,
+                "pageNum": 1,
+                "newsName":$("#newsName").val(),
+                "status":$("#status option:selected").val(),
+                "newsCreator": $("#newsCreator").val()
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                for (var i in e.data.list) {
+                    console.log(e.data.list[i]); // red green blue yellow
+                    if(e.data.list[i].status=="30")
+                    {
+                        e.data.list[i].status="已发布"
+                    } else if(e.data.list[i].activityStatus=="20")
+                    {
+                        e.data.list[i].status="暂停"
+                    } else if(e.data.list[i].activityStatus=="10")
+                    {
+                        e.data.list[i].status="未发布"
+                    }
+                }
+                var c = {result: e.data.list}
+                total=e.data.total;
+                console.log(c);
+
+                var html = template('news', c);
+                $("#newsInfo").html(html);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+
+        });
+    }
+    function pauseNews() {
+        var newsId = document.getElementById("newsId").innerHTML;
+        var sendData = {
+            "newsId": newsId
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/pause", //访问路径
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.href="newsList.html";
+                // window.onload;
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+                alert(e.message)
+
+            },
+        });
+    }
+    function deleteNews() {
+        var activityId = document.getElementById("activityId").innerHTML;
+        var sendData = {
+            "activityId": activityId
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/activity/delete", //访问路径
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.href="activity.html";
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+                alert(e.message)
+
+            },
+        });
+    }
+</script>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script>$("#page1").load("navHeader.html");</script>
 </body>
+
 </html>

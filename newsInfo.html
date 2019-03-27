@@ -21,7 +21,7 @@
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <form class="form-horizontal">
+    <div class="form-horizontal">
         <div class="form-group" >
         <label for="newsId" class="col-sm-2 control-label">newsId</label>
         <div class="col-sm-10">
@@ -64,23 +64,47 @@
                        value={{e.data.newsCount}}>
             </div>
         </div>
-        <div class="form-group">
-            <label for="comments" class="col-sm-2 control-label">评论信息</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="comments" placeholder="评论信息" readonly="readonly"
-                       value={{e.data.comments}}>
-            </div>
-        </div>
 
-    </form>
+        <div id="pictureInfo"></div>
+        <div id="commentInfo"></div>
+    </div>
 </div>
 <script src="layui/layui.js" charset="utf-8"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script>
     $("#page1").load("navHeader.html");
 </script>
+<script type="text/html" id="pictures">
+    {{each pictures as value}}
+        <div class="form-group">
+            <label for="pictureId" class="col-sm-2 control-label">图片id</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="pictureId" placeholder="图片id" readonly="readonly"
+                       value={{value.pictureId}}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">图片</label>
+            <div class="col-sm-10">
+                <!--<input type="text" class="form-control" id="picturePath" placeholder="图片路径" readonly="readonly"-->
+                       <!--value={{value.picturePath}}>-->
+                <img src="{{value.picturePath}}" style="width: 200px">
+            </div>
+        </div>
+    {{/each}}
+</script>
+<script type="text/html" id="comments">
+    {{each comments as value}}
+    <div class="form-group">
+        <label for="commentContent" class="col-sm-2 control-label">评论信息</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="commentContent" placeholder="评论信息" readonly="readonly"
+                   value={{value.commentContent}}---{{value.reviewer}}>
+        </div>
+    </div>
+    {{/each}}
+</script>
 <script>
-
     window.onload=function () {
         function parseUrl(){
             var url=decodeURIComponent(location.href);
@@ -118,7 +142,21 @@
                 $("#newsContent").val(e.data.newsContent);
                 $("#newsCreator").val(e.data.newsCreator);
                 $("#newsCount").val(e.data.newsCount);
-                $("#comments").val(e.data.comments);
+
+                //图片
+                var a= {pictures: e.data.pictures}
+                console.log(a);
+                var html1 = template('pictures', a);
+                $("#pictureInfo").html(html1);
+
+                //评论
+                var b= {comments: e.data.comments}
+                console.log(b);
+                var html2 = template('comments', b);
+                $("#commentInfo").html(html2);
+
+
+
             },
             error: function (e) {
                 console.log(e);

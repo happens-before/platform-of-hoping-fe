@@ -18,7 +18,7 @@
             <td>{{value.adminName}}</td>
             <td> {{value.updateTime}}</td>
             <td>
-                <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteAdmin()">删除</a></button>
+                <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteAdmin(this)">删除</a></button>
             </td>
         </tr>
         {{/each}}
@@ -183,8 +183,10 @@
 
     }
 
-    function deleteAdmin() {
-        var adminId = document.getElementById("adminId").innerHTML;
+    function deleteAdmin(obj) {
+        // var adminId = document.getElementById("adminId").innerHTML;
+        var $td = $(obj).parents('tr').children('td');
+        var adminId = $td.eq(0).text();
         var sendData = {
             "adminId": adminId
         };

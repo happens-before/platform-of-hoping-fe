@@ -116,7 +116,7 @@
             </a>
         </td>
         <td>
-            <button class="btn btn-danger"><a href="javascript:;" onclick="deleteUser()">删除</a></button>
+            <button class="btn btn-danger"><a href="javascript:;" onclick="deleteUser(this)">删除</a></button>
         </td>
     </tr>
     {{/each}}
@@ -227,8 +227,9 @@
         });
     }
 
-    function deleteUser() {
-        var userId = document.getElementById("userId").innerHTML;
+    function deleteUser(obj) {
+        var $td = $(obj).parents('tr').children('td');
+        var userId = $td.eq(0).text();
         var sendData = {
             "userId": userId
         };

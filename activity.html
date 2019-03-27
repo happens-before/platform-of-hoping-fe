@@ -120,10 +120,10 @@
             </a>
         </td>
         <td>
-        <button class="btn btn-danger" ><a href="javascript:;" onclick="endActivity()">结束活动</a></button>
+        <button class="btn btn-danger" ><a href="javascript:;" onclick="endActivity(this)">结束活动</a></button>
         </td>
         <td>
-            <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteActivity()">删除活动</a></button>
+            <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteActivity(this)">删除活动</a></button>
         </td>
     </tr>
     {{/each}}
@@ -286,8 +286,9 @@
 
         });
     }
-    function endActivity() {
-        var activityId = document.getElementById("activityId").innerHTML;
+    function endActivity(obj) {
+        var $td = $(obj).parents('tr').children('td');
+        var activityId = $td.eq(0).text();
         var sendData = {
             "findAll":0,
             "activityId": activityId
@@ -315,8 +316,9 @@
             },
         });
     }
-    function deleteActivity() {
-        var activityId = document.getElementById("activityId").innerHTML;
+    function deleteActivity(obj) {
+        var $td = $(obj).parents('tr').children('td');
+        var activityId = $td.eq(0).text();
         var sendData = {
             "activityId": activityId
         };

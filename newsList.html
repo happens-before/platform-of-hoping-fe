@@ -40,7 +40,7 @@
     <div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default"><a href="addNews.html">添加新活动</a>
+                <button type="submit" class="btn btn-default"><a href="addNews.html">创建新闻</a>
                 </button>
             </div>
         </div>
@@ -91,10 +91,10 @@
             </a>
         </td>
         <td>
-            <button class="btn btn-danger" ><a href="javascript:;" onclick="pauseNews()">暂停新闻</a></button>
+            <button class="btn btn-danger" ><a href="javascript:;" onclick="pauseNews(this)">暂停新闻</a></button>
         </td>
         <td>
-            <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteNews()">删除活动</a></button>
+            <button id="delete" class="btn btn-danger" ><a href="javascript:;" onclick="deleteNews(this)">删除新闻</a></button>
         </td>
     </tr>
     {{/each}}
@@ -122,10 +122,10 @@
                     if(e.data.list[i].status=="30")
                     {
                         e.data.list[i].status="已发布"
-                    } else if(e.data.list[i].activityStatus=="20")
+                    } else if(e.data.list[i].status=="20")
                     {
                         e.data.list[i].status="暂停"
-                    } else if(e.data.list[i].activityStatus=="10")
+                    } else if(e.data.list[i].status=="10")
                     {
                         e.data.list[i].status="未发布"
                     }
@@ -218,8 +218,9 @@
 
         });
     }
-    function pauseNews() {
-        var newsId = document.getElementById("newsId").innerHTML;
+    function pauseNews(obj) {
+        var $td = $(obj).parents('tr').children('td');
+        var newsId = $td.eq(0).text();
         var sendData = {
             "newsId": newsId
         };
@@ -246,16 +247,19 @@
             },
         });
     }
-    function deleteNews() {
-        var activityId = document.getElementById("activityId").innerHTML;
+    function deleteNews(obj) {
+        var $td = $(obj).parents('tr').children('td');
+        var newsId = $td.eq(0).text();
+        alert(newsId)
+        // $("#itemmodalid").val(id);
         var sendData = {
-            "activityId": activityId
+            "newsId": newsId
         };
         $.ajax({
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/delete", //访问路径
+            url: "http://localhost:8080/news/delete", //访问路径
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -263,13 +267,12 @@
             success: function (e) {
                 console.log(e)
                 alert(e.message)
-                window.location.href="activity.html";
+                window.location.href="newsList.html";
             },
             error: function (e) {
                 console.log(e);
                 console.log("失败");
                 alert(e.message)
-
             },
         });
     }

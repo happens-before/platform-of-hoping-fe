@@ -1,10 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="js/jquery-2.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/reset.css" type="text/css">
+    <link rel="stylesheet" href="css/login.css" type="text/css">
+
+    <title>创建新闻</title>
+    <style type="text/css">
+    </style>
 </head>
 <body>
+<div class="container">
 
+    <div id="main">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="newsName" class="col-sm-2 control-label">新闻名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="newsName" placeholder="新闻名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newsDescription" class="col-sm-2 control-label">新闻描述</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="newsDescription" placeholder="新闻描述">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newsContent" class="col-sm-2 control-label">新闻内容</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="newsContent" placeholder="新闻内容">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newsCreator" class="col-sm-2 control-label">新闻创建者</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="newsCreator" placeholder="新闻创建者">
+                </div>
+            </div>
+
+
+            <div>
+                <div class="form-group">
+                    <label for="file" class="col-sm-2 control-label">上传新闻图片</label>
+                    <div class="col-sm-6">
+                        <input type="file" id="file" name="file" oninput="setCustomValidity('')" value="">
+                    </div>
+                    <img src="" id="img" style="width: 200px">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" onclick="addNews()">提交内容</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" onclick="publishNews()">发布新闻</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-default"><a href="newsList.html">返回</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function addNews() {
+        var newsName = $('#newsName').val();
+        var newsDescription = $("#newsDescription").val();
+        var newsContent = $('#newsContent').val();
+        var newsCreator = $('#newsCreator').val();
+        var file = document.getElementById("file").files[0];
+
+        img.src = window.URL.createObjectURL(file)
+
+        var data = new FormData;
+        data.append("newsName", newsName);
+        data.append("newsDescription", newsDescription);
+        data.append("newsContent", newsContent);
+        data.append("newsCreator", newsCreator);
+        data.append("file", file);
+        console.log(data)
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/add",
+            type: "post",
+            data: data,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.href = "javascript:;"
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+    }
+
+    function publishNews() {
+        var sendData = {
+            "newsId": $("#newsId").val(),
+            "newsName": $("#newsName").val(),
+            "newsDescription": $("#newsDescription").val(),
+            "newsContent": $("#newsContent").val(),
+            "newsCreator": $("#newsCreator").val()
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/publish", //访问路径
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.href = "newsList.html";
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+                alert(e.message)
+
+            },
+        });
+    }
+</script>
 </body>
+</html>
 </html>

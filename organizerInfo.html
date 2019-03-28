@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/search.css">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="js/template.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div id="page1" class="layui-header"></div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="organizerCity" class="col-sm-2 control-label">所在城市</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerCity" placeholder="组织所在城市名称" value={{e.data.organizerCity}} readonly="readonly">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="organizerName" class="col-sm-2 control-label">组织名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerName" placeholder="组织名称" value={{e.data.organizerName}} readonly="readonly">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="organizerAddress" class="col-sm-2 control-label">组织地址</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerAddress" placeholder="组织地址" value={{e.data.organizerAddress}} readonly="readonly">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="organizerDescription" class="col-sm-2 control-label">组织描述</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerDescription" placeholder="组织描述" value={{e.data.organizerDescription}} readonly="readonly">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="organizerPrincipal" class="col-sm-2 control-label">负责人姓名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerPrincipal" placeholder="负责人姓名" value={{e.data.organizerPrincipal}} readonly="readonly">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="organizerPhone" class="col-sm-2 control-label">联系方式</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerPhone" placeholder="联系方式" value={{e.data.organizerPhone}} readonly="readonly">
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    window.onload = function userInfo() {
+        function parseUrl(){
+            var url=decodeURIComponent(location.href);
+            console.log(url);
+            var i=url.indexOf('?');
+            if(i==-1)return;
+            var querystr=url.substr(i+1);
+            var arr1=querystr.split('&');
+            var arr2=new Object();
+            for  (i in arr1){
+                var ta=arr1[i].split('=');
+                arr2[ta[0]]=ta[1];
+            }
+            return arr2;
+        }
+        var v = parseUrl();
+        console.log(v)
+        var organizerId = v.organizerId
+        console.log(organizerId)
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/organizer/info", //访问路径
+            type: "get",
+            data: {
+                "organizerId": organizerId
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                $("#organizerId").val(e.data.organizerId);
+                $("#organizerCity").val(e.data.organizerCity);
+                $("#organizerName").val(e.data.organizerName);
+                $("#organizerPhone").val(e.data.organizerPhone);
+                $("#organizerPrincipal").val(e.data.organizerPrincipal);
+                $("#organizerDescription").val(e.data.organizerDescription);
+                $("#organizerAddress").val(e.data.organizerAddress);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+    }
+</script>
+<script>
+    $("#page1").load("navHeader.html");
+</script>
+</body>
+
+</html>

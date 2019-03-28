@@ -3,85 +3,105 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="js/jquery-2.1.0.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="bootstrap/twitter-bootstrap-v2/docs/assets/js/jquery.js"></script>
     <script type="text/javascript" src="bootstrap/twitter-bootstrap-v2/docs/assets/js/bootstrap-dropdown.js"></script>
-    <link href="bootstrap/twitter-bootstrap-v2/docs/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="bootstrap/twitter-bootstrap-v2/docs/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="js/template.js"></script>
 </head>
 
 <body>
-<div class="layui-logo">"种希望"公益平台</div>
-<ul class="layui-nav layui-layout-left">
-    <li class="layui-nav-item"><a href="home.html">首页</a></li>
-    <li class="layui-nav-item"><a href="news.html">新闻</a></li>
-    <li class="layui-nav-item"><a href="userActivity.html">我的活动</a></li>
-    <li class="layui-nav-item"><a href="tellus.html">联系我们</a></li>
-    <ul class="layui-nav-item">
-        <li class="dropdown all-camera-dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                管理员管理
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <!--<li data-filter-camera-type="all" ><a data-toggle="tab" href="user.html">用户模块</a></li>-->
-                <!--<li data-filter-camera-type="Alpha"><a data-toggle="tab" href="admin.html">管理员模块</a></li>-->
-                <!--<li data-filter-camera-type="Zed"><a data-toggle="tab" href="newsList.html">新闻模块</a></li>-->
-                <!--<li data-filter-camera-type="Bravo"><a data-toggle="tab" href="activity.html">活动模块</a></li>-->
-                <li ><a href="user.html">用户模块</a></li>
-                <li ><a  href="admin.html">管理员模块</a></li>
-                <li ><a  href="newsList.html">新闻模块</a></li>
-                <li ><a href="activity.html">活动模块</a></li>
-
-            </ul>
+    <div class="layui-logo">"种希望"公益平台</div>
+    <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item"><a href="home.html">首页</a></li>
+        <li class="layui-nav-item"><a href="news.html">新闻</a></li>
+        <li class="layui-nav-item"><a href="javascript:;" onclick="activity()">我的活动</a></li>
+        <li class="layui-nav-item"><a href="tellus.html">联系我们</a></li>
+        <ul class="layui-nav-item" id="adminOperate"></ul>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+            <a href="javascript:;"  onclick="myInfo()" id="name"></a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="userLogin.html" onclick="logout()">退出</a>
         </li>
     </ul>
-</ul>
-<ul class="layui-nav layui-layout-right">
+    <script>
+        // 获取cookie信息
+        function getCookie(cookieName) {
+            console.log(document.cookie);
+            var arr, reg = new RegExp("(^| )" + cookieName + "=([^;]*)(;|$)");
+            if (arr = document.cookie.match(reg))
+                return decodeURI(arr[2]);
+            else
+                return null;
+        }
 
-    <li class="layui-nav-item">
-        <a href="myInfo.html" id="name"></a>
-    </li>
-    <li class="layui-nav-item">
-        <a href="userLogin.html" onclick="logout()">退出</a>
-    </li>
-</ul>
-
-<!--<script src="layui/layui.js" charset="utf-8"></script>-->
-<link rel="stylesheet" href="layui/css/layui.css">
-
-<script>
-    // 获取cookie信息
-    function getCookie(cookieName) {
-        console.log(document.cookie);
-        var arr, reg = new RegExp("(^| )" + cookieName + "=([^;]*)(;|$)");
-        if (arr = document.cookie.match(reg))
-            return decodeURI(arr[2]);
-        else
-            return null;
-    }
-
-    function logout() {
-        $.ajax({
-            xhrFields: {
-                withCredentials: true
-            },
-            url: "http://localhost:8080/user/destory", //访问路径
-            type: "get",
-            dataType: "json",
-            success: function (data, status, xhr) {
-                console.log(data)
-                if (data.message.valueOf() == "操作成功" && data.returnCodes.valueOf() == "OK") {
-                    window.location.href = "userLogin.html"
-                }
-            },
-            error: function (e) {
-                console.log(e);
-                console.log("失败");
-            },
+        $(document).ready(function () {
+            //platform_identity：1组织，2用户，3管理员
+            console.log(getCookie("platform_identity"))
+            identity = getCookie("platform_identity");
+            if (identity == "3") {
+                var adminManger =
+                    '<li class="dropdown all-camera-dropdown">\n' +
+                    '            <a class="dropdown-toggle" data-toggle="dropdown" href="#">\n' +
+                    '                管理员管理\n' +
+                    '                <b class="caret"></b>\n' +
+                    '            </a>\n' +
+                    '            <ul class="dropdown-menu">\n' +
+                    '                <li ><a href="user.html">用户模块</a></li>\n' +
+                    '                <li ><a href="organizer.html">组织模块</a></li>\n' +
+                    '                <li ><a  href="admin.html">管理员模块</a></li>\n' +
+                    '                <li ><a  href="newsList.html">新闻模块</a></li>\n' +
+                    '                <li ><a href="activity.html">活动模块</a></li>\n' +
+                    '            </ul>\n' +
+                    '        </li>';
+                $("#adminOperate").html(adminManger);
+            }
         });
-    }
-</script>
-<script>$("#name").html(getCookie("platform_name"))</script>
+
+        //退出账号
+        function logout() {
+            $.ajax({
+                xhrFields: {
+                    withCredentials: true
+                },
+                url: "http://localhost:8080/user/destory", //访问路径
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    window.location.href = "userLogin.html";
+                },
+                error: function (e) {
+                    console.log(e);
+                    console.log("失败");
+                },
+            });
+        }
+
+        function activity() {
+            identity = getCookie("platform_identity");
+            if (identity == "1") {
+                window.location.href = "organizerActivity.html";
+            } else {
+                window.location.href = "userActivity.html";
+            }
+        }
+
+        function myInfo() {
+            identity = getCookie("platform_identity");
+            if (identity == "1") {
+                window.location.href = "myOrganizerInfo.html";
+            } else {
+                window.location.href = "myUserInfo.html";
+            }
+        }
+    </script>
+    <script>$("#name").html(getCookie("platform_name"))</script>
 </body>
 
 </html>

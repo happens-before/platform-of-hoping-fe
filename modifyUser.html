@@ -118,7 +118,11 @@
                 <button type="submit" class="btn btn-default" onclick="modifyUser()">修改用户信息</button>
             </div>
         </div>
-
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-danger" ><a href="user.html">返回</a></button>
+            </div>
+        </div>
     </div>
 </div>
 <script src="layui/layui.js" charset="utf-8"></script>
@@ -210,7 +214,7 @@
             success: function (e) {
                 console.log(e)
                 alert(e.message)
-                window.location.href = "user.html"
+                window.onload;
             },
             error: function (e) {
                 console.log(e);

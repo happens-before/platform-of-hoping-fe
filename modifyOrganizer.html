@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>修改组织信息</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="js/template.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div id="page1" class="layui-header"></div>
+    <div class="form-horizontal">
+        <div class="form-group" >
+            <label for="organizerId" class="col-sm-2 control-label">organizerId</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerId" placeholder="organizerId" value={{e.data.organizerId}} >
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="organizerCity" class="col-sm-2 control-label">所在城市</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerCity" placeholder="所在城市"
+                       value={{e.data.organizerCity}}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="organizerName" class="col-sm-2 control-label">组织名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerName" placeholder="组织名称"
+                       value={{e.data.organizerName}}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="organizerPhone" class="col-sm-2 control-label">联系方式</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerPhone" placeholder="联系方式"
+                       value={{e.data.organizerPhone}}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="organizerPrincipal" class="col-sm-2 control-label">组织负责人</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerPrincipal" placeholder="组织负责人"
+                       value={{e.data.organizerPrincipal}}>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="organizerDescription" class="col-sm-2 control-label">组织描述</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerDescription" placeholder="组织描述"
+                       value={{e.data.organizerDescription}}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="organizerAddress" class="col-sm-2 control-label">组织地址</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="organizerAddress" placeholder="组织地址"
+                       value={{e.data.organizerAddress}}>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="password" placeholder="密码"
+                       value={{e.data.password}}>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" onclick="modifyOrganizer()">修改组织信息</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-danger" ><a href="organizer.html">返回</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script>
+    $("#page1").load("navHeader.html");
+</script>
+<script>
+    window.onload = function userInfo() {
+        function parseUrl(){
+            var url=decodeURIComponent(location.href);
+            console.log(url);
+            var i=url.indexOf('?');
+            if(i==-1)return;
+            var querystr=url.substr(i+1);
+            var arr1=querystr.split('&');
+            var arr2=new Object();
+            for  (i in arr1){
+                var ta=arr1[i].split('=');
+                arr2[ta[0]]=ta[1];
+            }
+            return arr2;
+        }
+        var v = parseUrl();
+        console.log(v)
+        var organizerId = v.organizerId
+        console.log(organizerId)
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/organizer/info", //访问路径
+            type: "get",
+            data: {
+                "organizerId": organizerId
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                $("#organizerId").val(e.data.organizerId);
+                $("#organizerCity").val(e.data.organizerCity);
+                $("#organizerName").val(e.data.organizerName);
+                $("#organizerPhone").val(e.data.organizerPhone);
+                $("#organizerPrincipal").val(e.data.organizerPrincipal);
+                $("#organizerDescription").val(e.data.organizerDescription);
+                $("#organizerAddress").val(e.data.organizerAddress);
+                $("#password").val(e.data.password);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+    }
+</script>
+<script type="text/javascript">
+    function modifyOrganizer() {
+        var sendData = {
+            "organizerId": $("#organizerId").val(),
+            "organizerCity": $("#organizerCity").val(),
+            "organizerName": $("#organizerName").val(),
+            "organizerPhone": $("#organizerPhone").val(),
+            "organizerPrincipal": $("#organizerPrincipal").val(),
+            "organizerDescription": $("#organizerDescription").val(),
+            "organizerAddress": $("#organizerAddress").val(),
+            "password": $("#password").val()
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/organizer/update", //访问路径
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.onload;
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+    }
+</script>
+</body>
+
+</html>

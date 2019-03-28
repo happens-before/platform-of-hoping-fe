@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title></title>
     <script src="js/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/search.css">
     <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/template.js"></script>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <!--<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>-->
+    <!--<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>-->
+    <!--<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>-->
     <style>
         /* Make the image fully responsive */
         .carousel-inner img {
@@ -39,113 +40,62 @@
 </head>
 
 <body>
-    <div class="layui-layout layui-layout-admin">
-        <!--头部导航-->
-        <div id="page1" class="layui-header"></div>
-        <!--&lt;!&ndash;左侧导航&ndash;&gt;-->
-        <!--<div id="page2" class="layui-side layui-bg-black"></div>-->
-        <div id="demo" class="carousel slide" data-ride="carousel">
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div id="page1" class="layui-header"></div>
+    <!--&lt;!&ndash;左侧导航&ndash;&gt;-->
+    <!--<div id="page2" class="layui-side layui-bg-black"></div>-->
+    <div id="demo" class="carousel slide" data-ride="carousel">
 
-            <!-- 指示符 -->
-            <ul class="carousel-indicators">
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
-            </ul>
+        <!-- 指示符 -->
+        <ul class="carousel-indicators">
+            <li data-target="#demo" data-slide-to="0" class="active"></li>
+            <li data-target="#demo" data-slide-to="1"></li>
+            <li data-target="#demo" data-slide-to="2"></li>
+        </ul>
 
-            <!-- 轮播图片 -->
+        <!-- 轮播图片 -->
 
-            <div id="tet"></div>
-            <!-- 左右切换按钮 -->
-            <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </a>
-            <a class="carousel-control-next" href="#demo" data-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </a>
+        <div id="tet"></div>
+        <!-- 左右切换按钮 -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
 
-        </div>
     </div>
-    <script src="layui/layui.js" charset="utf-8"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script>
-        $("#page1").load("navHeader.html");
-    </script>
-    <script>
-        window.onload = function () {
-            $.ajax({
-                xhrFields: {
-                    withCredentials: true
-                },
-                url: "http://localhost:8080/news/home", //访问路径
-                type: "get",
-                dataType: "json",
-                success: function (e) {
-                    console.log(e);
-                    var c = {result: e.data}
-                    console.log(c);
+</div>
+<script>$("#page1").load("navHeader.html");</script>
 
-                    var html = template('newsHome', c);
-                    $("#tet").html(html);
-                },
-                error: function (e) {
-                    console.log(e);
-                    console.log("失败");
-                }
 
-            });
+<script>
+    window.onload = function () {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/home", //访问路径
+            type: "get",
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                var c = {result: e.data}
+                console.log(c);
 
-        }
+                var html = template('newsHome', c);
+                $("#tet").html(html);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
 
-        function deleteEmployee(emp_id) {
-            $.ajax({
-                url: "http://120.77.215.146:8080/ttms3/employee_delete", //访问路径
-                type: "post",
-                data: {
-                    "emp_id": emp_id
-                },
-                dataType: "json",
-                success: function (e) {
-                    alert("确定删除吗？");
-                    console.log(e);
-                    console.log("成功");
-                    window.location.href = "employee.html";
-                },
-                error: function (e) {
-                    console.log(e);
-                    console.log("失败");
-                }
+        });
 
-            });
-        }
-
-        function searchEmployee(emp_no) {
-            $.ajax({
-                url: "http://120.77.215.146:8080/ttms3/employee_search", //访问路径
-                type: "post",
-                data: {
-                    "emp_no": emp_no
-                },
-                dataType: "json",
-                success: function (e) {
-                    console.log(e);
-                    console.log("成功");
-    //					var array = new Array();
-    //					array.push(e);
-                    var c = {result: e}
-                    console.log(c);
-
-                    var html = template('arttep', c);
-                    $("#tet").html(html);
-                },
-                error: function (e) {
-                    console.log(e);
-                    console.log("失败");
-                }
-
-            });
-        }
-    </script>
+    }
+</script>
 </body>
 
 </html>

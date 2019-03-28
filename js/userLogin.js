@@ -51,7 +51,7 @@ function userLogin() {
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/user/login", //访问路径
+            url: "http://localhost:8080/user/login", 
             type: "get",
             data: {
                 "school": $("#school").val(),

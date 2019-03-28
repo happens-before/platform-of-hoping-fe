@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title></title>
+    <title>主页</title>
     <script src="js/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -41,10 +41,7 @@
 
 <body>
 <div class="layui-layout layui-layout-admin">
-    <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <!--&lt;!&ndash;左侧导航&ndash;&gt;-->
-    <!--<div id="page2" class="layui-side layui-bg-black"></div>-->
     <div id="demo" class="carousel slide" data-ride="carousel">
 
         <!-- 指示符 -->
@@ -53,9 +50,7 @@
             <li data-target="#demo" data-slide-to="1"></li>
             <li data-target="#demo" data-slide-to="2"></li>
         </ul>
-
         <!-- 轮播图片 -->
-
         <div id="tet"></div>
         <!-- 左右切换按钮 -->
         <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -76,7 +71,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/news/home", //访问路径
+            url: "http://localhost:8080/news/home",
             type: "get",
             dataType: "json",
             success: function (e) {

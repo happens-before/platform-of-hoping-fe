@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>活动信息页</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/search.css">
     <link rel="stylesheet" href="layui/css/layui.css">
     <script type="text/javascript" src="js/template.js"></script>
@@ -99,13 +101,8 @@
         </div>
     </div>
 </div>
-<script src="layui/layui.js" charset="utf-8"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
+<script>$("#page1").load("navHeader.html");</script>
 <script>
-    $("#page1").load("navHeader.html");
-</script>
-<script>
-
     window.onload=function () {
         function parseUrl(){
             var url=decodeURIComponent(location.href);
@@ -129,7 +126,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/user/info", //访问路径
+            url: "http://localhost:8080/user/info",
             type: "get",
             data: {
                 "userId": userId

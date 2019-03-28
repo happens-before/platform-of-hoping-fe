@@ -5,24 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>管理员信息页</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="layui/css/layui.css" media="all">
     <script type="text/javascript" src="js/template.js"></script>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script type="text/html" id="adminInfo">
-        {{each result as value}}
-        <tr class="success">
-            <td hidden="" id="adminId">{{value.adminId}}</td>
-            <td>{{value.adminName}}</td>
-            <td> {{value.updateTime}}</td>
-            <td>
-                <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteAdmin(this)">删除</a></button>
-            </td>
-        </tr>
-        {{/each}}
-    </script>
 </head>
 
 <body>
@@ -75,14 +65,25 @@
     <div id="realData"></div>
 
 </div>
-
+<script type="text/html" id="adminInfo">
+    {{each result as value}}
+    <tr class="success">
+        <td hidden="" id="adminId">{{value.adminId}}</td>
+        <td>{{value.adminName}}</td>
+        <td> {{value.updateTime}}</td>
+        <td>
+            <button class="btn btn-danger" ><a href="javascript:;" onclick="deleteAdmin(this)">删除</a></button>
+        </td>
+    </tr>
+    {{/each}}
+</script>
 <script>
     window.onload = function () {
         $.ajax({
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/admin/list", //访问路径
+            url: "http://localhost:8080/admin/list",
             type: "get",
             data: {
                 // "pageNum": $("#realData").curr,
@@ -132,7 +133,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/admin/list", //访问路径
+            url: "http://localhost:8080/admin/list",
             type: "get",
             data: {
                 // "pageNum": $("#realData").curr,
@@ -194,7 +195,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/admin/delete", //访问路径
+            url: "http://localhost:8080/admin/delete",
             type: "post",
             data: JSON.stringify(sendData),
             dataType: "json",
@@ -212,8 +213,6 @@
 
     }
 </script>
-<script src="layui/layui.js" charset="utf-8"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
 <script>$("#page1").load("navHeader.html");</script>
 </body>
 

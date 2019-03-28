@@ -27,13 +27,13 @@
         <div class="form-group">
             <label for="startTime" class="col-sm-2 control-label">开始时间</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="startTime" placeholder="请输入开始时间">
+                <input type="text" class="layui-input form-control" id="startTime" placeholder="请输入开始时间">
             </div>
         </div>
         <div class="form-group">
             <label for="endTime" class="col-sm-2 control-label">结束时间</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="endTime" placeholder="请输入结束时间">
+                <input type="text" class="layui-input form-control" id="endTime" placeholder="请输入结束时间">
             </div>
         </div>
         <div class="form-group">
@@ -123,7 +123,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/list", //访问路径
+            url: "http://localhost:8080/activity/list",
             type: "get",
             data: {
                 "findAll": 0,
@@ -219,7 +219,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/list", //访问路径
+            url: "http://localhost:8080/activity/list",
             type: "get",
             data: {
                 "findAll": 0,
@@ -285,7 +285,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/approval", //访问路径
+            url: "http://localhost:8080/activity/approval",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -314,7 +314,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/refuse", //访问路径
+            url: "http://localhost:8080/activity/refuse",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -342,7 +342,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/delete", //访问路径
+            url: "http://localhost:8080/activity/delete",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -364,6 +364,23 @@
 <script src="layui/layui.js" charset="utf-8"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script>$("#page1").load("navHeader.html");</script>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#startTime', //指定元素
+            type: 'datetime'
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endTime', //指定元素
+            type: 'datetime'
+        });
+
+    });
+</script>
 </body>
 
 </html>

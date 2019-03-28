@@ -55,14 +55,14 @@
         <div class="form-group">
             <label for="startTime" class="col-sm-2 control-label">开始时间</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="startTime" placeholder="开始时间"
+                <input type="text" class="layui-input form-control" id="startTime" placeholder="开始时间"
                        value={{e.data.startTime}}>
             </div>
         </div>
         <div class="form-group">
             <label for="endTime" class="col-sm-2 control-label">结束时间</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="endTime" placeholder="结束时间"
+                <input type="text" class="layui-input form-control" id="endTime" placeholder="结束时间"
                        value={{e.data.endTime}}>
             </div>
         </div>
@@ -113,7 +113,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/detail", //访问路径
+            url: "http://localhost:8080/activity/detail",
             type: "get",
             data: {
                 "activityId": activityId
@@ -151,7 +151,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/update", //访问路径
+            url: "http://localhost:8080/activity/update",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -183,7 +183,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/publish", //访问路径
+            url: "http://localhost:8080/activity/publish",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -201,6 +201,23 @@
             },
         });
     }
+</script>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#startTime', //指定元素
+            type: 'datetime'
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endTime', //指定元素
+            type: 'datetime'
+        });
+
+    });
 </script>
 </body>
 

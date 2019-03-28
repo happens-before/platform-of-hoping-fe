@@ -57,7 +57,7 @@ function organizerLogin() {
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/organizer/login", //访问路径
+            url: "http://localhost:8080/organizer/login", 
             type: "get",
             data: {
                 "organizerCity": $("#organizerCity").val(),

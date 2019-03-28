@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>管理活动页</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="layui/lay/modules/laypage.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="layui/css/layui.css"  media="all">
@@ -39,13 +42,13 @@
             <div class="form-group">
                 <label for="startTime" class="col-sm-2 control-label">开始时间</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="startTime" placeholder="请输入开始时间">
+                    <input type="text" class="layui-input form-control" id="startTime" placeholder="请输入开始时间">
                 </div>
             </div>
             <div class="form-group">
                 <label for="endTime" class="col-sm-2 control-label">结束时间</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="endTime" placeholder="请输入结束时间">
+                    <input type="text" class="layui-input form-control" id="endTime" placeholder="请输入结束时间">
                 </div>
             </div>
             <div class="form-group">
@@ -130,15 +133,17 @@
 </script>
 <script>
     window.onload = function () {
+        var curr=1;
+        alert(curr)
         $.ajax({
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/list", //访问路径
+            url: "http://localhost:8080/activity/list",
             type: "get",
             data: {
                 "findAll": 1,
-                "pageNum": $("#realData").curr,
+                "pageNum": curr,
                 // "pageNum": 1,
                 "promoter":$("#promoter").val(),
                 "organizer":$("#organizer").val(),
@@ -186,13 +191,12 @@
                 console.log(e);
                 console.log("失败");
             }
-
         });
         // 分页
-        layui.use(['laypage', 'layer'], function(){
+        curr=layui.use(['laypage', 'layer'], function(){
             var laypage = layui.laypage
                 ,layer = layui.layer;
-            laypage.render({
+            curr=laypage.render({
                 elem: 'realData'
                 ,count: total //数据总数，从服务端得到
                 ,jump: function(obj, first){
@@ -200,7 +204,7 @@
                     //obj包含了当前分页的所有参数，比如：
                     console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                     console.log(obj.limit); //得到每页显示的条数
-
+                    // document.getElementById('tab').innerHTML = thisDate(obj.curr);
                     //首次不执行
                     if(!first){
                         //do something
@@ -231,7 +235,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/list", //访问路径
+            url: "http://localhost:8080/activity/list",
             type: "get",
             data: {
                 "findAll": 1,
@@ -297,7 +301,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/end", //访问路径
+            url: "http://localhost:8080/activity/end",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -326,7 +330,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/delete", //访问路径
+            url: "http://localhost:8080/activity/delete",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -345,9 +349,24 @@
         });
     }
 </script>
-<script src="layui/layui.js" charset="utf-8"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script>$("#page1").load("navHeader.html");</script>
-    </body>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
 
-    </html>
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#startTime', //指定元素
+            type: 'datetime'
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endTime', //指定元素
+            type: 'datetime'
+        });
+
+    });
+</script>
+<script>$("#page1").load("navHeader.html");</script>
+</body>
+
+</html>

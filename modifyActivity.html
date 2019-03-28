@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title></title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css">
     <script type="text/javascript" src="js/template.js"></script>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
@@ -13,7 +15,6 @@
 
 <body>
 <div class="layui-layout layui-layout-admin">
-    <!--头部导航-->
     <div id="page1" class="layui-header"></div>
     <div class="form-horizontal">
         <div class="form-group">
@@ -55,14 +56,14 @@
         <div class="form-group">
             <label for="startTime" class="col-sm-2 control-label">开始时间</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="startTime" placeholder="开始时间"
+                <input type="text" class="layui-input form-control" id="startTime" placeholder="开始时间"
                        value={{e.data.startTime}}>
             </div>
         </div>
         <div class="form-group">
             <label for="endTime" class="col-sm-2 control-label">结束时间</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="endTime" placeholder="结束时间"
+                <input type="text" class="layui-input form-control" id="endTime" placeholder="结束时间"
                        value={{e.data.endTime}}>
             </div>
         </div>
@@ -83,11 +84,8 @@
         </div>
     </div>
 </div>
-<script src="layui/layui.js" charset="utf-8"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script>
-    $("#page1").load("navHeader.html");
-</script>
+
+<script>$("#page1").load("navHeader.html");</script>
 <script>
     window.onload = function () {
         function parseUrl() {
@@ -113,7 +111,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/detail", //访问路径
+            url: "http://localhost:8080/activity/detail",
             type: "get",
             data: {
                 "activityId": activityId
@@ -151,7 +149,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/update", //访问路径
+            url: "http://localhost:8080/activity/update",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -183,7 +181,7 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/activity/publish", //访问路径
+            url: "http://localhost:8080/activity/publish",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(sendData),
@@ -202,6 +200,22 @@
         });
     }
 </script>
-</body>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
 
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#startTime', //指定元素
+            type: 'datetime'
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endTime', //指定元素
+            type: 'datetime'
+        });
+
+    });
+</script>
+</body>
 </html>

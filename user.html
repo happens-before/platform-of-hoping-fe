@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>管理用户页</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="layui/lay/modules/laypage.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="layui/css/layui.css" media="all">
@@ -101,7 +104,7 @@
     <tr class="success">
         <td hidden="" id="userId">{{value.userId}}</td>
         <td><a href="userInfo.html?userId={{value.userId}}">
-            <button class="btn btn-primary">{{value.userName}}</button>
+           {{value.userName}}
         </a></td>
         <td> {{value.userSno}}</td>
         <td> {{value.school}}</td>
@@ -130,8 +133,7 @@
             url: "http://localhost:8080/user/list",
             type: "get",
             data: {
-                // "pageNum": $("#realData").curr,
-                "pageNum": 1,
+                "pageNum": current,
                 "school": $("#school").val(),
                 "userSno": $("#userSno").val(),
                 "community": $("#community").val(),
@@ -163,21 +165,24 @@
             }
 
         });
+        var current = 1;
         // 分页
-        layui.use(['laypage', 'layer'], function(){
+        layui.use(['laypage', 'layer'], function () {
             var laypage = layui.laypage
-                ,layer = layui.layer;
+                , layer = layui.layer;
             laypage.render({
                 elem: 'realData'
-                ,count: total //数据总数，从服务端得到
-                ,jump: function(obj, first){
+                , count: total //数据总数，从服务端得到
+                , jump: function (obj, first) {
+                    current = obj.curr;
+                    // alert(current)
                     console.log(obj.count)
                     //obj包含了当前分页的所有参数，比如：
                     console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                     console.log(obj.limit); //得到每页显示的条数
-
+                    getUserList(obj);
                     //首次不执行
-                    if(!first){
+                    if (!first) {
                         //do something
                     }
                 }
@@ -185,7 +190,7 @@
         });
     }
 
-    function getUserList() {
+    function getUserList(obj) {
         $.ajax({
             xhrFields: {
                 withCredentials: true
@@ -193,8 +198,7 @@
             url: "http://localhost:8080/user/list",
             type: "get",
             data: {
-                // "pageNum": $("#realData").curr,
-                "pageNum": 1,
+                "pageNum": obj.curr,
                 "school": $("#school").val(),
                 "userSno": $("#userSno").val(),
                 "community": $("#community").val(),

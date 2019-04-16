@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>管理新闻页</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="layui/lay/modules/laypage.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="layui/css/layui.css"  media="all">
@@ -80,18 +83,20 @@
     {{each result as value}}
     <tr class="success">
         <td hidden="" id="newsId">{{value.newsId}}</td>
-        <td><a href="newsInfo.html?newsId={{value.newsId}}" ><button class="btn btn-primary">{{value.newsName}}</button> </a></td>
+        <td><a href="newsInfo.html?newsId={{value.newsId}}">{{value.newsName}}</a></td>
         <td> {{value.newsCreator}}</td>
         <td> {{value.newsCount}}</td>
         <td> {{value.status}}</td>
         <td> {{value.updateTime}}</td>
         <td>
             <a href="modifyNews.html?newsId={{value.newsId}}">
-                <button class="btn btn-primary">修改新闻</button>
+                <button class="btn btn-primary" disabled>修改新闻</button>
             </a>
         </td>
         <td>
-            <button class="btn btn-danger" ><a href="javascript:;" onclick="pauseNews(this)">暂停新闻</a></button>
+            <a href="javascript:;" onclick="pauseNews(this)">
+                <button class="btn btn-danger" name="pause" disabled>暂停新闻</button>
+            </a>
         </td>
         <td>
             <button id="delete" class="btn btn-danger" ><a href="javascript:;" onclick="deleteNews(this)">删除新闻</a></button>
@@ -108,34 +113,14 @@
             url: "http://localhost:8080/news/list",
             type: "get",
             data: {
-                // "pageNum": $("#realData").curr,
-                "pageNum": 1,
+                "pageNum": current,
                 "newsName":$("#newsName").val(),
                 "status":$("#status option:selected").val(),
                 "newsCreator": $("#newsCreator").val()
             },
             dataType: "json",
             success: function (e) {
-                console.log(e);
-                for (var i in e.data.list) {
-                    console.log(e.data.list[i]); // red green blue yellow
-                    if(e.data.list[i].status=="30")
-                    {
-                        e.data.list[i].status="已发布"
-                    } else if(e.data.list[i].status=="20")
-                    {
-                        e.data.list[i].status="暂停"
-                    } else if(e.data.list[i].status=="10")
-                    {
-                        e.data.list[i].status="未发布"
-                    }
-                }
-                var c = {result: e.data.list}
-                total=e.data.total;
-                console.log(c);
-
-                var html = template('news', c);
-                $("#newsInfo").html(html);
+                totalNew=e.data.total;
             },
             error: function (e) {
                 console.log(e);
@@ -144,20 +129,23 @@
 
         });
         // 分页
-        layui.use(['laypage', 'layer'], function(){
+        var current = 1;
+        layui.use(['laypage', 'layer'], function() {
             var laypage = layui.laypage
-                ,layer = layui.layer;
+                , layer = layui.layer;
+
             laypage.render({
                 elem: 'realData'
-                ,count: total //数据总数，从服务端得到
-                ,jump: function(obj, first){
+                , count: totalNew //数据总数，从服务端得到
+                , jump: function (obj, first) {
+                    current = obj.curr;
                     console.log(obj.count)
                     //obj包含了当前分页的所有参数，比如：
                     console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                     console.log(obj.limit); //得到每页显示的条数
-
                     //首次不执行
-                    if(!first){
+                    getNewsList(obj);
+                    if (!first) {
                         //do something
                     }
                 }
@@ -171,10 +159,16 @@
         //获取被选中的option标签的value值
         var value = obj.options[obj.selectedIndex].value;
         // alert(value);
-        window.location.href="javascript:;",onclick=getUserList();
+        window.location.href="javascript:;",onclick=getNewsList();
     }
 
-    function getUserList() {
+    function getNewsList(obj) {
+        pageNum = 1;
+        if (obj == null) {
+            pageNum = 1;
+        } else {
+            pageNum = obj.curr;
+        }
         $.ajax({
             xhrFields: {
                 withCredentials: true
@@ -182,8 +176,7 @@
             url: "http://localhost:8080/news/list",
             type: "get",
             data: {
-                // "pageNum": $("#realData").curr,
-                "pageNum": 1,
+                "pageNum": pageNum,
                 "newsName":$("#newsName").val(),
                 "status":$("#status option:selected").val(),
                 "newsCreator": $("#newsCreator").val()
@@ -210,6 +203,25 @@
 
                 var html = template('news', c);
                 $("#newsInfo").html(html);
+                var mytable = document.getElementById("tab");
+                // var data = [];
+                for (var i = 1; i < mytable.rows.length; ++i) {
+                    console.log(mytable.rows[i].cells[4].innerText);
+                    if (mytable.rows[i].cells[4].innerText == "已发布") {
+                        //不可修改，可结束
+                        // alert("已发布")
+                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                    } else if (mytable.rows[i].cells[4].innerText == "未发布") {
+                        //可修改，不可结束活动
+                        // alert("未发布")
+                        mytable.rows[i].cells[6].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                    } else if (mytable.rows[i].cells[4].innerText == "暂停") {
+                        // 不可修改，不可结束
+                        // alert("已结束")
+                        mytable.rows[i].cells[6].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                    }
+                }
             },
             error: function (e) {
                 console.log(e);
@@ -277,9 +289,6 @@
         });
     }
 </script>
-<script src="layui/layui.js" charset="utf-8"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
 <script>$("#page1").load("navHeader.html");</script>
 </body>
-
 </html>

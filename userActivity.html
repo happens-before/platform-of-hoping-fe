@@ -42,7 +42,8 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getUserActivityList()">搜索</a>
+                <button type="submit" class="btn btn-default"><a href="javascript:;"
+                                                                 onclick="getUserActivityList()">搜索</a>
                 </button>
             </div>
         </div>
@@ -99,9 +100,9 @@
     {{each result as value}}
     <tr class="success">
         <td hidden="" id="activityId">{{value.activityId}}</td>
-        <td><a href="activityInfo.html?activityId={{value.activityId}}">
-            <button class="btn btn-primary">{{value.activityTopic}}</button>
-        </a></td>
+        <td>
+            <a href="activityInfo.html?activityId={{value.activityId}}">{{value.activityTopic}}</a>
+        </td>
         <td> {{value.promoter}}</td>
         <td> {{value.organizer}}</td>
         <td> {{value.startTime}}</td>
@@ -110,12 +111,13 @@
         <td>{{value.activityApproval}}</td>
         <td>
             <a href="modifyUserActivity.html?activityId={{value.activityId}}">
-                <button class="btn btn-primary" id="modify">修改活动</button>
+                <button class="btn btn-primary" name="modify" disabled>修改活动</button>
             </a>
         </td>
         <td>
-            <button class="btn btn-danger" id="end"><a href="javascript:;" onclick="endActivity(this)">结束活动</a></button>
-
+            <a href="javascript:;" onclick="endActivity(this)">
+                <button class="btn btn-danger" name="end" disabled>结束活动</button>
+            </a>
         </td>
         <td>
             <button class="btn btn-danger"><a href="javascript:;" onclick="deleteUserActivity(this)">删除活动</a></button>
@@ -133,8 +135,7 @@
             type: "get",
             data: {
                 "findAll": 0,
-                // "pageNum": $("#realData").curr,
-                "pageNum": 1,
+                "pageNum": current,
                 "promoter": $("#promoter").val(),
                 "organizer": $("#organizer").val(),
                 "activityTopic": $("#activityTopic").val(),
@@ -146,46 +147,7 @@
             dataType: "json",
             success: function (e) {
                 console.log(e);
-                for (var i in e.data.list) {
-                    console.log(e.data.list[i]); // red green blue yellow
-                    if (e.data.list[i].activityStatus == "30") {
-                        e.data.list[i].activityStatus = "进行中";
-                    } else if (e.data.list[i].activityStatus == "20") {
-                        e.data.list[i].activityStatus = "未发布";
-                    } else if (e.data.list[i].activityStatus == "10") {
-                        e.data.list[i].activityStatus = "已结束"
-                    }
-
-                    if (e.data.list[i].activityApproval == "30") {
-                        e.data.list[i].activityApproval = "审核通过"
-                    } else if (e.data.list[i].activityApproval == "20") {
-                        e.data.list[i].activityApproval = "未审核"
-                    } else if (e.data.list[i].activityApproval == "10") {
-                        e.data.list[i].activityApproval = "已拒绝"
-                    }
-                }
-                var c = {result: e.data.list}
                 total = e.data.total;
-                console.log(c);
-
-                var html = template('myActivity', c);
-                $("#activity").html(html);
-                if (e.data.list[i].activityStatus == "30") {
-                    //不可修改，可结束
-                    document.getElementById("modify").setAttribute("disabled", true);
-                } else if (e.data.list[i].activityStatus == "20") {
-                    var fv = document.getElementById("end");
-                    alert(fv)
-                    // $("#end").setAttribute("disable",true);
-                    //可修改，不可结束活动
-                    document.getElementById("end").setAttribute("disabled", true)
-
-                } else if (e.data.list[i].activityStatus == "10") {
-                    //不可修改，不可结束
-                    document.getElementById("modify").setAttribute("disabled", true);
-                    document.getElementById("end").setAttribute("disabled", true)
-                }
-
 
             },
             error: function (e) {
@@ -195,6 +157,7 @@
 
         });
 
+        var current = 1;
         // 分页
         layui.use(['laypage', 'layer'], function () {
             var laypage = layui.laypage
@@ -203,10 +166,12 @@
                 elem: 'realData'
                 , count: total //数据总数，从服务端得到
                 , jump: function (obj, first) {
-                    console.log(obj.count)
+                    current = obj.curr;
+                    // console.log(obj)
                     //obj包含了当前分页的所有参数，比如：
                     console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                     console.log(obj.limit); //得到每页显示的条数
+                    getUserActivityList(obj);
 
                     //首次不执行
                     if (!first) {
@@ -235,7 +200,13 @@
         window.location.href = "javascript:;", onclick = getUserActivityList();
     }
 
-    function getUserActivityList() {
+    function getUserActivityList(obj) {
+        pageNum = 1;
+        if (obj == null) {
+            pageNum = 1;
+        } else {
+            pageNum = obj.curr;
+        }
         $.ajax({
             xhrFields: {
                 withCredentials: true
@@ -244,7 +215,7 @@
             type: "get",
             data: {
                 "findAll": 0,
-                "pageNum": $("#realData").curr,
+                "pageNum": pageNum,
                 // "pageNum": 1,
                 "promoter": $("#promoter").val(),
                 "organizer": $("#organizer").val(),
@@ -281,6 +252,25 @@
 
                 var html = template('myActivity', c);
                 $("#activity").html(html);
+                var mytable = document.getElementById("tab");
+                // var data = [];
+                for (var i = 1; i < mytable.rows.length; ++i) {
+                    console.log(mytable.rows[i].cells[6].innerText);
+                    if (mytable.rows[i].cells[6].innerText == "进行中") {
+                        //不可修改，可结束
+                        // alert("进行中")
+                        mytable.rows[i].cells[9].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                    } else if (mytable.rows[i].cells[6].innerText == "未发布") {
+                        //可修改，不可结束活动
+                        // alert("未发布")
+                        mytable.rows[i].cells[8].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                    } else if (mytable.rows[i].cells[6].innerText == "已结束") {
+                        // 不可修改，不可结束
+                        // alert("已结束")
+                        // mytable.rows[i].cells[8].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                        // mytable.rows[i].cells[9].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                    }
+                }
             },
             error: function (e) {
                 console.log(e);

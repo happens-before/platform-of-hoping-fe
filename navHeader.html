@@ -13,95 +13,99 @@
 </head>
 
 <body>
-    <div class="layui-logo">"种希望"公益平台</div>
-    <ul class="layui-nav layui-layout-left">
-        <li class="layui-nav-item"><a href="home.html">首页</a></li>
-        <li class="layui-nav-item"><a href="news.html">新闻</a></li>
-        <li class="layui-nav-item"><a href="javascript:;" onclick="activity()">我的活动</a></li>
-        <li class="layui-nav-item"><a href="tellus.html">联系我们</a></li>
-        <ul class="layui-nav-item" id="adminOperate"></ul>
-    </ul>
-    <ul class="layui-nav layui-layout-right">
-        <li class="layui-nav-item">
-            <a href="javascript:;"  onclick="myInfo()" id="name"></a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="userLogin.html" onclick="logout()">退出</a>
-        </li>
-    </ul>
-    <script>
-        // 获取cookie信息
-        function getCookie(cookieName) {
-            console.log(document.cookie);
-            var arr, reg = new RegExp("(^| )" + cookieName + "=([^;]*)(;|$)");
-            if (arr = document.cookie.match(reg))
-                return decodeURI(arr[2]);
-            else
-                return null;
-        }
+<div class="layui-logo">"种希望"公益平台</div>
+<ul class="layui-nav layui-layout-left">
+    <li class="layui-nav-item"><a href="home.html">首页</a></li>
+    <li class="layui-nav-item"><a href="news.html">新闻</a></li>
+    <li class="layui-nav-item"><a href="javascript:;" onclick="activity()">我的活动</a></li>
+    <li class="layui-nav-item"><a href="tellus.html">联系我们</a></li>
+    <ul class="layui-nav-item" id="adminOperate"></ul>
+</ul>
+<ul class="layui-nav layui-layout-right">
+    <li class="layui-nav-item">
+        <a href="javascript:;" onclick="myInfo()" id="name"></a>
+    </li>
+    <li class="layui-nav-item">
+        <a href="userLogin.html" onclick="logout()">退出</a>
+    </li>
+</ul>
+<script>
+    // 获取cookie信息
+    function getCookie(cookieName) {
+        console.log(document.cookie);
+        var arr, reg = new RegExp("(^| )" + cookieName + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return decodeURI(arr[2]);
+        else
+            return null;
+    }
 
-        $(document).ready(function () {
-            //platform_identity：1组织，2用户，3管理员
-            console.log(getCookie("platform_identity"))
-            identity = getCookie("platform_identity");
-            if (identity == "3") {
-                var adminManger =
-                    '<li class="dropdown all-camera-dropdown">\n' +
-                    '            <a class="dropdown-toggle" data-toggle="dropdown" href="#">\n' +
-                    '                管理员管理\n' +
-                    '                <b class="caret"></b>\n' +
-                    '            </a>\n' +
-                    '            <ul class="dropdown-menu">\n' +
-                    '                <li ><a href="user.html">用户模块</a></li>\n' +
-                    '                <li ><a href="organizer.html">组织模块</a></li>\n' +
-                    '                <li ><a  href="admin.html">管理员模块</a></li>\n' +
-                    '                <li ><a  href="newsList.html">新闻模块</a></li>\n' +
-                    '                <li ><a href="activity.html">活动模块</a></li>\n' +
-                    '            </ul>\n' +
-                    '        </li>';
-                $("#adminOperate").html(adminManger);
-            }
+    $(document).ready(function () {
+        if (getCookie("platform_name") == null) {
+            // alert("请先登陆")
+            window.location = "userLogin.html";
+        }
+        //platform_identity：1组织，2用户，3管理员
+        console.log(getCookie("platform_identity"))
+        identity = getCookie("platform_identity");
+        if (identity == "3") {
+            var adminManger =
+                '<li class="dropdown all-camera-dropdown">\n' +
+                '            <a class="dropdown-toggle" data-toggle="dropdown" href="#">\n' +
+                '                管理员管理\n' +
+                '                <b class="caret"></b>\n' +
+                '            </a>\n' +
+                '            <ul class="dropdown-menu">\n' +
+                '                <li ><a href="user.html">用户模块</a></li>\n' +
+                '                <li ><a href="organizer.html">组织模块</a></li>\n' +
+                '                <li ><a  href="admin.html">管理员模块</a></li>\n' +
+                '                <li ><a  href="newsList.html">新闻模块</a></li>\n' +
+                '                <li ><a href="activity.html">活动模块</a></li>\n' +
+                '            </ul>\n' +
+                '        </li>';
+            $("#adminOperate").html(adminManger);
+        }
+    });
+
+    //退出账号
+    function logout() {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/user/destory",
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                window.location.href = "userLogin.html";
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
         });
+    }
 
-        //退出账号
-        function logout() {
-            $.ajax({
-                xhrFields: {
-                    withCredentials: true
-                },
-                url: "http://localhost:8080/user/destory",
-                type: "get",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    window.location.href = "userLogin.html";
-                },
-                error: function (e) {
-                    console.log(e);
-                    console.log("失败");
-                },
-            });
+    function activity() {
+        identity = getCookie("platform_identity");
+        if (identity == "1") {
+            window.location.href = "organizerActivity.html";
+        } else {
+            window.location.href = "userActivity.html";
         }
+    }
 
-        function activity() {
-            identity = getCookie("platform_identity");
-            if (identity == "1") {
-                window.location.href = "organizerActivity.html";
-            } else {
-                window.location.href = "userActivity.html";
-            }
+    function myInfo() {
+        identity = getCookie("platform_identity");
+        if (identity == "1") {
+            window.location.href = "myOrganizerInfo.html";
+        } else {
+            window.location.href = "myUserInfo.html";
         }
-
-        function myInfo() {
-            identity = getCookie("platform_identity");
-            if (identity == "1") {
-                window.location.href = "myOrganizerInfo.html";
-            } else {
-                window.location.href = "myUserInfo.html";
-            }
-        }
-    </script>
-    <script>$("#name").html(getCookie("platform_name"))</script>
+    }
+</script>
+<script>$("#name").html(getCookie("platform_name"))</script>
 </body>
 
 </html>

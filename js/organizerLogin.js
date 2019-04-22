@@ -1,7 +1,7 @@
 var organizerCity = document.getElementById('organizerCity');
 var organizerName = document.getElementById('organizerName');
-var password = document.getElementById('password');
-organizerCity.focus();
+var password = document.getElementById('password1');
+// organizerCity.focus();
 
 function city() {
     /**
@@ -48,11 +48,7 @@ function pwd() {
     }
 
 }
-
 function organizerLogin() {
-    if (!city() || !pwd() || !nam()) {
-        return false;
-    } else {
         $.ajax({
             xhrFields: {
                 withCredentials: true
@@ -62,14 +58,14 @@ function organizerLogin() {
             data: {
                 "organizerCity": $("#organizerCity").val(),
                 "organizerName": $("#organizerName").val(),
-                "password": $("#password").val()
+                "password": $("#password1").val()
             },
             dataType: "json",
-            success: function (data, status, xhr) {
+            success: function (data) {
                 console.log(data)
-                if (data.message.valueOf() == "操作成功" && data.returnCodes.valueOf() == "OK") {
+                if (data.message== "操作成功" ) {
                     window.location.href = "home.html"
-                } else if (data.message.toString() == "组织名或密码错误" && data.returnCodes.toString() == "FAILD") {
+                } else if (data.message.toString() == "组织名或密码错误") {
                     console.log(data.message)
                     window.location.href = "organizerLogin.html"
                 } else if (data.message.toString() == "服务器很忙") {
@@ -81,6 +77,4 @@ function organizerLogin() {
                 console.log("失败");
             },
         });
-
-    }
 }

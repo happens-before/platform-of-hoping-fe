@@ -2,51 +2,205 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="js/jquery-2.1.0.js"></script>
-    <link rel="stylesheet" href="css/reset.css" type="text/css">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/login.css" type="text/css">
+
     <title>用户登录</title>
     <style type="text/css">
     </style>
 </head>
 <body>
-<div class="container">
-    <div id="main">
-        <div id="logo"><img src="img/logo.png" alt="userLogin"></div>
+<div class="container1">
+    <div id="loginBlock" class="login tab-2">
+        <!-- 选项卡菜单-->
+        <ul id="myTab" class="nav nav-tabs loginFunc" role="tablist">
+            <li class="active"><a href="#bulletin" role="tab" data-toggle="tab">组织登陆</a></li>
+            <li><a href="#rule" role="tab" data-toggle="tab">用户登陆</a></li>
+        </ul>
+        <!-- 选项卡面板 -->
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active show" id="bulletin">
+                <div id="appLoginTab" class="loginForm">
+                    <div class="appLoginWait">
+                        <div class="loginUrs" style="width: 450px;height: 270px;">
+                            <div class="m-confirm f-dn" id="confirm1">
+                                <div class="note">你确定放弃注册马?</div>
+                                <div class="f-cb btnbox">
+                                    <a class="u-btn-confirm f-ib btncolor">继续</a>
+                                    <a class="u-btn-confirm f-ib btncolor-ext">放弃</a>
+                                </div>
+                            </div>
+                            <div class="g-bd ">
+                                <div class="f-dn"></div>
+                                <div class="m-header">
+                                    <div class="u-closebtn u-closebtn1"></div>
+                                    <div class="headimg "></div>
+                                </div>
+                                <div class="m-cnt">
+                                    <form id="login-form1">
+                                        <div class="inputbox" id="account-box1">
+                                            <div class="u-logo">
+                                                城市名称
+                                            </div>
+                                            <div class="u-input ">
+                                                <label class="u-label f-dn" style="display: none;">城市名称</label>
+                                                <input id="organizerCity" data-placeholder="城市名称" name="organizerCity"
+                                                       data-required="true"
+                                                       type="text" autocomplete="off" placeholder="城市名称" required
+                                                       autofocus
+                                                       style="width: 275px;">
+                                            </div>
+                                        </div>
+                                        <div class="fur-change-email"></div>
+                                        <div class="inputbox">
+                                            <div class="u-logo">
+                                                组织名称
+                                            </div>
+                                            <div class="u-input ">
+                                                <label class="u-label f-dn" style="display: none;">组织名称</label>
+                                                <input id="organizerName" data-placeholder="学号" name="organizerName"
+                                                       data-required="true"
+                                                       type="text" autocomplete="off" placeholder="组织名称" required
+                                                       autofocus
+                                                       style="width: 275px;">
+                                            </div>
+                                        </div>
+                                        <div class="fur-change-email"></div>
+                                        <div class="inputbox">
+                                            <div class="u-logo">
+                                                密码
+                                            </div>
+                                            <div class="u-input ">
+                                                <label class="u-label f-dn" style="display: none;">密码</label>
+                                                <input id="password1" data-placeholder="密码" name="password1"
+                                                       data-type="password"
+                                                       data-required="true"
+                                                       type="password" autocomplete="off" placeholder="密码" required
+                                                       autofocus
+                                                       style="width: 275px;">
+                                            </div>
+                                        </div>
+                                        <div class="f-cb loginbox">
+                                            <button id="submit1" class="u-loginbtn btncolor tabfocus btndisabled"
+                                                    tabindex="8"
+                                                    onclick="organizerLogin()">登 录
+                                            </button>
 
-        <div id="info">
-            <div>
-                <input id="school" type="text" placeholder="请输入学校名称" style="outline: none;" onblur="sch()" name="school"
-                       required autofocus/>
-                <span id="school_img"></span>
-                <p id="school_tip"></p>
-
-                <input id="userSno" type="text" placeholder="请输入学号信息" style="outline: none;" onblur="sno()"
-                       name="userSno" required autofocus/>
-                <span id="userSno_img"></span>
-                <p id="userSno_tip"></p>
-
-                <input id="password" type="password" placeholder="请输入密码" style="outline: none;" onblur="pwd()"
-                       name="password">
-                <span id="pwd_img"></span>
-                <p id="pwd_tip"></p>
-                <div>
-                    <button id="submit" onclick="userLogin()">登录</button>
-                    <a href="organizerLogin.html" class="btn btn-primary btn-lg active" role="button">组织登陆</a>
-                    <a href="register.html" class="btn btn-default btn-lg active" role="button">注册信息</a>
+                                        </div>
+                                        <div class="m-unlogin">
+                                            <a id="changepage1" data-action="none"
+                                               class="u-regbtn bgcolor tabfocus j-redirect"
+                                               href="organizerRegister.html"
+                                               data-outlink="2" target="_blank" tabindex="11">注册</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-            <div class="g-ft1 pt20">
-				<span class="footerinfo" style="color: gray; padding-left: 0; text-align: center;">
-					尊敬的用户，您好，信息平台使用了新的登录入口，如果您在登录过程中出现任何问题，敬请联系010-83520910 转
-					8868 &nbsp;&nbsp;&nbsp;&nbsp;
-				</span>
+            <div class="tab-pane fade" id="rule">
+                <!-- 邮箱帐号登录 -->
+                <div id="normalLoginTab" class="loginForm">
+                    <div class="loginWrap">
+                        <div class="loginUrs" style="width: 450px;height: 270px;">
+                            <div class="m-confirm f-dn" id="confirm">
+                                <div class="note">你确定放弃注册ma?</div>
+                                <div class="f-cb btnbox">
+                                    <a class="u-btn-confirm f-ib btncolor">继续</a>
+                                    <a class="u-btn-confirm f-ib btncolor-ext">放弃</a>
+                                </div>
+                            </div>
+                            <div class="g-bd ">
+                                <div class="f-dn"></div>
+                                <div class="m-header">
+                                    <div class="u-closebtn u-closebtn1"></div>
+                                    <div class="headimg "></div>
+                                </div>
+                                <div class="m-cnt">
+                                    <form id="login-form">
+                                        <div class="inputbox" id="account-box">
+                                            <div class="u-logo">
+                                                学校名称
+                                            </div>
+                                            <div class="u-input ">
+                                                <label class="u-label f-dn" style="display: none;">学校名称</label>
+                                                <input id="school" data-placeholder="学校名称" name="school"
+                                                       data-type="email"
+                                                       data-required="true"
+                                                       type="text" autocomplete="off" placeholder="学校名称" required
+                                                       autofocus
+                                                       style="width: 275px;">
+                                            </div>
+                                        </div>
+                                        <div class="fur-change-email"></div>
+                                        <div class="inputbox">
+                                            <div class="u-logo">
+                                                学号
+                                            </div>
+                                            <div class="u-input ">
+                                                <label class="u-label f-dn" style="display: none;">学号</label>
+                                                <input id="userSno" data-placeholder="学号" name="userSno"
+                                                       data-type="email"
+                                                       data-required="true"
+                                                       type="text" autocomplete="off" placeholder="学号" required
+                                                       autofocus
+                                                       style="width: 275px;">
+                                            </div>
+                                        </div>
+                                        <div class="fur-change-email"></div>
+                                        <div class="inputbox">
+                                            <div class="u-logo">
+                                                密码
+                                            </div>
+                                            <div class="u-input ">
+                                                <label class="u-label f-dn" style="display: none;">密码</label>
+                                                <input id="password" data-placeholder="密码" name="password"
+                                                       data-type="email"
+                                                       data-required="true"
+                                                       type="password" autocomplete="off" placeholder="密码" required
+                                                       autofocus
+                                                       style="width: 275px;">
+                                            </div>
+                                        </div>
+                                        <!--<div class="m-nerror err_password" id="nerror" data-from="password" tabindex="0" title="请输入密码">-->
+                                        <!--<div class="ferrortail"></div>-->
+                                        <!--<div class="ferrorhead">请输入密码</div>-->
+                                        <!--</div>-->
+                                        <div class="f-cb loginbox">
+                                            <button id="submit" class="u-loginbtn btncolor tabfocus btndisabled"
+                                                    tabindex="8"
+                                                    onclick="userLogin()">登 录
+                                            </button>
+
+                                        </div>
+                                        <div class="m-unlogin">
+                                            <a id="changepage" data-action="none"
+                                               class="u-regbtn bgcolor tabfocus j-redirect"
+                                               href="userRegister.html"
+                                               data-outlink="2" target="_blank" tabindex="11">注册</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
+<script type="javascript">
+
+</script>
 <script src="js/userLogin.js"></script>
+<script src="js/organizerLogin.js"></script>
 </body>
 </html>

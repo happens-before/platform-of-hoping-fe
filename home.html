@@ -13,66 +13,60 @@
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <style>
-        /* Make the image fully responsive */
-        .carousel-inner img {
-            width: 100%;
-            height: 90%;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/home.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script type="text/html" id="newsHome">
-
-        <div id="demo" class="carousel slide" data-ride="carousel">
-            <!-- 指示符 -->
-            <!--{{each result as value}}-->
-            <ul class="carousel-indicators">
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
-                <li data-target="#demo" data-slide-to="3"></li>
-
-            </ul>
-            <!--{{/each}}-->
-            <!-- 轮播图片 -->
-            <div class="carousel-inner" >
-                <!--{{each result as value}}-->
-
-                <!--<div class="carousel-item active"><a href="#" onclick=""><img src={{value.picturePath}}></a>-->
-                <!--</div>-->
-                <!--{{/each}}-->
-
-                <div class="carousel-item active">
-                    <img src="http://static.runoob.com/images/mix/img_fjords_wide.jpg">
+        <div class="news">
+            <p>最新新闻</p>
+            {{each result.newsHomeDto as value}}
+            <div class='div1'>
+                <div class='box'>
+                    <img src={{value.picturePath}} style="width: 200px; height: 280px;background: palegreen; "/>
                 </div>
-                <div class="carousel-item">
-                    <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
-                </div>
-                <div class="carousel-item">
-                    <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
-                </div>
-                <div class="carousel-item">
-                    <img src="pictures/1552874809436.jpg">
+                <div class="text">
+                    <a>
+                        <a href="newsInfo.html?newsId={{value.newsId}}">
+                            <button type='button' class='btn btn-primary'>详情</button>
+                        </a>
+                    </a>
                 </div>
             </div>
-
-            <!-- 左右切换按钮 -->
-            <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </a>
-            <a class="carousel-control-next" href="#demo" data-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </a>
-
+            {{/each}}
         </div>
+        <div class="activity" style="clear: both;">
+            <p>最新活动</p>
+            {{each result.activity as value}}
+            <div>
+                <div class="time fl">
+                    <div style="font-size: 23px;width: 70px;font-weight: bold;height: 30px;line-height: 33px;">火热</div>
+                    <div style="width: 70px;height: 25px;line-height: 22px;font-size: 14px;">进行中</div>
+                </div>
+                <p style="width: 350px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                    <a class="tit" href="activityInfo.html?activityId={{value.activityId}}" target="_blank"
+                       style="font-weight:bold">{{value.activityTopic + "健康的年繁花似锦的佛教斯蒂芬健康 "}}</a>
+                </p>
+                <p class="zy fl" style="width: 350px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                    {{value.activityContent+"参加大会参加三歌词也更餐厅俄国参与第一次骨髓因此顾问从远古俄vcg"}}</p>
+                <div>
+                    <button type='button' class='btn btn-primary' style="margin-left: 100px;">参加</button>
+                </div>
+                <div class="clearfix" style="clear: both;"></div>
+
+                {{/each}}
+            </div>
+
+
     </script>
 </head>
 
 <body>
 <div class="layui-layout layui-layout-admin">
     <div id="page1" class="layui-header"></div>
-    <div id="tet"></div>
-
+    <!--<div id="tet"></div>-->
+    <div style="margin-top:40px;">
+        <div style="margin-left: 80px;" id="tet"></div>
+    </div>
+</div>
 </div>
 <script>$("#page1").load("navHeader.html");</script>
 
@@ -87,10 +81,14 @@
             type: "get",
             dataType: "json",
             success: function (e) {
-                console.log(e);
+
                 var c = {result: e.data}
                 console.log(c);
                 var html = template('newsHome', c);
+                //
+                // var c1 = {activity: e.data.activity}
+                // console.log(c1);
+                // var html = template('newsHome', c1);
                 $("#tet").html(html);
             },
             error: function (e) {

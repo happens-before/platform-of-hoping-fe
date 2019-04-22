@@ -1,7 +1,7 @@
 var school = document.getElementById('school');
 var userSno = document.getElementById('userSno');
 var password = document.getElementById('password');
-school.focus();
+// school.focus();
 
 function sch() {
     if (!/^[\u4E00-\u9FA5]{3,20}$/.test(school.value)) {
@@ -44,10 +44,7 @@ function pwd() {
 }
 
 function userLogin() {
-    if (!sch() || !pwd() || !sno()) {
-        return false;
-    } else {
-        $.ajax({
+     $.ajax({
             xhrFields: {
                 withCredentials: true
             },
@@ -76,5 +73,4 @@ function userLogin() {
             },
         });
 
-    }
 }

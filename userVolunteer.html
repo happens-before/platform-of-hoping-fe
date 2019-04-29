@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理活动页</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="js/template.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div id="page1" class="layui-header"></div>
+    <div>
+        <div>
+            <img src="img/activi.jpg" style="float:left;width: 965px;height: 200px;">
+            <div style="width: 500px;margin-left: 980px;height: 200px;">
+                <div class="form-group">
+                    <label for="activityTopic" class="col-sm-2 control-label">活动名称</label>
+                    <div class="col-sm-10">
+                        <input style="height: 25px; width: 200px;" type="text" class="form-control" id="activityTopic"
+                               placeholder="请输入活动名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button style="height: 25px; width: 70px;margin-left: 210px;" type="submit"
+                                class="btn btn-default"><a
+                                href="javascript:;"
+                                onclick="getUserVolunteerList()">搜索</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style=" margin-top: 30px;">
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default"><a href="volunteer.html">参加新活动</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-hover" id="tab" style="width: 600px;margin-left: 350px;">
+            <tbody id="tbody">
+            <tr class="success">
+                <td hidden=""></td>
+                <td>序号</td>
+                <td> 活动名称</td>
+                <td>
+                    <select class="form-control" id="volunteerStatus" onchange="selectOnchangStatus(this)">
+                        <option value="">全部</option>
+                        <option value="1">已报名</option>
+                        <option value="0">已国旗</option>
+                    </select>
+                </td>
+                <td>取消</td>
+            </tr>
+            </tbody>
+
+            <tbody id="activity">
+            </tbody>
+        </table>
+
+        <!--分页-->
+        <div id="realData" style="margin-left: 450px;"></div>
+    </div>
+</div>
+
+</div>
+<script type="text/html" id="myActivity">
+    {{each result as value index}}
+    <tr class="success">
+        <td hidden="" id="volunteerId">{{value.volunteerId}}</td>
+        <td>{{index+1}}</td>
+        <td>
+            <a href="homeActivityInfo.html?activityId={{value.activityId}}">{{value.activityTopic}}</a>
+        </td>
+        <td> {{value.volunteerStatus}}</td>
+
+        <td>
+            <a href="javascript:;" onclick="cancelActivity(this)">
+                <button class="btn btn-danger" name="cancel" disabled>取消</button>
+            </a>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<script>
+    window.onload = function () {
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/volunteer/list",
+            type: "get",
+            data: {
+                "pageNum": current,
+                "activityTopic": $("#activityTopic").val(),
+                "volunteerStatus": $("#volunteerStatus option:selected").val()
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                total = e.data.total;
+
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+
+        });
+
+        var current = 1;
+        // 分页
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'realData'
+                , count: total //数据总数，从服务端得到
+                , jump: function (obj, first) {
+                    current = obj.curr;
+                    // console.log(obj)
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+                    getUserVolunteerList(obj);
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                    }
+                }
+            });
+        });
+    }
+
+    function selectOnchangStatus(obj) {
+        //获取被选中的option标签选项
+        // alert(obj.selectedIndex.valueOf());
+        //获取被选中的option标签的value值
+        var value = obj.options[obj.selectedIndex].value;
+        // alert(value)
+        window.location.href = "javascript:;", onclick = getUserVolunteerList();
+    }
+
+    function getUserVolunteerList(obj) {
+        pageNum = 1;
+        if (obj == null) {
+            pageNum = 1;
+        } else {
+            pageNum = obj.curr;
+        }
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/volunteer/list",
+            type: "get",
+            data: {
+                "pageNum": pageNum,
+                "activityTopic": $("#activityTopic").val(),
+                "volunteerStatus": $("#volunteerStatus option:selected").val()
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                for (var i in e.data.list) {
+                    // console.log(e.data.list[i]); // red green blue yellow
+                    if (e.data.list[i].volunteerStatus == "1") {
+                        e.data.list[i].volunteerStatus = "已报名"
+                    } else if (e.data.list[i].volunteerStatus == "0") {
+                        e.data.list[i].volunteerStatus = "已国旗或活动已结束"
+                    }
+                }
+                var c = {result: e.data.list}
+                total = e.data.total;
+                console.log(c);
+
+                var html = template('myActivity', c);
+                $("#activity").html(html);
+                var mytable = document.getElementById("tab");
+                // var data = [];
+                for (var i = 1; i < mytable.rows.length; ++i) {
+                    // console.log(mytable.rows[i].cells[2].innerText);
+                    if (mytable.rows[i].cells[3].innerText == "已报名") {
+                        mytable.rows[i].cells[4].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                    }
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+
+        });
+    }
+
+    function cancelActivity(obj) {
+        var $td = $(obj).parents('tr').children('td');
+        var volunteerId = $td.eq(0).text();
+        var sendData = {
+            "volunteerId": volunteerId
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/volunteer/delete",
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.href = "userVolunteer.html";
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+                alert(e.message)
+
+            },
+        });
+    }
+</script>
+<script>$("#page1").load("navHeader.html");</script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+.er_left_menu {
+    width: 245px;
+    background-color: #026ccf;
+}
+.left {
+    float: left;
+    margin-left: 110px;
+    margin-top: 42px;
+    height: 300px;
+}
+.er_left_menu_con {
+    width: 280px;
+    margin: auto;
+    padding-bottom: 50px;
+}
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+er_left_menu_con li a:hover {
+    background-color: #f07051;
+}
+
+.cur {
+    width: 160px;
+    display: block;
+    color: #FFFFFF;
+    font-size: 18px;
+
+    padding-left: 85px;
+    background-color: #f07051;
+    background: url(http://xyzh.xupt.edu.cn/newWeb/images/er_left_menu_ico.png) 55px center no-repeat;
+}
+.er_left_menu_con a {
+
+}
+a:hover {
+    text-decoration: none;
+    color: #0478db;
+}
+a {
+    text-decoration: none;
+    color: #3f3e3e;
+}
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+/*a:-webkit-any-link {*/
+    /*color: -webkit-link;*/
+    /*cursor: pointer;*/
+    /*text-decoration: underline;*/
+/*}*/
+.er_wyjz {
+    width: 245px;
+    height: 428px;
+    background: url(http://xyzh.xupt.edu.cn/newWeb/images/er_wyjz_bj.jpg) center no-repeat;
+    text-align: center;
+    padding-top: 95px;
+}
+.er_right {
+    width: 900px;
+    margin: auto;
+    margin-top: 30px;
+}
+.right {
+    float: right;
+}
+.c44660_columnstyle {
+    text-decoration: none;
+}
+a {
+    text-decoration: none;
+    color: #3f3e3e;
+}
+A.c44660:visited {
+    color: #222222;
+}
+A.c44660:link {
+    color: #222222;
+}
+A.c44660 {
+    font-size: 16px;
+    line-height: 200%;
+    color: #333333;
+    text-decoration: none;
+
+}

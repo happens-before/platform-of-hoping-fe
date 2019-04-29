@@ -4,120 +4,109 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>活动信息页</title>
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="layui/layui.js" charset="utf-8"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/search.css">
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <script type="text/javascript" src="js/template.js"></script>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="js/jquery-2.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 </head>
 
 <body>
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <div class="form-horizontal">
-        <div class="form-group" >
-            <label for="userId" class="col-sm-2 control-label">userId</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="userId" placeholder="userId" value={{e.data.userId}} >
+    <div id="main" style="margin-left: 140px;width: 1000px;background: aliceblue;margin-top: 40px;">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="userId" placeholder="userId" style="display: none">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="school" class="col-sm-2 control-label">学校名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="school" placeholder="学校名称" readonly="readonly"
-                       value={{e.data.school}}>
+            <div class="form-group">
+                <label for="school" class="col-sm-2 control-label">学校名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="school" placeholder="学校名称" readonly="readonly">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="college" class="col-sm-2 control-label">学院名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="college" placeholder="所在学院名称" readonly="readonly"
-                       value={{e.data.college}}>
+            <div class="form-group">
+                <label for="college" class="col-sm-2 control-label">学院名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="college" placeholder="所在学院名称" readonly="readonly">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="profession" class="col-sm-2 control-label">专业名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="profession" placeholder="所在专业名称" readonly="readonly"
-                       value={{e.data.profession}}>
+            <div class="form-group">
+                <label for="profession" class="col-sm-2 control-label">专业名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="profession" placeholder="所在专业名称" readonly="readonly">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="community" class="col-sm-2 control-label">社团名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="community" placeholder="所在社团名称" readonly="readonly"
-                       value={{e.data.community}}>
+            <div class="form-group">
+                <label for="community" class="col-sm-2 control-label">社团名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="community" placeholder="所在社团名称" readonly="readonly">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="userSno" class="col-sm-2 control-label">学号信息</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="userSno" placeholder="学号信息" readonly="readonly"
-                       value={{e.data.userSno}}>
+            <div class="form-group">
+                <label for="userSno" class="col-sm-2 control-label">学号信息</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="userSno" placeholder="学号信息" readonly="readonly">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="userName" class="col-sm-2 control-label">姓名</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="userName" placeholder="姓名" readonly="readonly"
-                       value={{e.data.userName}}>
+            <div class="form-group">
+                <label for="userName" class="col-sm-2 control-label">姓名</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="userName" placeholder="姓名" readonly="readonly">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="age" class="col-sm-2 control-label">年龄</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="age" placeholder="年龄" readonly="readonly"
-                       value={{e.data.age}}>
+            <div class="form-group">
+                <label for="age" class="col-sm-2 control-label">年龄</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="age" placeholder="年龄" readonly="readonly">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">电子邮件</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="email" placeholder="电子邮件" readonly="readonly"
-                       value={{e.data.school}}>
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">电子邮件</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="email" placeholder="电子邮件" readonly="readonly">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="phone" class="col-sm-2 control-label">电话号码</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="phone" placeholder="电话号码" readonly="readonly"
-                       value={{e.data.phone}}>
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">电话号码</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="phone" placeholder="电话号码" readonly="readonly">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="sex" class="col-sm-2 control-label">性别</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="sex"  readonly="readonly"
-                       value={{e.data.sex}}>
+            <div class="form-group">
+                <label for="sex" class="col-sm-2 control-label">性别</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="sex" readonly="readonly">
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>$("#page1").load("navHeader.html");</script>
 <script>
-    window.onload=function () {
-        function parseUrl(){
-            var url=decodeURIComponent(location.href);
+    window.onload = function () {
+        function parseUrl() {
+            var url = decodeURIComponent(location.href);
             console.log(url);
-            var i=url.indexOf('?');
-            if(i==-1)return;
-            var querystr=url.substr(i+1);
-            var arr1=querystr.split('&');
-            var arr2=new Object();
-            for  (i in arr1){
-                var ta=arr1[i].split('=');
-                arr2[ta[0]]=ta[1];
+            var i = url.indexOf('?');
+            if (i == -1) return;
+            var querystr = url.substr(i + 1);
+            var arr1 = querystr.split('&');
+            var arr2 = new Object();
+            for (i in arr1) {
+                var ta = arr1[i].split('=');
+                arr2[ta[0]] = ta[1];
             }
             return arr2;
         }
+
         var v = parseUrl();
         console.log(v)
         var userId = v.userId

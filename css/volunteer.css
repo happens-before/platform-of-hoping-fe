@@ -1,0 +1,48 @@
+.left {
+    float: left;
+    margin-left: 110px;
+    margin-top: 42px;
+    height: 300px;
+}
+.er_left_menu_con {
+    width: 280px;
+    margin: auto;
+    padding-bottom: 50px;
+}
+.cur {
+    width: 160px;
+    display: block;
+    color: #FFFFFF;
+    font-size: 18px;
+
+    padding-left: 85px;
+    background-color: #f07051;
+    background: url(http://xyzh.xupt.edu.cn/newWeb/images/er_left_menu_ico.png) 55px center no-repeat;
+}
+.er_wyjz {
+    width: 245px;
+    height: 428px;
+    background: url(http://xyzh.xupt.edu.cn/newWeb/images/er_wyjz_bj.jpg) center no-repeat;
+    text-align: center;
+    padding-top: 95px;
+}
+.time {
+    width: 70px;
+    height: 55px;
+    border: 1px solid #ff9594;
+    text-align: center;
+    margin-right: 10px;
+}
+.fl {
+    float: left;
+}
+.tit {
+    font-size: 17px;
+    font-weight: bold;
+    color: #323232;
+    line-height: 30px;
+}
+.zy {
+    font-size: 14px;
+    line-height: 25px;
+}

@@ -3,94 +3,97 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title></title>
+    <title>修改新闻信息</title>
     <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="layui/layui.js" charset="utf-8"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css">
-    <script type="text/javascript" src="js/template.js"></script>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 </head>
 
 <body>
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <div class="form-horizontal">
-        <div class="form-group" >
-            <label for="newsId" class="col-sm-2 control-label">newsId</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsId" placeholder="newsId" value={{e.data.newsId}} >
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="newsName" class="col-sm-2 control-label">新闻名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsName" placeholder="新闻名称"
-                       value={{e.data.newsName}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="newsDescription" class="col-sm-2 control-label">新闻描述</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsDescription" placeholder="新闻描述"
-                       value={{e.data.newsDescription}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="newsContent" class="col-sm-2 control-label">新闻内容</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsContent" placeholder="新闻内容"
-                       value={{e.data.newsContent}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="newsCreator" class="col-sm-2 control-label">新闻创建者</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsCreator" placeholder="新闻创建者"
-                       value={{e.data.newsCreator}}>
-            </div>
-        </div>
-        <div id="pictureInfo"></div>
-        <div>
+    <div id="main" style="margin-left: 140px;width: 1000px;background: aliceblue;margin-top: 40px;">
+        <div class="form-horizontal">
             <div class="form-group">
-                <label for="file" class="col-sm-2 control-label">修改新闻图片</label>
-                <div class="col-sm-6">
-                    <input type="file" id="file" name="file" oninput="setCustomValidity('')" value="">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="newsId" placeholder="newsId" value={{e.data.newsId}}
+                           style="display: none">
                 </div>
-                <img src="" id="img" style="width: 200px">
             </div>
-        </div>
-        <div id="commentInfo"></div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" onclick="modifyNews()">修改新闻</button>
+            <div class="form-group">
+                <label for="newsName" class="col-sm-2 control-label">新闻名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="newsName" placeholder="新闻名称"
+                           value={{e.data.newsName}}>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" onclick="publishNews()">发布新闻</button>
+            <div class="form-group">
+                <label for="newsDescription" class="col-sm-2 control-label">新闻描述</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="newsDescription" placeholder="新闻描述"
+                           value={{e.data.newsDescription}}>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-danger" ><a href="newsList.html">返回</a></button>
+            <div class="form-group">
+                <label for="newsContent" class="col-sm-2 control-label">新闻内容</label>
+                <div class="col-sm-10">
+                    <textarea rows="12" cols="" class="form-control" id="newsContent" placeholder="新闻内容"
+                              value={{e.data.newsContent}}></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newsCreator" class="col-sm-2 control-label">新闻创建者</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="newsCreator" placeholder="新闻创建者"
+                           value={{e.data.newsCreator}}>
+                </div>
+            </div>
+            <div id="pictureInfo"></div>
+            <div>
+                <div class="form-group">
+                    <label for="file" class="col-sm-2 control-label">修改新闻图片</label>
+                    <div class="col-sm-6">
+                        <input type="file" id="file" name="file" oninput="setCustomValidity('')" value="">
+                    </div>
+                    <img src="" id="img" style="width: 200px;height: 170px;margin-left: -250px">
+                </div>
+            </div>
+            <div id="commentInfo"></div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" onclick="modifyNews()" style="margin-left: -30px">修改新闻</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" onclick="publishNews()" style="margin-left: 550px;"> 发布新闻</button>
+
+                    <button class="btn btn-danger" style="margin-left: 80px"><a href="newsList.html" >返回</a></button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>$("#page1").load("navHeader.html");</script>
 <script type="text/html" id="pictures">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">新闻图片</label>
+    </div>
     {{each pictures as value}}
     <div class="form-group">
-        <label for="pictureId" class="col-sm-2 control-label">图片id</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" id="pictureId" placeholder="图片id"
-                   value={{value.pictureId}}>
+                   value={{value.pictureId}} style="display: none">
         </div>
     </div>
-    <div><img src={{value.picturePath}}></div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <img src={{value.picturePath}} style="margin-left: 140px;width: 300px;margin-top: -40px;">
+        </div>
+    </div>
     {{/each}}
 </script>
 <script type="text/html" id="comments">
@@ -104,6 +107,8 @@
     </div>
     {{/each}}
 </script>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 <script>
     window.onload = function () {
         function parseUrl() {
@@ -145,13 +150,13 @@
                 $("#newsCount").val(e.data.newsCount);
 
                 //图片
-                var a= {pictures: e.data.pictures}
+                var a = {pictures: e.data.pictures}
                 console.log(a);
                 var html1 = template('pictures', a);
                 $("#pictureInfo").html(html1);
 
                 //评论
-                var b= {comments: e.data.comments}
+                var b = {comments: e.data.comments}
                 console.log(b);
                 var html2 = template('comments', b);
                 $("#commentInfo").html(html2);
@@ -165,23 +170,23 @@
 </script>
 <script type="text/javascript">
     function modifyNews() {
-        var newsId=$("#newsId").val();
+        var newsId = $("#newsId").val();
         var newsName = $('#newsName').val();
         var newsDescription = $("#newsDescription").val();
         var newsContent = $('#newsContent').val();
         var newsCreator = $('#newsCreator').val();
-        var pictureId=$("#pictureId").val();
+        var pictureId = $("#pictureId").val();
         var file = document.getElementById("file").files[0];
 
         img.src = window.URL.createObjectURL(file)
 
         var data = new FormData;
-        data.append("newsId",newsId);
+        data.append("newsId", newsId);
         data.append("newsName", newsName);
         data.append("newsDescription", newsDescription);
         data.append("newsContent", newsContent);
         data.append("newsCreator", newsCreator);
-        data.append("pictureId",pictureId);
+        data.append("pictureId", pictureId);
         data.append("file", file);
         console.log(data)
         $.ajax({
@@ -207,13 +212,14 @@
             },
         });
     }
+
     function publishNews() {
         var sendData = {
             "newsId": $("#newsId").val(),
-            "newsName":$("#newsName").val(),
-            "newsDescription":$("#newsDescription").val(),
-            "newsContent":$("#newsContent").val(),
-            "newsCreator":$("#newsCreator").val()
+            "newsName": $("#newsName").val(),
+            "newsDescription": $("#newsDescription").val(),
+            "newsContent": $("#newsContent").val(),
+            "newsCreator": $("#newsCreator").val()
         };
         $.ajax({
             xhrFields: {
@@ -227,7 +233,7 @@
             success: function (e) {
                 console.log(e)
                 alert(e.message)
-                window.location.href="newsList.html";
+                window.location.href = "newsList.html";
             },
             error: function (e) {
                 console.log(e);

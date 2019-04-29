@@ -9,93 +9,106 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css">
     <script type="text/javascript" src="js/template.js"></script>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="css/newsInfo.css">
 </head>
 
 <body>
 <div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <div class="form-horizontal">
-        <div class="form-group" >
-            <label for="activityId" class="col-sm-2 control-label">activityId</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="activityId" placeholder="activityId" value={{e.data.activityId}} >
+    <div style="width: 1100px;margin: 0 auto;">
+        <div class="er_con_biaoti">
+            <h2 id="activityTopic"></h2>
+            <div>
+                <span> 发起人：<span id="promoter"></span></span>
+                <span>组织：<span id="organizer"></span></span>
+                <span>开始时间：<span id="startTime"></span></span>
+                <span>结束时间：<span id="endTime"></span></span>
+
             </div>
+            <div>
+                <span>活动状态:<span id="activityStatus"></span></span>
+                <span>审批状态:<span id="activityApproval"></span></span>
+                <span>活动民歌：<span id="peopleTotal"></span></span>
+                <span>已报名人数：<span id="peopleJoin"></span></span>
+            </div>
+
         </div>
-        <div class="form-group">
-            <label for="promoter" class="col-sm-2 control-label">发起人</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="promoter" placeholder="发起人" readonly="readonly"
-                       value={{e.data.promoter}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="organizer" class="col-sm-2 control-label">参与的组织者</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="organizer" placeholder="参与的组织者" readonly="readonly"
-                       value={{e.data.organizer}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="activityTopic" class="col-sm-2 control-label">活动主题</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="activityTopic" placeholder="活动主题" readonly="readonly"
-                       value={{e.data.activityTopic}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="activityContent" class="col-sm-2 control-label">活动内容</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="activityContent" placeholder="活动内容" readonly="readonly"
-                       value={{e.data.activityContent}}>
-            </div>
+        <div id="vsb_content_501">
+            <p class="vsbcontent_start"></p>
+            <p>
+                4月17日上午，校党委书记杨更社、校长范九伦代表全校师生走访了我校杰出校友、西安市委副书记、市长李明远。西安市政府秘书长陈长春，学校党政办主任韩炳黎等参加座谈。
+            </p>
+            <p>
+                杨更社代表学校向李明远校友长期以来对学校的关心和支持表示感谢。杨更社介绍了学校第四次党代会以来学习贯彻全国、全省教育大会精神，全面落实立德树人根本任务，全力推进学校追赶超越取得的成绩，并诚挚邀请李明远校友回校指导工作。范九伦介绍了学校改革发展规划、高水平大学建设、民生工程等方面的情况，希望加大校地合作，在科技创新及成果转化、人才培养、秦岭智慧生态建设等方面为大西安发展贡献力量。
+            </p>
+            <p>
+                李明远对杨更社、范九伦一行的到来表示热烈欢迎，对学校近年来的发展表示由衷欣慰，他回顾了在母校的工作经历，感谢母校以及诸多老师的关心和支持。李明远表示，校友是学校改革发展不可或缺的力量，将积极响应母校号召，为母校的建设与发展贡献力量。双方还就加强校地融合、推进创新创业、推动学校建设发展等问题进行了深入交流。
+            </p>
         </div>
 
-        <div class="form-group">
-            <label for="startTime" class="col-sm-2 control-label">开始时间</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="startTime" placeholder="开始时间" readonly="readonly"
-                       value={{e.data.startTime}}>
-            </div>
+        <div>
+            <span id="contentFile" style="display: none"></span>
+            <button onclick="downloadContent()" type="submit" style="margin-left: 900px;" class="btn btn-default">下载活动细节文件
+            </button>
         </div>
-        <div class="form-group">
-            <label for="endTime" class="col-sm-2 control-label">结束时间</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="endTime" placeholder="评论信息" readonly="readonly"
-                       value={{e.data.endTime}}>
-            </div>
+        <div>
+            <button type="submit"
+                    style="margin-left: 900px;margin-top: 30px;font-size: 14px;font-weight: bold;background: lightblue;"
+                    class="btn btn-default" onclick="publishActivity()">发布活动
+            </button>
         </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" onclick="publishActivity()">发布活动</button>
-            </div>
-        </div>
+    </div>
+
+    <div id="summaryUpload" style="display: none">
+        <span style="margin-left: 200px;font-size: 15px">活动总结文件上传:</span>
+        <input type="file" id="file" name="file" oninput="setCustomValidity('')" style="margin-left: 50px">
+        <button onclick="uploadSummary()" type="submit" style="margin-left: 0px;" class="btn btn-default">提交文件</button>
+    </div>
+
+    <div id="summaryDown" style="display: none">
+        <span id="summaryFile" style="display: none" ></span>
+        <button onclick="downloadSummary()" type="submit" style="margin-left: 200px;" class="btn btn-default">下载活动总结文件
+        </button>
+    </div>
+
+    <div id="status1" style="margin-top: 40px;display: none">
+        <span style="font-size: 16px;font-weight: bold;margin-left: 200px;">活动参与人员：</span>
+        <p></p>
+        <p></p>
+        <div id="volunteers"></div>
     </div>
 </div>
 
+<script type="text/html" id="usersInfo">
+    {{each users as value}}
+    <span style="margin-left: 300px;font-size: 15px">{{value}}</span>
+    {{/each}}
+</script>
+
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 <script>$("#page1").load("navHeader.html");</script>
 <script>
-
-    window.onload=function () {
-        function parseUrl(){
-            var url=decodeURIComponent(location.href);
-            console.log(url);
-            var i=url.indexOf('?');
-            if(i==-1)return;
-            var querystr=url.substr(i+1);
-            var arr1=querystr.split('&');
-            var arr2=new Object();
-            for  (i in arr1){
-                var ta=arr1[i].split('=');
-                arr2[ta[0]]=ta[1];
-            }
-            return arr2;
+    function parseUrl() {
+        var url = decodeURIComponent(location.href);
+        console.log(url);
+        var i = url.indexOf('?');
+        if (i == -1) return;
+        var querystr = url.substr(i + 1);
+        var arr1 = querystr.split('&');
+        var arr2 = new Object();
+        for (i in arr1) {
+            var ta = arr1[i].split('=');
+            arr2[ta[0]] = ta[1];
         }
+        return arr2;
+    }
+    window.onload = function () {
         var v = parseUrl();
         console.log(v)
         var activityId = v.activityId
-        console.log(activityId)
         $.ajax({
             xhrFields: {
                 withCredentials: true
@@ -108,13 +121,52 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                $("#activityId").val(e.data.activityId);
-                $("#promoter").val(e.data.promoter);
-                $("#organizer").val(e.data.organizer);
-                $("#activityTopic").val(e.data.activityTopic);
-                $("#activityContent").val(e.data.activityContent);
-                $("#startTime").val(e.data.startTime);
-                $("#endTime").val(e.data.endTime);
+                console.log(e.data.activity.activityStatus)
+                // $("#activityId").val(e.data.activityId);
+
+                if (e.data.activity.activityStatus == "30") {
+                    e.data.activity.activityStatus = "进行中"
+                    document.getElementById("status1").style.display = "block";
+                } else if (e.data.activity.activityStatus == "20") {
+                    e.data.activity.activityStatus = "未发布"
+
+                } else if (e.data.activity.activityStatus == "10") {
+                    e.data.activity.activityStatus = "已结束"
+                    document.getElementById("status1").style.display = "block";
+                    if (e.data.activity.summaryFile == null || e.data.activity.summaryFile == '') {
+                        document.getElementById("summaryUpload").style.display = "block";
+                    } else {
+                        document.getElementById("summaryDown").style.display = "block"
+                    }
+
+                }
+
+                if (e.data.activity.activityApproval == "30") {
+                    e.data.activity.activityApproval = "已审核"
+                } else if (e.data.activity.activityApproval == "20") {
+                    e.data.activity.activityApproval = "未审核"
+                } else if (e.data.activity.activityApproval == "10") {
+                    e.data.activity.activityApproval = "已拒绝"
+                }
+                $("#promoter").html(e.data.activity.promoter);
+                $("#organizer").html(e.data.activity.organizer);
+                $("#activityTopic").html(e.data.activity.activityTopic);
+                $("#activityContent").val(e.data.activity.activityContent);
+                $("#startTime").html(e.data.activity.startTime);
+                $("#endTime").html(e.data.activity.endTime);
+                $("#activityStatus").html(e.data.activity.activityStatus);
+                $("#activityApproval").html(e.data.activity.activityApproval);
+                $("#contentFile").html(e.data.activity.contentFile);
+                $("#peopleJoin").html(e.data.activity.peopleJoin);
+                $("#peopleTotal").html(e.data.activity.peopleTotal);
+                $("#summaryFile").html(e.data.activity.summaryFile);
+
+                //志愿者
+                var a = {users: e.data.userNames}
+                console.log(a);
+                var html1 = template('usersInfo', a);
+                $("#volunteers").html(html1);
+
             },
             error: function (e) {
                 console.log(e);
@@ -122,15 +174,12 @@
             },
         });
     }
+
     function publishActivity() {
+        var v = parseUrl();
+        var activityId = v.activityId
         var sendData = {
-            "activityId": $("#activityId").val(),
-            "promoter": $("#promoter").val(),
-            "organizer": $("#organizer").val(),
-            "activityTopic": $("#activityTopic").val(),
-            "activityContent": $("#activityContent").val(),
-            "startTime": $("#startTime").val(),
-            "endTime": $("#endTime").val()
+            "activityId": activityId
         };
         $.ajax({
             xhrFields: {
@@ -144,7 +193,47 @@
             success: function (e) {
                 console.log(e)
                 alert(e.message)
-                window.location.href="userActivity.html";
+                window.location.href = "userActivity.html";
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+                alert(e.message)
+
+            },
+        });
+    }
+
+    function downloadContent() {
+        var url = $("#contentFile").text();
+        window.location.href = url;
+    }
+    function downloadSummary() {
+        var url = $("#summaryFile").text();
+        console.log(url);
+        window.location.href = url;
+    }
+    function uploadSummary() {
+        var v = parseUrl();
+        var activityId = v.activityId;
+        var file = document.getElementById("file").files[0];
+        var data = new FormData;
+        data.append("activityId",activityId);
+        data.append("file", file);
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/activity/summary",
+            type: "post",
+            data: data,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message)
+                window.location.reload()
             },
             error: function (e) {
                 console.log(e);

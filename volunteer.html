@@ -14,32 +14,16 @@
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="css/news.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script type="text/html" id="newsHome">
-        <div class="news">
-            <p>最新新闻</p>
-            {{each result.newsHomeDto as value}}
-            <div class='div1'>
-                <div class='box'>
-                    <img src={{value.picturePath}} style="width: 200px; height: 280px;background: palegreen; "/>
-                </div>
-                <div class="text">
-                    <a>
-                        <a href="newsInfo.html?newsId={{value.newsId}}">
-                            <button type='button' class='btn btn-primary'>详情</button>
-                        </a>
-                    </a>
-                </div>
-            </div>
-            {{/each}}
-        </div>
-        <div class="activity" style="clear: both;margin-left: 250px">
-            <p>最新活动</p>
-            {{each result.activity as value}}
+    <script type="text/html" id="volunteer">
+        <div class="right er_right">
+            <p>志愿者活动报名</p>
+            {{each result.list as value}}
             <div>
                 <div class="time fl" style="height: 85px;">
                     <div style="font-size: 23px;width: 70px;font-weight: bold;height: 30px;line-height: 33px;">火热</div>
-                    <div style="width: 70px;height: 25px;line-height: 22px;font-size: 14px;">进行中</div>
+                    <div style="width: 70px;height: 25px;line-height: 45px;font-size: 14px;">进行中</div>
                 </div>
                 <p style="width: 350px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></p>
                 <div>
@@ -47,7 +31,6 @@
                        style="font-weight:bold" id="activityTopic">{{value.activityTopic}} </a>
                     <span id="activityId" style="display: none;">{{value.activityId}}</span>
                 </div>
-
                 <div>
                     <span>活动民歌数：{{value.peopleTotal}}</span>
                     <span>已报名参加书：{{value.peopleJoin}} </span>
@@ -56,31 +39,40 @@
                 <p class="zy fl" style="width: 350px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                     {{value.activityContent}}</p>
                 <div>
-                    <a href="javascript:;" onclick="joinActivity2(this)">
+                    <a href="javascript:;" onclick="joinActivity(this)">
                         <button class='btn btn-primary' style="margin-left: 100px;">报名参加</button>
                     </a>
                 </div>
                 <div class="clearfix" style="clear: both;"></div>
-
                 {{/each}}
             </div>
-
-
+        </div>
     </script>
 </head>
 
 <body>
 <div class="layui-layout layui-layout-admin">
     <div id="page1" class="layui-header"></div>
-    <!--<div id="tet"></div>-->
-    <div style="margin-top:40px;">
-        <div style="margin-left: 80px;" id="tet"></div>
+    <div id="content" style="margin-top: 60px;">
+        <div class="left er_left_menu" style="height: 500px;">
+            <div>
+                <ul>
+                    <li>
+                        <a class="cur" href="volunteer.html" title="志愿者活动"
+                           style="font-weight:100;color:#fff;margin-top: 25px;width: 175px">志愿者活动</a>
+                    </li>
+                </ul>
+            </div>
+            <div style="clear: both"></div>
+            <div class="er_wyjz"></div>
+        </div>
+        <div style="margin-left: 80px;margin-top:40px;" id="tet"></div>
+        <!--分页-->
+        <div id="realData" style="margin-left: 600px;"></div>
     </div>
 </div>
 </div>
 <script>$("#page1").load("navHeader.html");</script>
-
-
 <script>
     function getCookie(cookieName) {
         console.log(document.cookie);
@@ -91,7 +83,7 @@
             return null;
     }
 
-    function joinActivity2(obj) {
+    function joinActivity(obj) {
         var $td = $(obj).parents('div').parents('div').children('div');
         var activityId = $td.eq(1).children('span').text();
         var activityTopic = $td.eq(1).children('a').text();
@@ -123,31 +115,86 @@
             },
         });
     }
+
     window.onload = function () {
         $.ajax({
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/news/home",
+            url: "http://localhost:8080/volunteer/activity",
             type: "get",
+            data: {
+                "pageNum": current
+            },
             dataType: "json",
             success: function (e) {
+                console.log(e);
+                total = e.data.total;
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
 
+        });
+
+        var current = 1;
+        // 分页
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'realData'
+                , count: total //数据总数，从服务端得到
+                , jump: function (obj, first) {
+                    current = obj.curr;
+                    // console.log(obj)
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+                    getVolunteerList(obj);
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                    }
+                }
+            });
+        });
+    }
+
+    function getVolunteerList(obj) {
+        pageNum = 1;
+        if (obj == null) {
+            pageNum = 1;
+        } else {
+            pageNum = obj.curr;
+        }
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/volunteer/activity",
+            type: "get",
+            data: {
+                "pageNum": pageNum
+            },
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
                 var c = {result: e.data}
                 console.log(c);
-                var html = template('newsHome', c);
-                //
-                // var c1 = {activity: e.data.activity}
-                // console.log(c1);
-                // var html = template('newsHome', c1);
+                var html = template('volunteer', c);
                 $("#tet").html(html);
             },
             error: function (e) {
                 console.log(e);
                 console.log("失败");
             }
+
         });
     }
+
 </script>
 </body>
 

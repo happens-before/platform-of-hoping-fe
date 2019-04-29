@@ -20,64 +20,64 @@
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-
-    <div class="form-horizontal">
-        <div class="form-group">
-            <label for="school" class="col-sm-2 control-label">学校名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="school" placeholder="请输入学校名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="userSno" class="col-sm-2 control-label">学号信息</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="userSno" placeholder="请输入学号信息">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="community" class="col-sm-2 control-label">社团名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="community" placeholder="请输入社团名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="userName" class="col-sm-2 control-label">姓名</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="userName" placeholder="请输入姓名">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">电子邮件</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="email" placeholder="请输入电子邮件">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="phone" class="col-sm-2 control-label">联系方式</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="phone" placeholder="请输入联系方式">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getUserList()">搜索</a>
-                </button>
-            </div>
-        </div>
-
-    </div>
     <div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default"><a href="addUser.html">添加用户</a>
-                </button>
+        <div>
+            <img src="img/activi.jpg" style="float:left;width: 965px;height: 200px;">
+
+            <div>
+                <div>
+                    <span for="school" style="margin-left: 40px;">学校名称:</span>
+                    <input style="width: 150px;height: 22px;" type="text" id="school" placeholder="请输入学校名称">
+                </div>
+
+                <div>
+                    <span for="userSno" style="margin-left: 40px;">学号信息:</span>
+                    <input style="width: 150px;height: 22px;" type="text" id="userSno" placeholder="请输入学号信息">
+                </div>
+
+                <div>
+                    <span for="community" style="margin-left: 40px;">社团名称:</span>
+                    <input style="width: 150px;height: 22px;" type="text" id="community" placeholder="请输入社团名称">
+                </div>
+
+                <div>
+                    <span for="userName" style="margin-left: 40px;">姓名:</span>
+                    <input style="width: 150px;height: 22px;margin-left: 25px" type="text" id="userName" placeholder="请输入姓名">
+                </div>
+
+                <div>
+                    <span for="email" style="margin-left: 40px;">电子邮件:</span>
+                    <input style="width: 150px;height: 22px;" type="text" id="email" placeholder="请输入电子邮件">
+                </div>
+
+
+                <div>
+                    <span for="phone" style="margin-left: 40px;">联系方式:</span>
+                    <input style="width: 150px;height: 22px;" type="text" id="phone" placeholder="请输入联系方式">
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-default" style="margin-left: 250px;"><a href="javascript:;"
+                                                                     onclick="getUserList()">搜索</a>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <table class="table table-hover" id="tab">
+
+    <div class="form-group" style="margin-top: 30px;">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default"><a href="addUser.html">添加用户</a>
+            </button>
+        </div>
+    </div>
+
+
+    <table class="table table-hover" id="tab" style="width: 1200px;margin-left: 60px;">
         <tbody id="tbody">
         <tr class="success">
             <td hidden=""></td>
+            <td>序号</td>
             <td> 姓名</td>
             <td> 学号</td>
             <td> 学校名称</td>
@@ -96,15 +96,16 @@
     </table>
 
     <!--分页-->
-    <div id="realData"></div>
+    <div id="realData" style="margin-left: 550px;"></div>
 
 </div>
 <script type="text/html" id="userInfo">
-    {{each result as value}}
+    {{each result as value index}}
     <tr class="success">
         <td hidden="" id="userId">{{value.userId}}</td>
+        <td>{{index+1}}</td>
         <td><a href="userInfo.html?userId={{value.userId}}">
-           {{value.userName}}
+            {{value.userName}}
         </a></td>
         <td> {{value.userSno}}</td>
         <td> {{value.school}}</td>
@@ -174,12 +175,6 @@
                 elem: 'realData'
                 , count: total //数据总数，从服务端得到
                 , jump: function (obj, first) {
-                    current = obj.curr;
-                    // alert(current)
-                    console.log(obj.count)
-                    //obj包含了当前分页的所有参数，比如：
-                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                    console.log(obj.limit); //得到每页显示的条数
                     getUserList(obj);
                     //首次不执行
                     if (!first) {
@@ -191,6 +186,12 @@
     }
 
     function getUserList(obj) {
+        pageNum = 1;
+        if (obj == null) {
+            pageNum = 1;
+        } else {
+            pageNum = obj.curr;
+        }
         $.ajax({
             xhrFields: {
                 withCredentials: true
@@ -198,7 +199,7 @@
             url: "http://localhost:8080/user/list",
             type: "get",
             data: {
-                "pageNum": obj.curr,
+                "pageNum": pageNum,
                 "school": $("#school").val(),
                 "userSno": $("#userSno").val(),
                 "community": $("#community").val(),

@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>活动信息页</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="js/template.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="css/newsInfo.css">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div id="page1" class="layui-header"></div>
+    <div style="width: 1100px;margin: 0 auto;">
+        <div class="er_con_biaoti">
+            <h2 id="activityTopic"></h2>
+            <span> 发起人：<span id="promoter"></span></span>
+            <span>组织：<span id="organizer"></span></span>
+            <span>活动民歌：<span id="peopleTotal"></span></span>
+            <span>已报名人数：<span id="peopleJoin"></span></span>
+            <span>报名结束时间：<span id="startTime"></span></span>
+
+        </div>
+        <div id="vsb_content_501">
+            <p class="vsbcontent_start"></p>
+            <p>
+                4月17日上午，校党委书记杨更社、校长范九伦代表全校师生走访了我校杰出校友、西安市委副书记、市长李明远。西安市政府秘书长陈长春，学校党政办主任韩炳黎等参加座谈。
+            </p>
+            <p>
+                杨更社代表学校向李明远校友长期以来对学校的关心和支持表示感谢。杨更社介绍了学校第四次党代会以来学习贯彻全国、全省教育大会精神，全面落实立德树人根本任务，全力推进学校追赶超越取得的成绩，并诚挚邀请李明远校友回校指导工作。范九伦介绍了学校改革发展规划、高水平大学建设、民生工程等方面的情况，希望加大校地合作，在科技创新及成果转化、人才培养、秦岭智慧生态建设等方面为大西安发展贡献力量。
+            </p>
+            <p>
+                李明远对杨更社、范九伦一行的到来表示热烈欢迎，对学校近年来的发展表示由衷欣慰，他回顾了在母校的工作经历，感谢母校以及诸多老师的关心和支持。李明远表示，校友是学校改革发展不可或缺的力量，将积极响应母校号召，为母校的建设与发展贡献力量。双方还就加强校地融合、推进创新创业、推动学校建设发展等问题进行了深入交流。
+            </p>
+        </div>
+
+        <div>
+            <span id="contentFile" style="display: none"></span>
+            <button onclick="download()" type="submit" style="margin-left: 900px;" class="btn btn-default">下载活动细节文件</button>
+        </div>
+
+        <div>
+            <a href="javascript:;" onclick="joinActivity3()">
+                <button class='btn btn-primary' style="margin-left: 900px;margin-top: 40px">报名参加</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script>$("#page1").load("navHeader.html");</script>
+<script>
+
+    window.onload = function () {
+        function parseUrl() {
+            var url = decodeURIComponent(location.href);
+            console.log(url);
+            var i = url.indexOf('?');
+            if (i == -1) return;
+            var querystr = url.substr(i + 1);
+            var arr1 = querystr.split('&');
+            var arr2 = new Object();
+            for (i in arr1) {
+                var ta = arr1[i].split('=');
+                arr2[ta[0]] = ta[1];
+            }
+            return arr2;
+        }
+
+        var v = parseUrl();
+        console.log(v)
+        var activityId = v.activityId
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/activity/detail",
+            type: "get",
+            data: {
+                "activityId": activityId
+            },
+            dataType: "json",
+            success: function (e) {
+                $("#activityId").html(e.data.activityId);
+                $("#promoter").html(e.data.activity.promoter);
+                $("#organizer").html(e.data.activity.organizer);
+                $("#activityTopic").html(e.data.activity.activityTopic);
+                $("#activityContent").val(e.data.activity.activityContent);
+                $("#startTime").html(e.data.activity.startTime);
+                $("#endTime").html(e.data.activity.endTime);
+                $("#contentFile").html(e.data.activity.contentFile);
+                $("#peopleJoin").html(e.data.activity.peopleJoin);
+                $("#peopleTotal").html(e.data.activity.peopleTotal);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+    }
+
+    function download() {
+        var url=$("#contentFile").text();
+        window.location.href=url;
+
+    }
+    function getCookie(cookieName) {
+        console.log(document.cookie);
+        var arr, reg = new RegExp("(^| )" + cookieName + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return decodeURI(arr[2]);
+        else
+            return null;
+    }
+
+    function joinActivity3() {
+        function parseUrl() {
+            var url = decodeURIComponent(location.href);
+            console.log(url);
+            var i = url.indexOf('?');
+            if (i == -1) return;
+            var querystr = url.substr(i + 1);
+            var arr1 = querystr.split('&');
+            var arr2 = new Object();
+            for (i in arr1) {
+                var ta = arr1[i].split('=');
+                arr2[ta[0]] = ta[1];
+            }
+            return arr2;
+        }
+
+        var v = parseUrl();
+        console.log(v)
+        var activityId = v.activityId
+        var activityTopic = $("#activityTopic").text();
+
+        console.log(activityId)
+        var sendData = {
+            "userName": getCookie("platform_name"),
+            "activityId": activityId,
+            "activityTopic": activityTopic
+        };
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/volunteer/add",
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                alert(e.message);
+                window.location.reload();
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+                alert(e.message)
+
+            },
+        });
+    }
+</script>
+</body>
+</html>

@@ -21,95 +21,95 @@
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
     <div>
-        <div class="form-group">
-            <label for="promoter" class="col-sm-2 control-label">发起人</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="promoter" placeholder="请输入发起人">
+        <div>
+            <img src="img/activi.jpg" style="float:left;width: 965px;height: 200px;">
+            <div>
+                <div>
+                    <span for="promoter" style="margin-left: 40px;">发起人:</span>
+                    <input type="text" style="width: 150px;height: 22px; margin-left: 12px" id="promoter"
+                           placeholder="请输入发起人">
+                </div>
+
+                <div>
+                    <span for="organizer" style="margin-left: 40px;">组织名称:</span>
+                    <input type="text" style="width: 150px;height: 22px;" id="organizer" placeholder="请输入组织名称">
+                </div>
+                <div>
+                    <span for="activityTopic" style="margin-left: 40px;">活动名称:</span>
+                    <input type="text" style="width: 150px;height: 22px;" id="activityTopic" placeholder="请输入活动名称">
+
+                </div>
+                <div>
+                    <span for="startTime" style="margin-left: 40px;">开始时间:</span>
+                    <input type="text" style="width: 150px;height: 22px;" id="startTime" placeholder="请输入开始时间">
+
+                </div>
+                <div>
+                    <span for="endTime" style="margin-left: 40px;">结束时间:</span>
+                    <input type="text" style="width: 150px;height: 22px;" id="endTime" placeholder="请输入结束时间">
+
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-default" style="margin-left: 250px;"><a href="javascript:;"
+                                                                                                 onclick="getActivityList()">搜索</a>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="organizer" class="col-sm-2 control-label">组织名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="organizer" placeholder="请输入组织名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="activityTopic" class="col-sm-2 control-label">活动名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="activityTopic" placeholder="请输入活动名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="startTime" class="col-sm-2 control-label">开始时间</label>
-            <div class="col-sm-10">
-                <input type="text" class="layui-input form-control" id="startTime" placeholder="请输入开始时间">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="endTime" class="col-sm-2 control-label">结束时间</label>
-            <div class="col-sm-10">
-                <input type="text" class="layui-input form-control" id="endTime" placeholder="请输入结束时间">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getActivityList()">搜索</a>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div>
-        <div class="form-group">
+
+        <div class="form-group" style="margin-top: 60px;">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default"><a href="addActivity.html">添加新活动</a>
                 </button>
             </div>
         </div>
+
+        <table class="table table-hover" id="tab" style="width: 1200px;margin-left: 60px;">
+            <tbody id="tbody">
+            <tr class="success">
+                <td hidden=""></td>
+                <td>序号</td>
+                <td> 活动名称</td>
+                <td> 发起人</td>
+                <td> 参与的组织</td>
+                <td>开始时间</td>
+                <td>结束时间</td>
+                <td>
+                    <select class="form-control" id="activityStatus" onchange="selectOnchangStatus(this)">
+                        <option value="">全部</option>
+                        <option value="30">进行中</option>
+                        <option value="20">未发布</option>
+                        <option value="10">已结束</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" id="activityApproval" onchange="selectOnchangApproval(this)">
+                        <option value="">全部</option>
+                        <option value="30">审核通过</option>
+                        <option value="20">未审核</option>
+                        <option value="10">已拒绝</option>
+                    </select>
+                </td>
+                <td>修改活动</td>
+                <td>结束活动</td>
+                <td>删除活动</td>
+            </tr>
+            </tbody>
+
+            <tbody id="activity">
+            </tbody>
+        </table>
+
+        <!--分页-->
+        <div id="realData" style="margin-left: 550px;"></div>
     </div>
-    <table class="table table-hover" id="tab">
-        <tbody id="tbody">
-        <tr class="success">
-            <td hidden=""></td>
-            <td> 活动名称</td>
-            <td> 发起人</td>
-            <td> 参与的组织</td>
-            <td>开始时间</td>
-            <td>结束时间</td>
-            <td>
-                <select class="form-control" id="activityStatus" onchange="selectOnchangStatus(this)">
-                    <option value="">全部</option>
-                    <option value="30">进行中</option>
-                    <option value="20">未发布</option>
-                    <option value="10">已结束</option>
-                </select>
-            </td>
-            <td>
-                <select class="form-control" id="activityApproval" onchange="selectOnchangApproval(this)">
-                    <option value="">全部</option>
-                    <option value="30">审核通过</option>
-                    <option value="20">未审核</option>
-                    <option value="10">已拒绝</option>
-                </select>
-            </td>
-            <td>修改活动</td>
-            <td>结束活动</td>
-            <td>删除活动</td>
-        </tr>
-        </tbody>
-
-        <tbody id="activity">
-        </tbody>
-    </table>
-
-    <!--分页-->
-    <div id="realData"></div>
 </div>
 
-</div>
 <script type="text/html" id="myActivity">
-    {{each result as value}}
+    {{each result as value index}}
     <tr class="success">
         <td hidden="" id="activityId">{{value.activityId}}</td>
+        <td>{{index+1}}</td>
         <td><a href="activityInfo.html?activityId={{value.activityId}}">
             {{value.activityTopic}}
         </a></td>
@@ -178,7 +178,6 @@
                     //obj包含了当前分页的所有参数，比如：
                     console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                     console.log(obj.limit); //得到每页显示的条数
-                    // document.getElementById('tab').innerHTML = thisDate(obj.curr);
                     //首次不执行
                     getActivityList(obj);
                     // window.onload;
@@ -260,16 +259,16 @@
                 var mytable = document.getElementById("tab");
                 // var data = [];
                 for (var i = 1; i < mytable.rows.length; ++i) {
-                    console.log(mytable.rows[i].cells[6].innerText);
-                    if (mytable.rows[i].cells[6].innerText == "进行中") {
+                    console.log(mytable.rows[i].cells[7].innerText);
+                    if (mytable.rows[i].cells[7].innerText == "进行中") {
                         //不可修改，可结束
                         // alert("进行中")
-                        mytable.rows[i].cells[9].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
-                    } else if (mytable.rows[i].cells[6].innerText == "未发布") {
+                        mytable.rows[i].cells[10].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                    } else if (mytable.rows[i].cells[7].innerText == "未发布") {
                         //可修改，不可结束活动
                         // alert("未发布")
-                        mytable.rows[i].cells[8].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
-                    } else if (mytable.rows[i].cells[6].innerText == "已结束") {
+                        mytable.rows[i].cells[9].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                    } else if (mytable.rows[i].cells[7].innerText == "已结束") {
                         // 不可修改，不可结束
                         // alert("已结束")
                         // mytable.rows[i].cells[8].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");

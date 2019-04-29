@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>管理用户页</title>
+    <title>管理组织页</title>
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="layui/layui.js" charset="utf-8"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -19,39 +19,46 @@
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-
-    <div class="form-horizontal">
-        <div class="form-group">
-            <label for="organizerCity" class="col-sm-2 control-label">所在城市</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="organizerCity" placeholder="请输入组织所在城市名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="organizerName" class="col-sm-2 control-label">组织名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="organizerName" placeholder="请输入组织名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getOrganizerList()">搜索</a>
-                </button>
-            </div>
-        </div>
-    </div>
     <div>
-        <div class="form-group">
+        <div>
+            <img src="img/activi.jpg" style="float:left;width: 965px;height: 180px;">
+            <div class="form-horizontal" style="width: 500px;margin-left: 980px;height: 180px;">
+                <div class="form-group">
+                    <label for="organizerCity" class="col-sm-2 control-label">所在城市</label>
+                    <div class="col-sm-10">
+                        <input type="text" style="height: 25px; width: 200px;" class="form-control" id="organizerCity"
+                               placeholder="请输入组织所在城市名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="organizerName" class="col-sm-2 control-label">组织名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" style="height: 25px; width: 200px;" class="form-control" id="organizerName"
+                               placeholder="请输入组织名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" style="height: 25px; width: 70px;margin-left: 210px;"
+                                class="btn btn-default"><a href="javascript:;"
+                                                           onclick="getOrganizerList()">搜索</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style=" margin-top: 30px;">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default"><a href="addOrganizer.html">添加组织</a>
                 </button>
             </div>
         </div>
-    </div>
-    <table class="table table-hover" id="tab">
-        <tbody id="tbody">
+
+        <table class="table table-hover" id="tab" style="width: 1200px;margin-left: 60px;">
+            <tbody id="tbody">
             <tr class="success">
                 <td hidden=""></td>
+                <td>序号</td>
                 <td> 组织名称</td>
                 <td> 所在城市</td>
                 <td> 组织负责人</td>
@@ -60,19 +67,21 @@
                 <td>修改</td>
                 <td>删除</td>
             </tr>
-        </tbody>
+            </tbody>
 
-        <tbody id="organizer"></tbody>
-    </table>
+            <tbody id="organizer"></tbody>
+        </table>
 
-    <!--分页-->
-    <div id="realData"></div>
-
+        <!--分页-->
+        <div id="realData" style="margin-left: 550px;"></div>
+    </div>
+</div>
 </div>
 <script type="text/html" id="organizerInfo">
-    {{each result as value}}
+    {{each result as value index}}
     <tr class="success">
         <td hidden="" id="organizerId">{{value.organizerId}}</td>
+        <td>{{index+1}}</td>
         <td>
             <a href="organizerInfo.html?organizerId={{value.organizerId}}">{{value.organizerName}}</a>
         </td>
@@ -119,23 +128,18 @@
                 console.log("失败");
             }
         });
-        var current=1;
+        var current = 1;
         // 分页
-        layui.use(['laypage', 'layer'], function(){
+        layui.use(['laypage', 'layer'], function () {
             var laypage = layui.laypage
-                ,layer = layui.layer;
+                , layer = layui.layer;
             laypage.render({
                 elem: 'realData'
-                ,count: total //数据总数，从服务端得到
-                ,jump: function(obj, first){
-                    current=obj.curr;
-                    console.log(obj.count)
-                    //obj包含了当前分页的所有参数，比如：
-                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                    console.log(obj.limit); //得到每页显示的条数
+                , count: total //数据总数，从服务端得到
+                , jump: function (obj, first) {
                     getOrganizerList(obj);
                     //首次不执行
-                    if(!first){
+                    if (!first) {
                         //do something
                     }
                 }
@@ -144,6 +148,12 @@
     }
 
     function getOrganizerList(obj) {
+        pageNum = 1;
+        if (obj == null) {
+            pageNum = 1;
+        } else {
+            pageNum = obj.curr;
+        }
         $.ajax({
             xhrFields: {
                 withCredentials: true
@@ -151,7 +161,7 @@
             url: "http://localhost:8080/organizer/list",
             type: "get",
             data: {
-                "pageNum": obj.curr,
+                "pageNum": pageNum,
                 "organizerCity": $("#organizerCity").val(),
                 "organizerName": $("#organizerName").val()
             },

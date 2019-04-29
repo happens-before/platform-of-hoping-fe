@@ -9,7 +9,7 @@ body{
 .container1{
     width:100%;
     height:100%;
-    background-image: url("../img/bg.jpeg");
+    background-image: url("../img/llll.jpg");
     background-size: 100% 100%;
 }
 #main{
@@ -422,7 +422,7 @@ a, button {
     background-position: -99px -85px;
 }
 .headimg, .u-closebtn, .u-checkbox, .u-success, .etimg, .third, .ferrortail, .ferrortail2, .ferrortail3, .btn-qrcode, .i-qrsucc, .cap-box .cap-close {
-    background: url(//urswebzj.nosdn.127.net/webzj_cdn101/sprite_61fbe15….png) -9999px -9999px no-repeat;
+    /*background: url(//urswebzj.nosdn.127.net/webzj_cdn101/sprite_61fbe15….png) -9999px -9999px no-repeat;*/
     /*_background: url(//urswebzj.nosdn.127.net/webzj_cdn101/sprite8_31811e6….png) -9999px -9999px no-repeat;*/
 }
 .m-cnt .inputbox {

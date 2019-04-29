@@ -17,9 +17,11 @@
 <ul class="layui-nav layui-layout-left">
     <li class="layui-nav-item"><a href="home.html">首页</a></li>
     <li class="layui-nav-item"><a href="news.html">新闻</a></li>
-    <li class="layui-nav-item"><a href="javascript:;" onclick="activity()">我的活动</a></li>
+    <li class="layui-nav-item"><a href="volunteer.html">志愿者活动</a></li>
+    <ul class="layui-nav-item" id="activityList"></ul>
     <li class="layui-nav-item"><a href="tellus.html">联系我们</a></li>
     <ul class="layui-nav-item" id="adminOperate"></ul>
+
 </ul>
 <ul class="layui-nav layui-layout-right">
     <li class="layui-nav-item">
@@ -46,8 +48,9 @@
             window.location = "userLogin.html";
         }
         //platform_identity：1组织，2用户，3管理员
-        console.log(getCookie("platform_identity"))
+        console.log(getCookie("platform_identity"));
         identity = getCookie("platform_identity");
+        isMinister = getCookie("platform_minister");
         if (identity == "3") {
             var adminManger =
                 '<li class="dropdown all-camera-dropdown">\n' +
@@ -64,6 +67,56 @@
                 '            </ul>\n' +
                 '        </li>';
             $("#adminOperate").html(adminManger);
+            var activityButt1 =
+                '<li class="dropdown all-camera-dropdown">\n' +
+                '            <a class="dropdown-toggle" data-toggle="dropdown" href="#">\n' +
+                '                我的活动\n' +
+                '                <b class="caret"></b>\n' +
+                '            </a>\n' +
+                '            <ul class="dropdown-menu">\n' +
+                '                <li><a href="javascript:;" onclick="activity()">我发起的活动</a></li>\n' +
+                '                <li><a href="userVolunteer.html">我参加的活动</a></li>\n' +
+                '            </ul>\n' +
+                '        </li>';
+            $("#activityList").html(activityButt1);
+        } else if (identity == "2" && isMinister == "1") {
+            var activityButt2 =
+                '<li class="dropdown all-camera-dropdown">\n' +
+                '            <a class="dropdown-toggle" data-toggle="dropdown" href="#">\n' +
+                '                我的活动\n' +
+                '                <b class="caret"></b>\n' +
+                '            </a>\n' +
+                '            <ul class="dropdown-menu">\n' +
+                '                <li><a href="javascript:;" onclick="activity()">我发起的活动</a></li>\n' +
+                '                <li><a href="userVolunteer.html">我参加的活动</a></li>\n' +
+                '            </ul>\n' +
+                '        </li>';
+            $("#activityList").html(activityButt2);
+        } else if (identity == "2" && isMinister == "0") {
+            var activityButt3 =
+                ' <li class="dropdown all-camera-dropdown">\n' +
+                '            <a class="dropdown-toggle" data-toggle="dropdown" href="#">\n' +
+                '                我的活动\n' +
+                '                <b class="caret"></b>\n' +
+                '            </a>\n' +
+                '            <ul class="dropdown-menu">\n' +
+                '                <li><a href="userVolunteer.html">我参加的活动</a></li>\n' +
+                '            </ul>\n' +
+                '        </li>';
+            $("#activityList").html(activityButt3);
+        } else if (identity == "1") {
+            var activityButt4 =
+                '  <li class="dropdown all-camera-dropdown">\n' +
+                '            <a class="dropdown-toggle" data-toggle="dropdown" href="#">\n' +
+                '                我的活动\n' +
+                '                <b class="caret"></b>\n' +
+                '            </a>\n' +
+                '            <ul class="dropdown-menu">\n' +
+                '                <li><a href="javascript:;" onclick="activity()">我发起的活动</a></li>\n' +
+                '                <li><a href="userVolunteer.html">我参加的活动</a></li>\n' +
+                '            </ul>\n' +
+                '        </li>';
+            $("#activityList").html(activityButt4);
         }
     });
 
@@ -104,8 +157,14 @@
             window.location.href = "myUserInfo.html";
         }
     }
+
+    function getName() {
+        if (getCookie("platform_identity") == "3") {
+            return "admin";
+        } else return getCookie("platform_name");
+    }
 </script>
-<script>$("#name").html(getCookie("platform_name"))</script>
+<script>$("#name").html(getName())</script>
 </body>
 
 </html>

@@ -72,7 +72,7 @@ function organizerRegister() {
             console.log(data.message)
             if (data.message.toString() == "操作成功" && data.returnCodes.toString() == "OK") {
                 alert(e.message)
-                window.location.href = "organizerLogin.html"
+                window.location.href = "userLogin.html"
             } else if (data.message.toString() == "服务器很忙") {
                 alert(e.message)
                 window.location.href = "error.html"

@@ -10,7 +10,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
     <script type="text/javascript" src="js/template.js"></script>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,68 +21,78 @@
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
     <div>
-        <div class="form-group">
-            <label for="newsName" class="col-sm-2 control-label">新闻名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsName" placeholder="请输入新闻名称">
+        <div>
+            <img src="img/activi.jpg" style="float:left;width: 965px;height: 180px;">
+            <div class="form-horizontal" style="width: 580px;margin-left: 980px;height: 180px;">
+                <div class="form-group">
+                    <label for="newsName" class="col-sm-2 control-label">新闻名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" style="height: 25px; width: 200px;" class="form-control" id="newsName"
+                               placeholder="请输入新闻名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newsCreator" class="col-sm-2 control-label">新闻创建者</label>
+                    <div class="col-sm-10">
+                        <input type="text" style="height: 25px; width: 200px;" class="form-control" id="newsCreator"
+                               placeholder="请输入新闻创建者">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" style="height: 25px; width: 70px;margin-left: 210px;"
+                                class="btn btn-default"><a href="javascript:;"
+                                                           onclick="getNewsList()">搜索</a>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="newsCreator" class="col-sm-2 control-label">新闻创建者</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsCreator" placeholder="请输入新闻创建者">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default"><a href="javascript:;" onclick="getNewsList()">搜索</a>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div>
-        <div class="form-group">
+
+        <div class="form-group" style=" margin-top: 30px;">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default"><a href="addNews.html">创建新闻</a>
                 </button>
             </div>
         </div>
+
+        <table class="table table-hover" id="tab" style="width: 1200px;margin-left: 60px;">
+            <tbody id="tbody">
+            <tr class="success">
+                <td hidden=""></td>
+                <td>序号</td>
+                <td> 新闻名称</td>
+                <td> 新闻创建者</td>
+                <td> 新闻访问量</td>
+                <td>
+                    <select class="form-control" id="status" onchange="selectOnchang(this)">
+                        <option value="">全部</option>
+                        <option value="30">已发布</option>
+                        <option value="20">暂停</option>
+                        <option value="10">未发布</option>
+                    </select>
+                </td>
+                <td> 更新时间</td>
+                <td> 修改新闻</td>
+                <td> 暂停新闻</td>
+                <td> 删除活动</td>
+            </tr>
+            </tbody>
+
+            <tbody id="newsInfo">
+            </tbody>
+        </table>
+
+        <!--分页-->
+        <div id="realData" style="margin-left: 550px;"></div>
     </div>
-    <table class="table table-hover" id="tab">
-        <tbody id="tbody">
-        <tr class="success">
-            <td hidden="" ></td>
-            <td> 新闻名称</td>
-            <td> 新闻创建者</td>
-            <td> 新闻访问量</td>
-            <td>
-                <select class="form-control" id="status" onchange="selectOnchang(this)">
-                    <option value="">全部</option>
-                    <option value="30">已发布</option>
-                    <option value="20">暂停</option>
-                    <option value="10">未发布</option>
-                </select>
-            </td>
-            <td> 更新时间</td>
-            <td> 修改新闻</td>
-            <td> 暂停新闻</td>
-            <td> 删除活动</td>
-        </tr>
-        </tbody>
-
-        <tbody id="newsInfo">
-        </tbody>
-    </table>
-
-    <!--分页-->
-    <div id="realData"></div>
 </div>
-
 </div>
 <script type="text/html" id="news">
-    {{each result as value}}
+    {{each result as value index}}
     <tr class="success">
         <td hidden="" id="newsId">{{value.newsId}}</td>
+        <td>{{index+1}}</td>
         <td><a href="newsInfo.html?newsId={{value.newsId}}">{{value.newsName}}</a></td>
         <td> {{value.newsCreator}}</td>
         <td> {{value.newsCount}}</td>
@@ -99,7 +109,8 @@
             </a>
         </td>
         <td>
-            <button id="delete" class="btn btn-danger" ><a href="javascript:;" onclick="deleteNews(this)">删除新闻</a></button>
+            <button id="delete" class="btn btn-danger"><a href="javascript:;" onclick="deleteNews(this)">删除新闻</a>
+            </button>
         </td>
     </tr>
     {{/each}}
@@ -114,13 +125,13 @@
             type: "get",
             data: {
                 "pageNum": current,
-                "newsName":$("#newsName").val(),
-                "status":$("#status option:selected").val(),
+                "newsName": $("#newsName").val(),
+                "status": $("#status option:selected").val(),
                 "newsCreator": $("#newsCreator").val()
             },
             dataType: "json",
             success: function (e) {
-                totalNew=e.data.total;
+                totalNew = e.data.total;
             },
             error: function (e) {
                 console.log(e);
@@ -130,7 +141,7 @@
         });
         // 分页
         var current = 1;
-        layui.use(['laypage', 'layer'], function() {
+        layui.use(['laypage', 'layer'], function () {
             var laypage = layui.laypage
                 , layer = layui.layer;
 
@@ -153,13 +164,13 @@
         });
     }
 
-    function selectOnchang(obj){
+    function selectOnchang(obj) {
         //获取被选中的option标签选项
         // alert(obj.selectedIndex.valueOf());
         //获取被选中的option标签的value值
         var value = obj.options[obj.selectedIndex].value;
         // alert(value);
-        window.location.href="javascript:;",onclick=getNewsList();
+        window.location.href = "javascript:;", onclick = getNewsList();
     }
 
     function getNewsList(obj) {
@@ -177,8 +188,8 @@
             type: "get",
             data: {
                 "pageNum": pageNum,
-                "newsName":$("#newsName").val(),
-                "status":$("#status option:selected").val(),
+                "newsName": $("#newsName").val(),
+                "status": $("#status option:selected").val(),
                 "newsCreator": $("#newsCreator").val()
             },
             dataType: "json",
@@ -186,19 +197,16 @@
                 console.log(e);
                 for (var i in e.data.list) {
                     console.log(e.data.list[i]); // red green blue yellow
-                    if(e.data.list[i].status=="30")
-                    {
-                        e.data.list[i].status="已发布"
-                    } else if(e.data.list[i].status=="20")
-                    {
-                        e.data.list[i].status="暂停"
-                    } else if(e.data.list[i].status=="10")
-                    {
-                        e.data.list[i].status="未发布"
+                    if (e.data.list[i].status == "30") {
+                        e.data.list[i].status = "已发布"
+                    } else if (e.data.list[i].status == "20") {
+                        e.data.list[i].status = "暂停"
+                    } else if (e.data.list[i].status == "10") {
+                        e.data.list[i].status = "未发布"
                     }
                 }
                 var c = {result: e.data.list}
-                total=e.data.total;
+                total = e.data.total;
                 console.log(c);
 
                 var html = template('news', c);
@@ -206,20 +214,20 @@
                 var mytable = document.getElementById("tab");
                 // var data = [];
                 for (var i = 1; i < mytable.rows.length; ++i) {
-                    console.log(mytable.rows[i].cells[4].innerText);
-                    if (mytable.rows[i].cells[4].innerText == "已发布") {
+                    console.log(mytable.rows[i].cells[5].innerText);
+                    if (mytable.rows[i].cells[5].innerText == "已发布") {
                         //不可修改，可结束
                         // alert("已发布")
-                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
-                    } else if (mytable.rows[i].cells[4].innerText == "未发布") {
+                        mytable.rows[i].cells[8].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                    } else if (mytable.rows[i].cells[5].innerText == "未发布") {
                         //可修改，不可结束活动
                         // alert("未发布")
-                        mytable.rows[i].cells[6].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
-                    } else if (mytable.rows[i].cells[4].innerText == "暂停") {
+                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                    } else if (mytable.rows[i].cells[5].innerText == "暂停") {
                         // 不可修改，不可结束
                         // alert("已结束")
-                        mytable.rows[i].cells[6].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
-                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[8].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
                     }
                 }
             },
@@ -230,6 +238,7 @@
 
         });
     }
+
     function pauseNews(obj) {
         var $td = $(obj).parents('tr').children('td');
         var newsId = $td.eq(0).text();
@@ -248,7 +257,7 @@
             success: function (e) {
                 console.log(e)
                 alert(e.message)
-                window.location.href="newsList.html";
+                window.location.href = "newsList.html";
                 // window.onload;
             },
             error: function (e) {
@@ -259,6 +268,7 @@
             },
         });
     }
+
     function deleteNews(obj) {
         var $td = $(obj).parents('tr').children('td');
         var newsId = $td.eq(0).text();
@@ -279,7 +289,7 @@
             success: function (e) {
                 console.log(e)
                 alert(e.message)
-                window.location.href="newsList.html";
+                window.location.href = "newsList.html";
             },
             error: function (e) {
                 console.log(e);

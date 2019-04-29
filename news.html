@@ -5,30 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title></title>
     <script src="js/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/search.css">
     <link rel="stylesheet" href="layui/css/layui.css">
     <script type="text/javascript" src="js/template.js"></script>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <style>
-        /* Make the image fully responsive */
-        .carousel-inner img {
-            width: 100%;
-            height: 90%;
-        }
-    </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="css/news.css">
     <script type="text/html" id="newsListTen">
-        {{each result as value}}
-        <tr class="success">
-            <td hidden="" id="newsId">{{value.newsId}}</td>
-           <td>
-            <a href="newsInfo.html?newsId={{value.newsId}}" >{{value.newsName}}</a>
-           </td>
-        </tr>
-        {{/each}}
+        <div class="right er_right">
+            <div>
+                <ul>
+                    {{each result as value}}
+                    <li style="background:url(http://xyzh.xupt.edu.cn/newWeb/images/ico.png) left center no-repeat;padding-left:20px">
+                        <a href="news.html" class="c44660_columnstyle"></a>
+                        <span class="c44660_date" style="float:right;margin-right: 180px">{{value.updateTime}}</span>
+                        <p style="width: 450px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                            <a href="newsInfo.html?newsId={{value.newsId}}" class="c44660" target="_blank">{{value.newsName}}</a>
+                        </p>
+                    </li>
+                    <hr style="display:none;height:1px;border:none;border-top:1px dashed #CCCCCC">
+                    {{/each}}
+                </ul>
+                <br>
+            </div>
+        </div>
     </script>
 </head>
 
@@ -36,10 +38,24 @@
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <table class="table">
+    <div id="content" style="margin-top: 60px;">
+        <div class="left er_left_menu">
+            <div>
 
+                <ul>
+                    <li>
+                        <a class="cur" href="news.html" title="新闻动态"
+                           style="font-weight:100;color:#fff;margin-top: 25px">新闻动态</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div style="clear: both"></div>
+            <div class="er_wyjz"></div>
+        </div>
         <div id="tet"></div>
-    </table>
+    </div>
+
 </div>
 <script src="layui/layui.js" charset="utf-8"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>

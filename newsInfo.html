@@ -5,121 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title></title>
     <script src="js/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/search.css">
     <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
     <script type="text/javascript" src="js/template.js"></script>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+    <link rel="stylesheet" href="css/newsInfo.css">
 </head>
 
 <body>
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <div class="form-horizontal">
-        <div class="form-group" >
-        <label for="newsId" class="col-sm-2 control-label">newsId</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="newsId" placeholder="newsId" value={{e.data.newsId}} >
-        </div>
-        </div>
-        <div class="form-group">
-            <label for="newsName" class="col-sm-2 control-label">新闻名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsName" placeholder="新闻名称" readonly="readonly"
-                       value={{e.data.newsName}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="newsDescription" class="col-sm-2 control-label">新闻描述</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsDescription" placeholder="新闻描述" readonly="readonly"
-                       value={{e.data.newsDescription}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="newsContent" class="col-sm-2 control-label">新闻内容</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsContent" placeholder="新闻内容" readonly="readonly"
-                       value={{e.data.newsContent}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="newsCreator" class="col-sm-2 control-label">新闻创建者</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsCreator" placeholder="新闻创建者" readonly="readonly"
-                       value={{e.data.newsCreator}}>
-            </div>
-        </div>
+    <div style="width: 1100px;margin: 0 auto;">
+        <div class="er_con_biaoti">
+            <h2 id="newsName"></h2>
+            <span> 创建者：
+                <span id="newsCreator"></span>
+            </span>
+            <span id="updateTime"></span>
 
-        <div class="form-group">
-            <label for="newsCount" class="col-sm-2 control-label">新闻点击量</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newsCount" placeholder="新闻点击量" readonly="readonly"
-                       value={{e.data.newsCount}}>
-            </div>
-        </div>
+            <span> 浏览次数：
+                <span id="newsCount"></span>
+                次
+            </span>
 
-        <div id="pictureInfo"></div>
-        <div id="commentInfo"></div>
+        </div>
+        <div id="vsb_content_501">
+            <p class="vsbcontent_start"></p>
+            <div id="pictureInfo"></div>
+            <p>
+                4月17日上午，校党委书记杨更社、校长范九伦代表全校师生走访了我校杰出校友、西安市委副书记、市长李明远。西安市政府秘书长陈长春，学校党政办主任韩炳黎等参加座谈。
+            </p>
+            <p>
+                杨更社代表学校向李明远校友长期以来对学校的关心和支持表示感谢。杨更社介绍了学校第四次党代会以来学习贯彻全国、全省教育大会精神，全面落实立德树人根本任务，全力推进学校追赶超越取得的成绩，并诚挚邀请李明远校友回校指导工作。范九伦介绍了学校改革发展规划、高水平大学建设、民生工程等方面的情况，希望加大校地合作，在科技创新及成果转化、人才培养、秦岭智慧生态建设等方面为大西安发展贡献力量。
+            </p>
+            <p>
+                李明远对杨更社、范九伦一行的到来表示热烈欢迎，对学校近年来的发展表示由衷欣慰，他回顾了在母校的工作经历，感谢母校以及诸多老师的关心和支持。李明远表示，校友是学校改革发展不可或缺的力量，将积极响应母校号召，为母校的建设与发展贡献力量。双方还就加强校地融合、推进创新创业、推动学校建设发展等问题进行了深入交流。
+            </p>
+        </div>
+    </div>
+    <div data-v-4e11b9bf class="extra">
+        <div data-v-4e11b9bf class="_2nHUWHZo_1 _2ffJp8Jj_1">
+            <div data-v-4e11b9bf class="iconfont _21R0cxKt_1" data-toggle="modal" data-target="#myModal"  > 写留言</div>
+
+            </button>
+            <h2 data-v-4e11b9bf>
+                <span data-v-4e11b9bf>精选留言</span>
+                <span data-v-4e11b9bf class="_1DBnqSPH_1"></span>
+            </h2>
+            <ul data-v-4e11b9bf>
+                <div id="commentInfo"></div>
+            </ul>
+        </div>
+    </div>
+
+
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div>
+        <span style="width: 50px;color: #353535;font-size: 14px;font-weight: 700;height: 20px;line-height: 20px;">留言:</span>
+
+    </div>
+    <div>
+    <textarea style="width: 558px;height: 400px; margin-top: 15px;" id="text1"></textarea>
+    </div>
+    <div>
+        <button class="btn btn-default" style="margin-left: 470px;width: 50px;margin-top: 10px;" onclick="wrmessage()">提交</button>
+    </div>
+</div><!-- /.modal -->
+
+<div class="modal fade" id="myModald" tabindex="-1" role="dialog">
+    <div>
+        <span style="width: 50px;color: #353535;font-size: 14px;font-weight: 700;height: 20px;line-height: 20px;">追评:</span>
+    </div>
+    <div>
+        <textarea style="width: 558px;height: 400px; margin-top: 15px;" id="text2"></textarea>
+    </div>
+    <div>
+        <button class="btn btn-default" style="margin-left: 470px;width: 50px;margin-top: 10px;" onclick="wreply()">提交</button>
     </div>
 </div>
+
 <script src="layui/layui.js" charset="utf-8"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script>
     $("#page1").load("navHeader.html");
 </script>
+
 <script type="text/html" id="pictures">
     {{each pictures as value}}
-        <div class="form-group">
-            <label for="pictureId" class="col-sm-2 control-label">图片id</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="pictureId" placeholder="图片id" readonly="readonly"
-                       value={{value.pictureId}}>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">图片</label>
-            <div class="col-sm-10">
-                <!--<input type="text" class="form-control" id="picturePath" placeholder="图片路径" readonly="readonly"-->
-                       <!--value={{value.picturePath}}>-->
-                <img src="{{value.picturePath}}" style="width: 200px">
-            </div>
-        </div>
+    <p class="vsbcontent_img">
+        <img width="500" src="{{value.picturePath}}" border="0" vspace="0" hspace="0">
+    </p>
     {{/each}}
 </script>
+
 <script type="text/html" id="comments">
     {{each comments as value}}
-    <div class="form-group">
-        <label for="commentContent" class="col-sm-2 control-label">评论信息</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="commentContent" placeholder="评论信息" readonly="readonly"
-                   value={{value.commentContent}}---{{value.reviewer}}>
+    <li data-v-4e11b9bf class="reJj6Thl_0">
+        <span style="width: 50px;color: #353535;font-size: 14px;font-weight: 700;height: 20px;line-height: 20px;">留言人:</span>
+        <div class="_2CG0SquK_0">
+            <div class="_304R4gla_0">
+                <div>
+                    <div class="_18Dng5rT_0">
+                        <span>{{value.comment.reviewer}}</span>
+                        <span id="commentId" style="display: none">{{value.comment.commentId}}</span>
+                    </div>
+                    <div class="_1H1Z49Dr_0">{{value.comment.updateTime}}</div>
+                </div>
+                <div>
+                   <a style="margin-right: 50px;" data-toggle="modal" data-target="#myModald" onclick="getCommentId(this)">追评</a>
+                </div>
+            </div>
+
+            <div class="_3M6kV3zb_0 _3D2NkqD6_0">
+                {{value.comment.commentContent}}
+            </div>
+
+            <div class="_2xNIY4NG_0">
+                {{each value.replies as reply}}
+                <p class="_33BLbmw4_0">
+                    {{reply.replier}}在{{reply.updateTime}}回复:{{reply.replyContent}}
+                </p>
+                {{/each}}
+            </div>
         </div>
-    </div>
+    </li>
     {{/each}}
 </script>
 <script>
-    window.onload=function () {
-        function parseUrl(){
-            var url=decodeURIComponent(location.href);
+    window.onload = function () {
+        function parseUrl() {
+            var url = decodeURIComponent(location.href);
             console.log(url);
-            var i=url.indexOf('?');
-            if(i==-1)return;
-            var querystr=url.substr(i+1);
-            var arr1=querystr.split('&');
-            var arr2=new Object();
-            for  (i in arr1){
-                var ta=arr1[i].split('=');
-                arr2[ta[0]]=ta[1];
+            var i = url.indexOf('?');
+            if (i == -1) return;
+            var querystr = url.substr(i + 1);
+            var arr1 = querystr.split('&');
+            var arr2 = new Object();
+            for (i in arr1) {
+                var ta = arr1[i].split('=');
+                arr2[ta[0]] = ta[1];
             }
             return arr2;
         }
+
         var v = parseUrl();
         console.log(v)
         var newsId = v.newsId
@@ -137,26 +167,108 @@
             success: function (e) {
                 console.log(e)
                 $("#newsId").val(e.data.newsId);
-                $("#newsName").val(e.data.newsName);
+                $("#newsName").html(e.data.newsName);
                 $("#newsDescription").val(e.data.newsDescription);
                 $("#newsContent").val(e.data.newsContent);
-                $("#newsCreator").val(e.data.newsCreator);
-                $("#newsCount").val(e.data.newsCount);
+                $("#newsCreator").html(e.data.newsCreator);
+                $("#updateTime").html(e.data.updateTime);
+                $("#newsCount").html(e.data.newsCount);
 
                 //图片
-                var a= {pictures: e.data.pictures}
+                var a = {pictures: e.data.pictures}
                 console.log(a);
                 var html1 = template('pictures', a);
                 $("#pictureInfo").html(html1);
 
                 //评论
-                var b= {comments: e.data.comments}
+                var b = {comments: e.data.commentReplies}
                 console.log(b);
                 var html2 = template('comments', b);
                 $("#commentInfo").html(html2);
 
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+    }
+    // 获取cookie信息
+    function getCookie(cookieName) {
+        console.log(document.cookie);
+        var arr, reg = new RegExp("(^| )" + cookieName + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return decodeURI(arr[2]);
+        else
+            return null;
+    }
+    function wrmessage() {
+        function parseUrl() {
+            var url = decodeURIComponent(location.href);
+            console.log(url);
+            var i = url.indexOf('?');
+            if (i == -1) return;
+            var querystr = url.substr(i + 1);
+            var arr1 = querystr.split('&');
+            var arr2 = new Object();
+            for (i in arr1) {
+                var ta = arr1[i].split('=');
+                arr2[ta[0]] = ta[1];
+            }
+            return arr2;
+        }
 
-
+        var v = parseUrl();
+        console.log(v);
+        var newsId = v.newsId;
+        var sendData={
+            "newsId": newsId,
+            "reviewer": getCookie("platform_name"),
+            "commentContent":$("#text1").val()
+        }
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/addComment",
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                window.location.reload();
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+    }
+    function getCommentId(obj){
+        $td = $(obj).parents('div').children('div');
+        activityId = $td.eq(0).children('div').children('span').eq(1).text();
+        return activityId;
+    }
+    function wreply() {
+        var sendData={
+            "commentId": activityId,
+            "replier": getCookie("platform_name"),
+            "replyContent":$("#text2").val()
+        }
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/addReply",
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                console.log(e);
+                alert(e.message)
+                window.location.reload();
             },
             error: function (e) {
                 console.log(e);
@@ -166,5 +278,4 @@
     }
 </script>
 </body>
-
 </html>

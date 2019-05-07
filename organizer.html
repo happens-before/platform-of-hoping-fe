@@ -91,11 +91,11 @@
         <td> {{value.updateTime}}</td>
         <td>
             <a href="modifyOrganizer.html?organizerId={{value.organizerId}}">
-                <button class="btn btn-primary">修改信息</button>
+                <button class="btn btn-info">修改信息</button>
             </a>
         </td>
         <td>
-            <button class="btn btn-danger"><a href="javascript:;" onclick="deleteOrganizer(this)">删除组织</a></button>
+            <button class="btn btn-default"><a href="javascript:;" onclick="deleteOrganizer(this)">删除组织</a></button>
         </td>
     </tr>
     {{/each}}
@@ -200,8 +200,12 @@
             contentType: "application/json;charset=utf-8",
             success: function (data) {
                 console.log(data)
-                alert(data.message)
-                window.location.href = "organizer.html"
+                if (data.message == "操作成功") {
+                    alert("组织删除成功")
+                    window.location.href = "organizer.html"
+                } else {
+                    alert(data.message)
+                }
             },
             error: function (e) {
                 console.log(e);

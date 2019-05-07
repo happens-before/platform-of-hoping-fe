@@ -18,9 +18,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script type="text/html" id="volunteer">
         <div class="right er_right">
-            <p>志愿者活动报名</p>
             {{each result.list as value}}
-            <div>
+            <div style="margin-top: 10px">
                 <div class="time fl" style="height: 85px;">
                     <div style="font-size: 23px;width: 70px;font-weight: bold;height: 30px;line-height: 33px;">火热</div>
                     <div style="width: 70px;height: 25px;line-height: 45px;font-size: 14px;">进行中</div>
@@ -34,13 +33,13 @@
                 <div>
                     <span>活动民歌数：{{value.peopleTotal}}</span>
                     <span>已报名参加书：{{value.peopleJoin}} </span>
-                    <span>报名结束时间：{{value.startTime}}  </span>
+                    <span>报名结束时间：{{value.endTime}}  </span>
                 </div>
                 <p class="zy fl" style="width: 350px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                     {{value.activityContent}}</p>
                 <div>
                     <a href="javascript:;" onclick="joinActivity(this)">
-                        <button class='btn btn-primary' style="margin-left: 100px;">报名参加</button>
+                        <button class='btn btn-info' style="margin-left: 100px;">报名参加</button>
                     </a>
                 </div>
                 <div class="clearfix" style="clear: both;"></div>
@@ -53,10 +52,14 @@
 <body>
 <div class="layui-layout layui-layout-admin">
     <div id="page1" class="layui-header"></div>
-    <div id="content" style="margin-top: 60px;">
-        <div class="left er_left_menu" style="height: 500px;">
+    <div id="content">
+        <div class="left er_left_menu" style="height: 475px;">
             <div>
                 <ul>
+                    <li>
+                        <a class="cur" href="news.html" title="新闻动态"
+                           style="font-weight:100;color:#fff;margin-top: 25px">新闻动态</a>
+                    </li>
                     <li>
                         <a class="cur" href="volunteer.html" title="志愿者活动"
                            style="font-weight:100;color:#fff;margin-top: 25px;width: 175px">志愿者活动</a>
@@ -104,8 +107,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message);
-                window.location.reload();
+                if (e.message == "操作成功") {
+                    alert("活动报名成功")
+                    window.location.reload();
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);

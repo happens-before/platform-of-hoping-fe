@@ -61,7 +61,7 @@
                     <select class="form-control" id="volunteerStatus" onchange="selectOnchangStatus(this)">
                         <option value="">全部</option>
                         <option value="1">已报名</option>
-                        <option value="0">已国旗</option>
+                        <option value="0">已过期</option>
                     </select>
                 </td>
                 <td>取消</td>
@@ -90,13 +90,22 @@
 
         <td>
             <a href="javascript:;" onclick="cancelActivity(this)">
-                <button class="btn btn-danger" name="cancel" disabled>取消</button>
+                <button class="btn btn-default" name="cancel" disabled>取消</button>
             </a>
         </td>
     </tr>
     {{/each}}
 </script>
 <script>
+    function getCookie(cookieName) {
+        console.log(document.cookie);
+        var arr, reg = new RegExp("(^| )" + cookieName + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return decodeURI(arr[2]);
+        else
+            return null;
+    }
+
     window.onload = function () {
         $.ajax({
             xhrFields: {
@@ -107,7 +116,8 @@
             data: {
                 "pageNum": current,
                 "activityTopic": $("#activityTopic").val(),
-                "volunteerStatus": $("#volunteerStatus option:selected").val()
+                "volunteerStatus": $("#volunteerStatus option:selected").val(),
+                "userName": getCookie("platform_name")
             },
             dataType: "json",
             success: function (e) {
@@ -172,7 +182,8 @@
             data: {
                 "pageNum": pageNum,
                 "activityTopic": $("#activityTopic").val(),
-                "volunteerStatus": $("#volunteerStatus option:selected").val()
+                "volunteerStatus": $("#volunteerStatus option:selected").val(),
+                "userName": getCookie("platform_name")
             },
             dataType: "json",
             success: function (e) {
@@ -182,7 +193,7 @@
                     if (e.data.list[i].volunteerStatus == "1") {
                         e.data.list[i].volunteerStatus = "已报名"
                     } else if (e.data.list[i].volunteerStatus == "0") {
-                        e.data.list[i].volunteerStatus = "已国旗或活动已结束"
+                        e.data.list[i].volunteerStatus = "已过期或活动已结束"
                     }
                 }
                 var c = {result: e.data.list}
@@ -196,7 +207,7 @@
                 for (var i = 1; i < mytable.rows.length; ++i) {
                     // console.log(mytable.rows[i].cells[2].innerText);
                     if (mytable.rows[i].cells[3].innerText == "已报名") {
-                        mytable.rows[i].cells[4].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[4].getElementsByClassName("btn btn-default").item(0).removeAttribute("disabled");
                     }
                 }
             },
@@ -225,8 +236,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.location.href = "userVolunteer.html";
+                if (e.message == "操作成功") {
+                    alert("取消成功")
+                    window.location.href = "userVolunteer.html";
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);

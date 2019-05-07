@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="js/jquery-2.1.0.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <title>添加组织信息</title>
@@ -63,7 +64,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" style="margin-left: 700px;" class="btn btn-default" onclick="addOrganizer()">
+                    <button type="submit" style="margin-left: 700px;" class="btn btn-info" onclick="addOrganizer()">
                         添加
                     </button>
                 </div>
@@ -94,7 +95,12 @@
             data: JSON.stringify(sendData),
             success: function (data) {
                 console.log(data.message)
-                window.location.href = "organizer.html"
+                if (data.message == "操作成功") {
+                    alert("组织添加成功")
+                    window.location.href = "organizer.html"
+                } else {
+                    alert(data.message)
+                }
             },
             error: function (e) {
                 console.log(e);

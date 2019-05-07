@@ -63,9 +63,10 @@
                 <tbody id="tbody">
                 <tr class="success">
                     <td hidden=""></td>
-                    <td> 活动名称</td>
-                    <td> 发起人</td>
-                    <td> 参与的组织</td>
+                    <td>序号</td>
+                    <td>活动名称</td>
+                    <td>发起人</td>
+                    <td>参与的组织</td>
                     <td>开始时间</td>
                     <td>结束时间</td>
                     <td>
@@ -99,9 +100,10 @@
         </div>
     </div>
     <script type="text/html" id="myActivity">
-        {{each result as value}}
+        {{each result as value index}}
         <tr class="success">
             <td hidden="" id="activityId">{{value.activityId}}</td>
+            <td>{{index+1}}</td>
             <td><a href="activityInfo.html?activityId={{value.activityId}}">{{value.activityTopic}} </a></td>
             <td> {{value.promoter}}</td>
             <td> {{value.organizer}}</td>
@@ -118,9 +120,7 @@
                 <button class="btn btn-primary"><a href="javascript:;" onclick="approvalActivity(this)">通过</a></button>
                 <button class="btn btn-danger"><a href="javascript:;" onclick="refuseActivity(this)">拒绝</a></button>
             </td>
-            <!--<td>-->
-            <!--<button class="btn btn-danger" ><a href="javascript:;" onclick="deleteUserActivity(this)">删除活动</a></button>-->
-            <!--</td>-->
+
         </tr>
         {{/each}}
     </script>
@@ -244,9 +244,9 @@
                     var mytable = document.getElementById("tab");
                     // var data = [];
                     for (var i = 1; i < mytable.rows.length; ++i) {
-                        console.log(mytable.rows[i].cells[6].innerText);
-                        if (mytable.rows[i].cells[6].innerText == "未发布") {
-                            mytable.rows[i].cells[8].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                        console.log(mytable.rows[i].cells[7].innerText);
+                        if (mytable.rows[i].cells[7].innerText == "未发布") {
+                            mytable.rows[i].cells[9].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
                         }
                     }
                 },
@@ -276,8 +276,12 @@
                 dataType: "json",
                 success: function (e) {
                     console.log(e)
-                    alert(e.message)
-                    window.location.href = "organizerActivity.html";
+                    if (e.message == "操作成功") {
+                        alert("活动审批通过成功")
+                        window.location.href = "organizerActivity.html";
+                    } else {
+                        alert(e.message)
+                    }
                 },
                 error: function (e) {
                     console.log(e);
@@ -306,37 +310,12 @@
                 dataType: "json",
                 success: function (e) {
                     console.log(e)
-                    alert(e.message)
-                    window.location.href = "organizerActivity.html";
-                },
-                error: function (e) {
-                    console.log(e);
-                    console.log("失败");
-                    alert(e.message)
-
-                },
-            });
-        }
-
-        function deleteUserActivity(obj) {
-            var $td = $(obj).parents('tr').children('td');
-            var activityId = $td.eq(0).text();
-            var sendData = {
-                "activityId": activityId
-            };
-            $.ajax({
-                xhrFields: {
-                    withCredentials: true
-                },
-                url: "http://localhost:8080/activity/delete",
-                type: "post",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify(sendData),
-                dataType: "json",
-                success: function (e) {
-                    console.log(e)
-                    alert(e.message)
-                    window.location.href = "userActivity.html";
+                    if (e.message == "操作成功") {
+                        alert("活动审批拒绝成功")
+                        window.location.href = "organizerActivity.html";
+                    } else {
+                        alert(e.message)
+                    }
                 },
                 error: function (e) {
                     console.log(e);

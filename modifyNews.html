@@ -64,14 +64,14 @@
             <div id="commentInfo"></div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" onclick="modifyNews()" style="margin-left: -30px">修改新闻</button>
+                    <button type="submit" class="btn btn-info" onclick="modifyNews()" style="margin-left: -30px">修改新闻</button>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" onclick="publishNews()" style="margin-left: 550px;"> 发布新闻</button>
+                    <button type="submit" class="btn btn-success" onclick="publishNews()" style="margin-left: 550px;"> 发布新闻</button>
 
-                    <button class="btn btn-danger" style="margin-left: 80px"><a href="newsList.html" >返回</a></button>
+                    <button class="btn btn-warning" style="margin-left: 80px"><a href="newsList.html" >返回</a></button>
                 </div>
             </div>
         </div>
@@ -201,8 +201,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.onload;
+                if (e.message == "操作成功") {
+                    alert("新闻修改成功")
+                    window.location.reload()
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);

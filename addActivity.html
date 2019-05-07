@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="js/jquery-2.1.0.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <title>添加新活动</title>
@@ -34,7 +35,6 @@
             <div class="form-group">
                 <label for="activityContent" class="col-sm-2 control-label">活动内容</label>
                 <div class="col-sm-10">
-                    <!--<input type="text" class="form-control" id="activityContent" placeholder="请输入活动内容">-->
                     <textarea class="form-control" id="activityContent" rows="20" cols="" style=""
                               placeholder="请输入活动内容"></textarea>
                 </div>
@@ -70,7 +70,9 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" style="margin-left: 700px;"class="btn btn-default" onclick="addActivity()">添加</button>
+                    <button type="submit" style="margin-left: 700px;" class="btn btn-info" onclick="addActivity()">
+                        添加
+                    </button>
                 </div>
             </div>
         </div>
@@ -80,23 +82,23 @@
 <script type="text/javascript">
     function addActivity() {
         var organizer = $('#organizer').val();
-        var promoter=$("#promoter").val();
+        var promoter = $("#promoter").val();
         var activityTopic = $("#activityTopic").val();
         var activityContent = $('#activityContent').val();
         var startTime = $('#startTime').val();
         var endTime = $('#endTime').val();
-        var peopleTotal=$('#peopleTotal').val();
+        var peopleTotal = $('#peopleTotal').val();
         var file = document.getElementById("file").files[0];
 
         var data = new FormData;
-        data.append("findAll","1");
-        data.append("promoter",promoter);
+        data.append("findAll", "1");
+        data.append("promoter", promoter);
         data.append("organizer", organizer);
         data.append("activityTopic", activityTopic);
         data.append("activityContent", activityContent);
         data.append("startTime", startTime);
-        data.append("endTime",endTime);
-        data.append("peopleTotal",peopleTotal);
+        data.append("endTime", endTime);
+        data.append("peopleTotal", peopleTotal);
         data.append("file", file);
         $.ajax({
             xhrFields: {
@@ -111,7 +113,12 @@
             success: function (e) {
                 console.log(e)
                 alert(e.message)
-                window.location.href = "activity.html"
+                if (e.message == "操作成功") {
+                    alert("活动添加成功")
+                    window.location.href = "activity.html"
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);

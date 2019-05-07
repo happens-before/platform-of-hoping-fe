@@ -17,23 +17,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script type="text/html" id="newsHome">
         <div class="news">
-            <p>最新新闻</p>
+            <p style="margin-left: 30px">最新新闻</p>
             {{each result.newsHomeDto as value}}
-            <div class='div1'>
+            <div class='div1' >
                 <div class='box'>
-                    <img src={{value.picturePath}} style="width: 200px; height: 280px;background: palegreen; "/>
+                    <img src={{value.picturePath}} style="width: 300px; height: 280px;background: palegreen; "/>
+                    <div class='box-content'>
+                        <p style="margin-top: 55px">{{value.newsName}}</p>
+                    </div>
                 </div>
-                <div class="text">
+                <div >
                     <a>
-                        <a href="newsInfo.html?newsId={{value.newsId}}">
-                            <button type='button' class='btn btn-primary'>详情</button>
+                        <a href="newsInfo.html?newsId={{value.newsId}}" style="margin-left: 182px">
+                            <button type='button' class='btn btn-info'>详情</button>
                         </a>
                     </a>
                 </div>
             </div>
             {{/each}}
         </div>
-        <div class="activity" style="clear: both;margin-left: 250px">
+        <div class="activity" style="clear: both;margin-left: 265px">
             <p>最新活动</p>
             {{each result.activity as value}}
             <div>
@@ -49,15 +52,15 @@
                 </div>
 
                 <div>
-                    <span>活动民歌数：{{value.peopleTotal}}</span>
-                    <span>已报名参加书：{{value.peopleJoin}} </span>
-                    <span>报名结束时间：{{value.startTime}}  </span>
+                    <span>活动名额数：{{value.peopleTotal}}</span>
+                    <span>已报名参加数：{{value.peopleJoin}} </span>
+                    <span>报名结束时间：{{value.endTime}}  </span>
                 </div>
                 <p class="zy fl" style="width: 350px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                     {{value.activityContent}}</p>
                 <div>
                     <a href="javascript:;" onclick="joinActivity2(this)">
-                        <button class='btn btn-primary' style="margin-left: 100px;">报名参加</button>
+                        <button class='btn btn-info' style="margin-left: 100px;">报名参加</button>
                     </a>
                 </div>
                 <div class="clearfix" style="clear: both;"></div>
@@ -74,7 +77,7 @@
     <div id="page1" class="layui-header"></div>
     <!--<div id="tet"></div>-->
     <div style="margin-top:40px;">
-        <div style="margin-left: 80px;" id="tet"></div>
+        <div style="margin-left: 50px;" id="tet"></div>
     </div>
 </div>
 </div>
@@ -112,8 +115,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message);
-                window.location.reload();
+                if (e.message == "操作成功") {
+                    alert("活动报名成功")
+                    window.location.reload();
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);
@@ -136,10 +143,7 @@
                 var c = {result: e.data}
                 console.log(c);
                 var html = template('newsHome', c);
-                //
-                // var c1 = {activity: e.data.activity}
-                // console.log(c1);
-                // var html = template('newsHome', c1);
+
                 $("#tet").html(html);
             },
             error: function (e) {

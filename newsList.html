@@ -100,16 +100,16 @@
         <td> {{value.updateTime}}</td>
         <td>
             <a href="modifyNews.html?newsId={{value.newsId}}">
-                <button class="btn btn-primary" disabled>修改新闻</button>
+                <button class="btn btn-info" disabled>修改新闻</button>
             </a>
         </td>
         <td>
             <a href="javascript:;" onclick="pauseNews(this)">
-                <button class="btn btn-danger" name="pause" disabled>暂停新闻</button>
+                <button class="btn btn-warning" name="pause" disabled>暂停新闻</button>
             </a>
         </td>
         <td>
-            <button id="delete" class="btn btn-danger"><a href="javascript:;" onclick="deleteNews(this)">删除新闻</a>
+            <button id="delete" class="btn btn-default"><a href="javascript:;" onclick="deleteNews(this)">删除新闻</a>
             </button>
         </td>
     </tr>
@@ -218,16 +218,16 @@
                     if (mytable.rows[i].cells[5].innerText == "已发布") {
                         //不可修改，可结束
                         // alert("已发布")
-                        mytable.rows[i].cells[8].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[8].getElementsByClassName("btn btn-warning ").item(0).removeAttribute("disabled");
                     } else if (mytable.rows[i].cells[5].innerText == "未发布") {
                         //可修改，不可结束活动
                         // alert("未发布")
-                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-info").item(0).removeAttribute("disabled");
                     } else if (mytable.rows[i].cells[5].innerText == "暂停") {
                         // 不可修改，不可结束
                         // alert("已结束")
-                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
-                        mytable.rows[i].cells[8].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[7].getElementsByClassName("btn btn-info").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[8].getElementsByClassName("btn btn-warning").item(0).removeAttribute("disabled");
                     }
                 }
             },
@@ -256,9 +256,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.location.href = "newsList.html";
-                // window.onload;
+                if (e.message == "操作成功") {
+                    alert("新闻暂停成功")
+                    window.location.href = "newsList.html";
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);
@@ -288,8 +291,13 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.location.href = "newsList.html";
+                if (e.message == "操作成功") {
+                    alert("新闻删除成功")
+                    window.location.href = "newsList.html";
+
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);

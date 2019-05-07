@@ -121,16 +121,16 @@
         <td>{{value.activityApproval}}</td>
         <td>
             <a href="modifyActivity.html?activityId={{value.activityId}}">
-                <button class="btn btn-primary" disabled>修改活动</button>
+                <button class="btn btn-info" disabled>修改活动</button>
             </a>
         </td>
         <td>
             <a href="javascript:;" onclick="endActivity(this)">
-                <button class="btn btn-danger" name="end" disabled>结束活动</button>
+                <button class="btn btn-warning" name="end" disabled>结束活动</button>
             </a>
         </td>
         <td>
-            <button class="btn btn-danger"><a href="javascript:;" onclick="deleteActivity(this)">删除活动</a></button>
+            <button class="btn btn-default"><a href="javascript:;" onclick="deleteActivity(this)">删除活动</a></button>
         </td>
     </tr>
     {{/each}}
@@ -203,7 +203,6 @@
         // alert(obj.selectedIndex.valueOf());
         //获取被选中的option标签的value值
         var value = obj.options[obj.selectedIndex].value;
-        // alert(value);
         window.location.href = "javascript:;", onclick = getActivityList();
     }
 
@@ -263,11 +262,11 @@
                     if (mytable.rows[i].cells[7].innerText == "进行中") {
                         //不可修改，可结束
                         // alert("进行中")
-                        mytable.rows[i].cells[10].getElementsByClassName("btn btn-danger").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[10].getElementsByClassName("btn btn-warning").item(0).removeAttribute("disabled");
                     } else if (mytable.rows[i].cells[7].innerText == "未发布") {
                         //可修改，不可结束活动
                         // alert("未发布")
-                        mytable.rows[i].cells[9].getElementsByClassName("btn btn-primary").item(0).removeAttribute("disabled");
+                        mytable.rows[i].cells[9].getElementsByClassName("btn btn-info").item(0).removeAttribute("disabled");
                     } else if (mytable.rows[i].cells[7].innerText == "已结束") {
                         // 不可修改，不可结束
                         // alert("已结束")
@@ -301,9 +300,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.location.href = "activity.html";
-                // window.onload;
+                if(e.message=="操作成功"){
+                    alert("结束活动成功")
+                    window.location.href = "activity.html";
+                }else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);
@@ -330,8 +332,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.location.href = "activity.html";
+                if(e.message=="操作成功"){
+                    alert("删除活动成功")
+                    window.location.href = "activity.html";
+                }else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);

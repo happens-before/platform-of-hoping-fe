@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="js/jquery-2.1.0.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <title>创建新闻</title>
@@ -22,7 +23,7 @@
             <div class="form-group">
                 <label for="newsDescription" class="col-sm-2 control-label">新闻描述</label>
                 <div class="col-sm-10">
-                    <textarea rows="3" cols=""  class="form-control" id="newsDescription" placeholder="新闻描述"></textarea>
+                    <textarea rows="3" cols="" class="form-control" id="newsDescription" placeholder="新闻描述"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -49,14 +50,9 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit"  style="margin-left: -30px;margin-top: 20px" class="btn btn-default" onclick="addNews()">提交内容</button>
-                    <button type="submit" style="margin-left: 550px;margin-top: 20px" class="btn btn-default" onclick="publishNews()">发布新闻</button>
-
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button style="margin-left: -30px" class="btn btn-default"><a href="newsList.html">返回</a></button>
+                    <button type="submit" style="margin-left: 700px;" class="btn btn-info" onclick="addNews()">
+                        添加
+                    </button>
                 </div>
             </div>
         </div>
@@ -92,8 +88,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.location.href = "javascript:;"
+                if (e.message == "操作成功") {
+                    alert("新闻创建成功")
+                    window.location.href = "javascript:;"
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);
@@ -104,11 +104,7 @@
 
     function publishNews() {
         var sendData = {
-            "newsId": $("#newsId").val(),
-            "newsName": $("#newsName").val(),
-            "newsDescription": $("#newsDescription").val(),
-            "newsContent": $("#newsContent").val(),
-            "newsCreator": $("#newsCreator").val()
+            "newsId": $("#newsId").val()
         };
         $.ajax({
             xhrFields: {
@@ -121,8 +117,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.location.href = "newsList.html";
+                if (e.message == "操作成功") {
+                    alert("新闻发布成功")
+                    window.location.href = "newsList.html";
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);

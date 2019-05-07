@@ -16,7 +16,7 @@
     <script type="text/html" id="newsListTen">
         <div class="right er_right">
             <div>
-                <ul>
+                <ul style="margin-top: 20px">
                     {{each result as value}}
                     <li style="background:url(http://xyzh.xupt.edu.cn/newWeb/images/ico.png) left center no-repeat;padding-left:20px">
                         <a href="news.html" class="c44660_columnstyle"></a>
@@ -25,6 +25,7 @@
                             <a href="newsInfo.html?newsId={{value.newsId}}" class="c44660" target="_blank">{{value.newsName}}</a>
                         </p>
                     </li>
+                    <hr style="display:none;height:1px;border:none;border-top:1px dashed #CCCCCC">
                     <hr style="display:none;height:1px;border:none;border-top:1px dashed #CCCCCC">
                     {{/each}}
                 </ul>
@@ -38,14 +39,17 @@
 <div class="layui-layout layui-layout-admin">
     <!--头部导航-->
     <div id="page1" class="layui-header"></div>
-    <div id="content" style="margin-top: 60px;">
-        <div class="left er_left_menu">
+    <div id="content" >
+        <div class="left er_left_menu" style="height: 475px;">
             <div>
-
                 <ul>
                     <li>
                         <a class="cur" href="news.html" title="新闻动态"
                            style="font-weight:100;color:#fff;margin-top: 25px">新闻动态</a>
+                    </li>
+                    <li>
+                        <a class="cur" href="volunteer.html" title="志愿者活动"
+                           style="font-weight:100;color:#fff;margin-top: 25px;width: 175px">志愿者活动</a>
                     </li>
                 </ul>
 
@@ -53,8 +57,10 @@
             <div style="clear: both"></div>
             <div class="er_wyjz"></div>
         </div>
-        <div id="tet"></div>
+        <div id="tet" style="margin-left: 80px;margin-top:40px;"></div>
+        <div id="realData" style="margin-left: 700px;"></div>
     </div>
+
 
 </div>
 <script src="layui/layui.js" charset="utf-8"></script>
@@ -68,12 +74,64 @@
             xhrFields: {
                 withCredentials: true
             },
-            url: "http://localhost:8080/news/listTenLastNews",
+            url: "http://localhost:8080/news/listLastNews",
             type: "get",
+            data: {
+                "pageNum": current
+            },
             dataType: "json",
             success: function (e) {
                 console.log(e);
-                var c = {result: e.data}
+                var c = {result: e.data.list}
+                console.log(c);
+                total = e.data.total;
+                var html = template('newsListTen', c);
+                $("#tet").html(html);
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            }
+        });
+        var current = 1;
+        // 分页
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'realData'
+                , count: total //数据总数，从服务端得到
+                , jump: function (obj, first) {
+                    getLastNewsList(obj);
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                    }
+                }
+            });
+        });
+    }
+
+    function getLastNewsList(obj) {
+        pageNum = 1;
+        if (obj == null) {
+            pageNum = 1;
+        } else {
+            pageNum = obj.curr;
+        }
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/news/listLastNews",
+            type: "get",
+            data: {
+                "pageNum": pageNum
+            },
+            dataType: "json",
+            success: function (e) {
+                var c = {result: e.data.list}
                 console.log(c);
 
                 var html = template('newsListTen', c);

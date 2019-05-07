@@ -113,10 +113,10 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" style="margin-left: 550px;" class="btn btn-default" onclick="modifyUser()">
+                    <button type="submit" style="margin-left: 550px;" class="btn btn-info" onclick="modifyUser()">
                         修改用户信息
                     </button>
-                    <button class="btn btn-danger" style="margin-left: 80px"><a href="user.html">返回</a></button>
+                    <button class="btn btn-warning" style="margin-left: 80px"><a href="user.html">返回</a></button>
                 </div>
             </div>
         </div>
@@ -210,8 +210,12 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                alert(e.message)
-                window.onload;
+                if (e.message == "操作成功") {
+                    alert("用户信息修改成功")
+                    window.location.reload()
+                } else {
+                    alert(e.message)
+                }
             },
             error: function (e) {
                 console.log(e);

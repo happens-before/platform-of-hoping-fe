@@ -16,30 +16,11 @@
     <link rel="stylesheet" href="./css/home.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script type="text/html" id="newsHome">
-        <div class="news">
-            <p style="margin-left: 30px">最新新闻</p>
-            {{each result.newsHomeDto as value}}
-            <div class='div1' >
-                <div class='box'>
-                    <img src={{value.picturePath}} style="width: 300px; height: 280px;background: palegreen; "/>
-                    <div class='box-content'>
-                        <p style="margin-top: 55px">{{value.newsName}}</p>
-                    </div>
-                </div>
-                <div >
-                    <a>
-                        <a href="newsInfo.html?newsId={{value.newsId}}" style="margin-left: 182px">
-                            <button type='button' class='btn btn-info'>详情</button>
-                        </a>
-                    </a>
-                </div>
-            </div>
-            {{/each}}
-        </div>
-        <div class="activity" style="clear: both;margin-left: 265px">
-            <p>最新活动</p>
+
+        <div class="activity">
+            <p style="margin-left: 265px">最新活动</p>
             {{each result.activity as value}}
-            <div>
+            <div style="margin-left: 265px">
                 <div class="time fl" style="height: 85px;">
                     <div style="font-size: 23px;width: 70px;font-weight: bold;height: 30px;line-height: 33px;">火热</div>
                     <div style="width: 70px;height: 25px;line-height: 22px;font-size: 14px;">进行中</div>
@@ -65,10 +46,30 @@
                 </div>
                 <div class="clearfix" style="clear: both;"></div>
 
-                {{/each}}
             </div>
+            {{/each}}
 
-
+        </div>
+        <div class="news" style="clear: both;margin-left: 30px">
+            <p style="margin-left: 30px">最新新闻</p>
+            {{each result.newsHomeDto as value}}
+            <div class='div1'>
+                <div class='box'>
+                    <img src={{value.picturePath}} style="width: 300px; height: 280px;background: palegreen; "/>
+                    <div class='box-content'>
+                        <p style="margin-top: 55px">{{value.newsName}}</p>
+                    </div>
+                </div>
+                <div>
+                    <a>
+                        <a href="newsInfo.html?newsId={{value.newsId}}" style="margin-left: 182px">
+                            <button type='button' class='btn btn-info'>详情</button>
+                        </a>
+                    </a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
     </script>
 </head>
 
@@ -130,6 +131,7 @@
             },
         });
     }
+
     window.onload = function () {
         $.ajax({
             xhrFields: {

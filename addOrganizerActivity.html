@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="js/jquery-2.1.0.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <title>添加新活动</title>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div id="page1" class="layui-header"></div>
+    <div id="main" style="margin-left: 140px;width: 1000px;background: aliceblue;margin-top: 40px;">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="promoter" class="col-sm-2 control-label">学校社团联系人</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="promoter" placeholder="请输入组织名称">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="activityTopic" class="col-sm-2 control-label">活动主题</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="activityTopic" placeholder="请输入活动主题">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="activityContent" class="col-sm-2 control-label">活动内容</label>
+                <div class="col-sm-10">
+                    <!--<input type="text" class="form-control" id="activityContent" placeholder="请输入活动内容">-->
+                    <textarea class="form-control" id="activityContent" rows="20" cols="" style=""
+                              placeholder="请输入活动内容"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="peopleTotal" class="col-sm-2 control-label">参加人数</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="peopleTotal" placeholder="请输入参加人数">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="startTime" class="col-sm-2 control-label">开始时间</label>
+                <div class="col-sm-10">
+                    <input type="text" class="layui-input form-control" id="startTime" placeholder="请输入开始时间">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="endTime" class="col-sm-2 control-label">结束时间</label>
+                <div class="col-sm-10">
+                    <input type="text" class="layui-input form-control" id="endTime" placeholder="请输入结束时间">
+                </div>
+            </div>
+
+            <div>
+                <div class="form-group">
+                    <label for="file" class="col-sm-2 control-label">活动内容文件上传</label>
+                    <div class="col-sm-6">
+                        <input type="file" id="file" name="file" oninput="setCustomValidity('')" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button style="margin-left: 700px;" type="submit" class="btn btn-info"
+                            onclick="addUserActivity()">添加
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function addUserActivity() {
+        var promoter = $('#promoter').val();
+        var activityTopic = $("#activityTopic").val();
+        var activityContent = $('#activityContent').val();
+        var startTime = $('#startTime').val();
+        var endTime = $('#endTime').val();
+        var peopleTotal=$('#peopleTotal').val();
+        var file = document.getElementById("file").files[0];
+
+        var data = new FormData;
+        data.append("findAll","0");
+        data.append("organizer", promoter);
+        data.append("activityTopic", activityTopic);
+        data.append("activityContent", activityContent);
+        data.append("startTime", startTime);
+        data.append("endTime",endTime);
+        data.append("peopleTotal",peopleTotal);
+        data.append("file", file);
+
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            url: "http://localhost:8080/activity/add",
+            type: "post",
+            data: data,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (e) {
+                console.log(e)
+                if (e.message == "操作成功") {
+                    alert("活动添加成功")
+                    window.location.href = "userActivity.html"
+                } else {
+                    alert(e.message)
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                console.log("失败");
+            },
+        });
+    }
+</script>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#startTime', //指定元素
+            type: 'datetime'
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endTime', //指定元素
+            type: 'datetime'
+        });
+
+    });
+</script>
+<script>$("#page1").load("navHeader.html");</script>
+</body>
+</html>

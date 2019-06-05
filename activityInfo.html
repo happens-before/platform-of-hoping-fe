@@ -30,7 +30,7 @@
             <div>
                 <span>活动状态:<span id="activityStatus"></span></span>
                 <span>审批状态:<span id="activityApproval"></span></span>
-                <span>活动民歌：<span id="peopleTotal"></span></span>
+                <span>活动名额：<span id="peopleTotal"></span></span>
                 <span>已报名人数：<span id="peopleJoin"></span></span>
             </div>
 
@@ -42,7 +42,8 @@
 
         <div>
             <span id="contentFile" style="display: none"></span>
-            <button onclick="downloadContent()" type="submit" style="margin-left: 900px;" class="btn btn-default">下载活动细节文件
+            <button onclick="downloadContent()" type="submit" style="margin-left: 900px;" class="btn btn-default">
+                下载活动细节文件
             </button>
         </div>
         <div>
@@ -60,7 +61,7 @@
     </div>
 
     <div id="summaryDown" style="display: none">
-        <span id="summaryFile" style="display: none" ></span>
+        <span id="summaryFile" style="display: none"></span>
         <button onclick="downloadSummary()" type="submit" style="margin-left: 200px;" class="btn btn-default">下载活动总结文件
         </button>
     </div>
@@ -74,9 +75,16 @@
 </div>
 
 <script type="text/html" id="usersInfo">
-    {{each users as value}}
-    <span style="margin-left: 300px;font-size: 15px">{{value}}</span>
-    {{/each}}
+    <table>
+        {{each users as value}}
+        <tr>
+            <td>
+                <span style="margin-left: 300px;font-size: 15px">{{value}}</span>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+
 </script>
 
 <script src="layui/layui.js" charset="utf-8"></script>
@@ -97,6 +105,7 @@
         }
         return arr2;
     }
+
     window.onload = function () {
         var v = parseUrl();
         console.log(v)
@@ -184,10 +193,10 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                if(e.message=="操作成功"){
+                if (e.message == "操作成功") {
                     alert("活动发布成功")
                     window.location.href = "userActivity.html";
-                }else {
+                } else {
                     alert(e.message)
                 }
                 alert(e.message)
@@ -205,17 +214,19 @@
         var url = $("#contentFile").text();
         window.location.href = url;
     }
+
     function downloadSummary() {
         var url = $("#summaryFile").text();
         console.log(url);
         window.location.href = url;
     }
+
     function uploadSummary() {
         var v = parseUrl();
         var activityId = v.activityId;
         var file = document.getElementById("file").files[0];
         var data = new FormData;
-        data.append("activityId",activityId);
+        data.append("activityId", activityId);
         data.append("file", file);
         $.ajax({
             xhrFields: {
@@ -229,10 +240,10 @@
             dataType: "json",
             success: function (e) {
                 console.log(e)
-                if(e.message=="操作成功"){
+                if (e.message == "操作成功") {
                     alert("上传成功")
                     window.location.reload()
-                }else {
+                } else {
                     alert(e.message)
                 }
             },

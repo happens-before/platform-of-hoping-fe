@@ -154,6 +154,7 @@
             laypage.render({
                 elem: 'realData'
                 , count: total //数据总数，从服务端得到
+                , limit:5
                 , jump: function (obj, first) {
                     current = obj.curr;
                     // console.log(obj)
